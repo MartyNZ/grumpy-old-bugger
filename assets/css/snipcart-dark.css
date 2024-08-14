@@ -1,0 +1,173 @@
+.dark #snipcart {
+  /* -----------------
+        Colors
+    ----------------- */
+  --color-default: var(--surface-200);
+  --color-alt: var(--primary-200);
+  --color-icon: var(--primary-200);
+  --color-success: hsl(144, 50%, 55%);
+  --color-error: hsl(6, 55%, 60%);
+
+  --color-link: var(--primary-200);
+  --color-link-hover: var(--primary-50);
+  --color-link-active: var(--primary-200);
+  --color-link-focus: var(--primary-200);
+
+  --color-input: var(--surface-100);
+  --color-input-hover: var(--surface-100);
+  --color-input-focus: var(--surface-100);
+  --color-input-checked: var(--surface-100);
+  --color-input-disabled: var(--primary-50);
+  --color-input-error: var(--color-error);
+  --color-inputLabel: var(--surface-100);
+  --color-inputLabel-hover: var(--surface-100);
+  --color-inputLabel-focus: var(--surface-100);
+  --color-inputIcon: var(--primary-50);
+  --color-inputIcon-hover: var(--surface-100);
+  --color-inputIcon-focus: var(--primary-50);
+  --color-inputIcon-checked: var(--surface-100);
+  --color-inputIcon-error: var(--color-error);
+  --color-inputPlaceholder: var(--primary-50);
+
+  --color-buttonPrimary: var(--primary-900);
+  --color-buttonPrimary-hover: var(--primary-50);
+  --color-buttonPrimary-active: var(--primary-200);
+  --color-buttonPrimary-focus: var(--primary-200);
+  --color-buttonPrimary-disabled: hsl(210, 10%, 25%);
+  --color-buttonPrimary-success: var(--primary-200);
+  --color-buttonPrimary-error: var(--primary-200);
+
+  --color-buttonSecondary: var(--surface-800);
+  --color-buttonSecondary-hover: var(--surface-50);
+  --color-buttonSecondary-active: var(--surface-200);
+  --color-buttonSecondary-focus: var(--surface-200);
+  --color-buttonSecondary-disabled: hsl(210, 10%, 25%);
+  --color-buttonSecondary-success: var(--color-success);
+  --color-buttonSecondary-error: var(--color-error);
+
+  --color-buttonDanger: var(--color-error);
+  --color-buttonDanger-hover: hsl(6, 55%, 70%);
+  --color-buttonDanger-active: var(--color-buttonDanger);
+  --color-buttonDanger-focus: var(--color-buttonDanger);
+  --color-buttonDanger-disabled: hsl(210, 10%, 25%);
+  --color-buttonDanger-success: var(--surface-100);
+  --color-buttonDanger-error: var(--surface-100);
+
+  --color-badge: var(--primary-50);
+  --color-badge-active: var(--primary-50);
+  --color-badge-disabled: var(--primary-50);
+
+  /* -----------------
+        Border colors
+    ----------------- */
+  --borderColor-default: hsla(0, 0%, 100%, 10%);
+  --borderColor-error: hsl(6, 55%, 30%);
+
+  --borderColor-link: currentColor;
+  --borderColor-link-hover: currentColor;
+  --borderColor-link-active: currentColor;
+  --borderColor-link-focus: currentColor;
+
+  --borderColor-input: var(--surface-700);
+  --borderColor-input-hover: var(--surface-500);
+  --borderColor-input-focus: var(--surface-500);
+  --borderColor-input-checked: var(--surface-500);
+  --borderColor-input-disabled: hsl(210, 10%, 20%);
+  --borderColor-input-error: var(--borderColor-error);
+
+  --borderColor-buttonPrimary: transparent;
+  --borderColor-buttonPrimary-hover: transparent;
+  --borderColor-buttonPrimary-focus: transparent;
+  --borderColor-buttonPrimary-disabled: transparent;
+  --borderColor-buttonPrimary-success: transparent;
+  --borderColor-buttonPrimary-error: transparent;
+
+  --borderColor-buttonSecondary: transparent;
+  --borderColor-buttonSecondary-hover: transparent;
+  --borderColor-buttonSecondary-focus: transparent;
+  --borderColor-buttonSecondary-disabled: transparent;
+  --borderColor-buttonSecondary-success: transparent;
+  --borderColor-buttonSecondary-error: transparent;
+
+  --borderColor-badge: transparent;
+  --borderColor-badge-active: transparent;
+  --borderColor-badge-disabled: transparent;
+
+  /* -----------------
+        Background colors
+    ----------------- */
+  --bgColor-default: var(--surface-800);
+  --bgColor-alt: var(--surface-800);
+  --bgColor-success: hsl(144, 70%, 15%);
+  --bgColor-error: hsl(6, 50%, 15%);
+  --bgColor-info: hsl(210, 55%, 15%);
+
+  --bgColor-modal: var(--surface-800);
+  --bgColor-modalVeil: hsla(210, 10%, 7%, 0.85);
+
+  --bgColor-link: none;
+  --bgColor-link-hover: none;
+  --bgColor-link-active: none;
+  --bgColor-link-focus: hsl(210, 55%, 10%);
+
+  --bgColor-input: var(--surface-800);
+  --bgColor-input-hover: var(--surface-800);
+  --bgColor-input-focus: var(--surface-800);
+  --bgColor-input-checked: var(--surface-500);
+  --bgColor-input-disabled: hsl(210, 10%, 14%);
+  --bgColor-input-error: var(--surface-800);
+  --bgColor-input-autofill: hsl(210, 60%, 15%);
+
+  --bgColor-buttonPrimary: var(--primary-400);
+  --bgColor-buttonPrimary-hover: var(--primary-700);
+  --bgColor-buttonPrimary-active: var(--primary-600);
+  --bgColor-buttonPrimary-focus: var(--primary-600);
+  --bgColor-buttonPrimary-disabled: hsl(210, 10%, 25%);
+  --bgColor-buttonPrimary-success: hsl(144, 66%, 30%);
+  --bgColor-buttonPrimary-error: hsl(6, 60%, 35%);
+
+  --bgColor-buttonSecondary: var(--surface-300);
+  --bgColor-buttonSecondary-hover: var(--surface-700);
+  --bgColor-buttonSecondary-active: var(--surface-300);
+  --bgColor-buttonSecondary-focus: var(--surface-300);
+  --bgColor-buttonSecondary-disabled: hsl(210, 10%, 9%);
+  --bgColor-buttonSecondary-success: var(--bgColor-success);
+  --bgColor-buttonSecondary-error: var(--bgColor-error);
+
+  --bgColor-buttonDanger: var(--bgColor-error);
+  --bgColor-buttonDanger-hover: hsl(6, 50%, 18%);
+  --bgColor-buttonDanger-active: var(--bgColor-buttonDanger);
+  --bgColor-buttonDanger-focus: var(--bgColor-buttonDanger);
+  --bgColor-buttonDanger-disabled: hsl(210, 10%, 9%);
+  --bgColor-buttonDanger-success: hsl(144, 66%, 30%);
+  --bgColor-buttonDanger-error: hsl(6, 60%, 35%);
+
+  --bgColor-badge: var(--surface-500);
+  --bgColor-badge-active: var(--surface-700);
+  --bgColor-badge-disabled: var(--surface-800);
+
+  /* -----------------
+        Shadows
+    ----------------- */
+
+  --shadow-default: 0px 20px 24px -20px hsla(0, 0%, 0%, 0.5);
+  --shadow-tooltip: 0px 8px 16px hsla(220, 70%, 22%, 0.5);
+
+  --shadow-link-focus: 0px 6px 4px -3px hsla(200, 90%, 40%, 0.5);
+
+  --shadow-input-hover: none;
+  --shadow-input-focus: 0px 5px 10px -3px var(--primary-700);
+  --shadow-input-checked: none;
+
+  --shadow-buttonPrimary-hover: 0px 10px 4px -8px hsla(0, 0%, 0%, 0.5);
+  --shadow-buttonPrimary-active: none;
+  --shadow-buttonPrimary-focus: 0px 0px 6px 2px var(--surface-300);
+
+  --shadow-buttonSecondary-hover: 0px 10px 4px -8px hsla(0, 0%, 0%, 0.2);
+  --shadow-buttonSecondary-active: none;
+  --shadow-buttonSecondary-focus: 0px 0px 6px 2px var(--surface-400);
+
+  --shadow-buttonDanger-hover: 0px 10px 4px -8px hsla(0, 0%, 0%, 0.25);
+  --shadow-buttonDanger-active: none;
+  --shadow-buttonDanger-focus: 0px 0px 6px 2px hsla(6, 55%, 60%);
+}

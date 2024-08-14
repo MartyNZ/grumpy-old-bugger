@@ -1,0 +1,242 @@
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: theme("fontFamily.brand");
+}
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-weight: semi-bold;
+  font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.25rem;
+}
+body {
+  font-family: theme("fontFamily.system");
+}
+
+.zoom:hover img {
+  transform: scale(1.1);
+}
+.sanity-content {
+  text-align: justify;
+
+  p {
+    margin-bottom: 1.25em;
+  }
+}
+
+/* Default pallette */
+:root {
+  --primary-50: #f1f2f3;
+  --primary-100: #e0e2e5;
+  --primary-200: #c2c5cc;
+  --primary-300: #a6abb5;
+  --primary-400: #888e9b;
+  --primary-500: #6b7280;
+  --primary-600: #565c67;
+  --primary-700: #41454e;
+  --primary-800: #2a2d32;
+  --primary-900: #151619;
+  --primary-950: #0c0c0e;
+  --surface-0: #ffffff;
+  --surface-50: #f1f2f3;
+  --surface-100: #e0e2e5;
+  --surface-200: #c2c5cc;
+  --surface-300: #a6abb5;
+  --surface-400: #888e9b;
+  --surface-500: #6b7280;
+  --surface-600: #565c67;
+  --surface-700: #41454e;
+  --surface-800: #2a2d32;
+  --surface-900: #151619;
+  --surface-950: #0c0c0e;
+}
+
+#snipcart {
+  /* -----------------
+        Colors
+    ----------------- */
+  --color-default: var(--primary-700);
+  --color-alt: var(--surface-600);
+  --color-icon: var(--primary-800);
+  --color-success: hsl(144, 50%, 55%);
+  --color-error: hsl(6, 55%, 60%);
+
+  --color-link: var(--primary-600);
+  --color-link-hover: var(--primary-950);
+  --color-link-active: var(--primary-600);
+  --color-link-focus: var(--primary-600);
+
+  --color-input: var(--primary-800);
+  --color-input-hover: var(--surface-900);
+  --color-input-focus: var(--surface-900);
+  --color-input-checked: var(--surface-900);
+  --color-input-disabled: hsl(210, 10%, 25%);
+  --color-input-error: var(--color-error);
+  --color-inputLabel: var(--surface-900);
+  --color-inputLabel-hover: var(--surface-900);
+  --color-inputLabel-focus: var(--surface-900);
+  --color-inputIcon: var(--surface-50);
+  --color-inputIcon-hover: var(--surface-900);
+  --color-inputIcon-focus: var(--surface-50);
+  --color-inputIcon-checked: var(--surface-900);
+  --color-inputIcon-error: var(--color-error);
+  --color-inputPlaceholder: var(--surface-50);
+
+  --color-buttonPrimary: var(--primary-900);
+  --color-buttonPrimary-hover: var(--primary-50);
+  --color-buttonPrimary-active: var(--primary-200);
+  --color-buttonPrimary-focus: var(--primary-200);
+  --color-buttonPrimary-disabled: hsl(210, 10%, 25%);
+  --color-buttonPrimary-success: var(--primary-200);
+  --color-buttonPrimary-error: var(--color-error);
+
+  --color-buttonSecondary: var(--surface-800);
+  --color-buttonSecondary-hover: var(--surface-50);
+  --color-buttonSecondary-active: var(--surface-200);
+  --color-buttonSecondary-focus: var(--surface-200);
+  --color-buttonSecondary-disabled: hsl(210, 10%, 25%);
+  --color-buttonSecondary-success: var(--color-success);
+  --color-buttonSecondary-error: var(--color-error);
+
+  --color-buttonDanger: var(--color-error);
+  --color-buttonDanger-hover: hsl(6, 55%, 70%);
+  --color-buttonDanger-active: var(--color-buttonDanger);
+  --color-buttonDanger-focus: var(--color-buttonDanger);
+  --color-buttonDanger-disabled: hsl(210, 10%, 25%);
+  --color-buttonDanger-success: var(--surface-800);
+  --color-buttonDanger-error: var(--color-error);
+
+  --color-badge: var(--primary-50);
+  --color-badge-active: var(--primary-50);
+  --color-badge-disabled: var(--primary-50);
+
+  /* -----------------
+        Border colors
+    ----------------- */
+  --borderColor-default: var(--surface-800);
+  --borderColor-error: hsl(6, 55%, 30%);
+
+  --borderColor-link: currentColor;
+  --borderColor-link-hover: currentColor;
+  --borderColor-link-active: currentColor;
+  --borderColor-link-focus: currentColor;
+
+  --borderColor-input: var(--surface-700);
+  --borderColor-input-hover: var(--surface-500);
+  --borderColor-input-focus: var(--surface-500);
+  --borderColor-input-checked: var(--surface-500);
+  --borderColor-input-disabled: hsl(210, 10%, 20%);
+  --borderColor-input-error: var(--borderColor-error);
+
+  --borderColor-buttonPrimary: transparent;
+  --borderColor-buttonPrimary-hover: transparent;
+  --borderColor-buttonPrimary-focus: transparent;
+  --borderColor-buttonPrimary-disabled: transparent;
+  --borderColor-buttonPrimary-success: transparent;
+  --borderColor-buttonPrimary-error: transparent;
+
+  --borderColor-buttonSecondary: transparent;
+  --borderColor-buttonSecondary-hover: transparent;
+  --borderColor-buttonSecondary-focus: transparent;
+  --borderColor-buttonSecondary-disabled: transparent;
+  --borderColor-buttonSecondary-success: transparent;
+  --borderColor-buttonSecondary-error: transparent;
+
+  --borderColor-badge: transparent;
+  --borderColor-badge-active: transparent;
+  --borderColor-badge-disabled: transparent;
+
+  /* -----------------
+        Background colors
+    ----------------- */
+  --bgColor-default: var(--surface-100);
+  --bgColor-alt: var(--surface-100);
+  --bgColor-success: hsl(144, 70%, 15%);
+  --bgColor-error: hsl(6, 50%, 15%);
+  --bgColor-info: hsl(210, 55%, 15%);
+
+  --bgColor-modal: var(--surface-100);
+  --bgColor-modalVeil: hsla(210, 10%, 7%, 0.85);
+
+  --bgColor-link: none;
+  --bgColor-link-hover: none;
+  --bgColor-link-active: none;
+  --bgColor-link-focus: hsl(210, 55%, 10%);
+
+  --bgColor-input: var(--surface-200);
+  --bgColor-input-hover: var(--surface-400);
+  --bgColor-input-focus: var(--surface-400);
+  --bgColor-input-checked: var(--surface-500);
+  --bgColor-input-disabled: hsl(210, 10%, 14%);
+  --bgColor-input-error: var(--surface-800);
+  --bgColor-input-autofill: hsl(210, 60%, 15%);
+
+  --bgColor-buttonPrimary: var(--primary-200);
+  --bgColor-buttonPrimary-hover: var(--primary-700);
+  --bgColor-buttonPrimary-active: var(--primary-600);
+  --bgColor-buttonPrimary-focus: var(--primary-600);
+  --bgColor-buttonPrimary-disabled: hsl(210, 10%, 25%);
+  --bgColor-buttonPrimary-success: hsl(144, 66%, 30%);
+  --bgColor-buttonPrimary-error: hsl(6, 60%, 35%);
+
+  --bgColor-buttonSecondary: var(--surface-300);
+  --bgColor-buttonSecondary-hover: var(--surface-700);
+  --bgColor-buttonSecondary-active: var(--surface-300);
+  --bgColor-buttonSecondary-focus: var(--surface-300);
+  --bgColor-buttonSecondary-disabled: hsl(210, 10%, 9%);
+  --bgColor-buttonSecondary-success: var(--bgColor-success);
+  --bgColor-buttonSecondary-error: var(--bgColor-error);
+
+  --bgColor-buttonDanger: var(--bgColor-error);
+  --bgColor-buttonDanger-hover: hsl(6, 50%, 18%);
+  --bgColor-buttonDanger-active: var(--bgColor-buttonDanger);
+  --bgColor-buttonDanger-focus: var(--bgColor-buttonDanger);
+  --bgColor-buttonDanger-disabled: hsl(210, 10%, 9%);
+  --bgColor-buttonDanger-success: hsl(144, 66%, 30%);
+  --bgColor-buttonDanger-error: hsl(6, 60%, 35%);
+
+  --bgColor-badge: var(--surface-500);
+  --bgColor-badge-active: var(--surface-700);
+  --bgColor-badge-disabled: hsl(210, 10%, 25%);
+
+  /* -----------------
+        Shadows
+    ----------------- */
+
+  --shadow-default: 0px 20px 24px -20px var(--primary-950);
+  --shadow-tooltip: 0px 8px 16px var(--primary-800);
+
+  --shadow-link-focus: 0px 6px 4px -3px var(--primary-700);
+
+  --shadow-input-hover: none;
+  --shadow-input-focus: 0px 5px 10px -3px var(--primary-700);
+  --shadow-input-checked: none;
+
+  --shadow-buttonPrimary-hover: 0px 10px 4px -8px var(--primary-700);
+  --shadow-buttonPrimary-active: none;
+  --shadow-buttonPrimary-focus: 0px 0px 6px 2px var(--primary-700);
+
+  --shadow-buttonSecondary-hover: 0px 10px 4px -8px hsla(0, 0%, 0%, 0.2);
+  --shadow-buttonSecondary-active: none;
+  --shadow-buttonSecondary-focus: 0px 0px 6px 2px var(--primary-700);
+
+  --shadow-buttonDanger-hover: 0px 10px 4px -8px hsla(0, 0%, 0%, 0.25);
+  --shadow-buttonDanger-active: none;
+  --shadow-buttonDanger-focus: 0px 0px 6px 2px hsla(6, 55%, 60%);
+}

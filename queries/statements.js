@@ -1,0 +1,20 @@
+export const qryStatements = groq`{
+  'privacy':*[_type=='privacy-statement'][0]{
+    title,
+    image,
+    'imgUrl':image.asset->url,
+    statement,
+  },
+  'terms':*[_type=='terms-of-use'][0]{
+    title,
+    image,
+    'imgUrl':image.asset->url,
+    terms,
+  },
+  'shipping':*[_type=='shipping-policy'][0]{
+    title,
+    image,
+    'imgUrl':image.asset->url,
+    statement,
+  }
+}`;
