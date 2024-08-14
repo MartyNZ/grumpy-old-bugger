@@ -401,10 +401,9 @@ export const qryProductsByTags = groq`
         price
       }|order(price asc)[0]
     },
-    'promotedBy': *[_type=='promotion' && isActive
+    'promotedBy': *[_type=='promotion'
       && scope == 'products' && references(^._id)
-
-      || scope == 'collections'
+      || scope == 'collections' && isActive
     ][]{
       image{
         'assetId': asset->_id,
@@ -467,10 +466,9 @@ export const qryProductsByTag = groq`
         price
       }|order(price asc)[0]
     },
-    'promotedBy': *[_type=='promotion' && isActive
+    'promotedBy': *[_type=='promotion'
       && scope == 'products' && references(^._id)
-
-      || scope == 'collections'
+      || scope == 'collections' && isActive
     ][]{
       image{
         'assetId': asset->_id,
@@ -529,10 +527,9 @@ export const qryProductById = groq`
         price
       }
     },
-    'promotedBy': *[_type=='promotion' && isActive
+    'promotedBy': *[_type=='promotion'
       && scope == 'products' && references(^._id)
-
-      || scope == 'collections'
+      || scope == 'collections' && isActive
     ][]{
       image{
         'assetId': asset->_id,
@@ -654,10 +651,9 @@ export const qryProductsByTheme = groq`
       }|order(price asc)[0]
     }
   },
-    'promotedBy': *[_type=='promotion' && isActive
+    'promotedBy': *[_type=='promotion'
       && scope == 'products' && references(^._id)
-
-      || scope == 'collections'
+      || scope == 'collections' && isActive
     ][]{
       image{
         'assetId': asset->_id,
@@ -738,11 +734,9 @@ export const qryProductsByDesign = groq`
       price
       }|order(price asc)[0]
     },
-    'promotedBy': *[_type=='promotion' && isActive
-      && scope == 'siteWide'
+    'promotedBy': *[_type=='promotion'
       && scope == 'products' && references(^._id)
-
-      || scope == 'collections'
+      || scope == 'collections' && isActive
     ][]{
       image{
         'assetId': asset->_id,
@@ -799,10 +793,9 @@ export const qryFeaturedProducts = groq`
         price
       }|order(price asc)[0]
     },
-    'promotedBy': *[_type=='promotion' && isActive
+    'promotedBy': *[_type=='promotion'
       && scope == 'products' && references(^._id)
-
-      || scope == 'collections'
+      || scope == 'collections' && isActive
     ][]{
       image{
         'assetId': asset->_id,
@@ -865,10 +858,9 @@ export const qryAllProductsByColour = groq`
         }|order(price asc)[0]
       }
     },
-    'promotedBy': *[_type=='promotion' && isActive
+    'promotedBy': *[_type=='promotion'
       && scope == 'products' && references(^._id)
-
-      || scope == 'collections'
+      || scope == 'collections' && isActive
     ][]{
       image{
         'assetId': asset->_id,
@@ -922,10 +914,9 @@ export const qryProductsByColour = groq`
         }|order(price asc)[0]
       }
     },
-    'promotedBy': *[_type=='promotion' && isActive
+    'promotedBy': *[_type=='promotion'
       && scope == 'products' && references(^._id)
-
-      || scope == 'collections'
+      || scope == 'collections' && isActive
     ][]{
       image{
         'assetId': asset->_id,
