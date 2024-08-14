@@ -8,11 +8,11 @@ const settings = data.settings;
   <div id="header-brand" class="flex items-center gap-2">
     <NuxtLink to="/">
       <div class="w-7 md:w-10">
-        <img class="logo" src="/assets/imgs/logo_192.png" />
+        <img class="logo" src="/assets/imgs/logo-black.png" />
       </div>
     </NuxtLink>
     <NuxtLink to="/">
-      <h1 class="text-surface-0 font-brand text-xl font-semibold uppercase sm:ml-4 sm:text-3xl">
+      <h1 class="font-brand text-xl font-semibold uppercase sm:ml-4 sm:text-3xl">
         {{ settings.title }}
       </h1>
     </NuxtLink>
@@ -20,11 +20,13 @@ const settings = data.settings;
 </template>
 <style>
 body {
-  --logo: url("/assets/imgs/logo_192.png") no-repeat;
+  --logo: url("/assets/imgs/logo-black.png") no-repeat;
 }
-/* .dark body {
+
+.dark body {
   --logo: url("/assets/imgs/logo-white.png") no-repeat;
-} */
+}
+
 .logo {
   display: block;
   -moz-box-sizing: border-box;
@@ -34,6 +36,7 @@ body {
   height: 35px;
   padding-left: 35px;
 }
+
 @media (min-width: 768px) {
   .logo {
     background-size: 50px;

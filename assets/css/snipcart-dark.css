@@ -118,7 +118,7 @@
   --bgColor-input-error: var(--surface-800);
   --bgColor-input-autofill: hsl(210, 60%, 15%);
 
-  --bgColor-buttonPrimary: var(--primary-400);
+  --bgColor-buttonPrimary: var(--primary-600);
   --bgColor-buttonPrimary-hover: var(--primary-700);
   --bgColor-buttonPrimary-active: var(--primary-600);
   --bgColor-buttonPrimary-focus: var(--primary-600);
