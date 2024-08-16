@@ -25,8 +25,18 @@ export default defineNuxtConfig({
     "nuxt-posthog",
     "@nuxtjs/seo",
     "vue3-carousel-nuxt",
+    "@vee-validate/nuxt",
   ],
 
+  veeValidate: {
+    // disable or enable auto imports
+    autoImports: true,
+    componentNames: {
+      Form: "vForm",
+      Field: "vField",
+      ErrorMessage: "vErrorMessage",
+    },
+  },
   carousel: {
     prefix: "v3cn",
   },
