@@ -141,6 +141,19 @@ export default defineNuxtConfig({
       launch_handler: {
         client_mode: ["focus-existing", "auto"],
       },
+      shortcuts: [
+        {
+          name: "Rant Files",
+          url: "/rant-files",
+          description:
+            "The ultimate refuge for the grumpiest old buggers around!",
+        },
+        {
+          name: "Products",
+          url: "/products",
+          description: "View our growing collection.",
+        },
+      ],
       icons: [
         {
           src: "/assets/imgs/logo_192.png",
