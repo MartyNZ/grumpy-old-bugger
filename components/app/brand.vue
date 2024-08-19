@@ -8,7 +8,7 @@ const settings = data.settings;
   <div id="header-brand" class="flex items-center gap-2">
     <NuxtLink to="/">
       <div class="w-7 md:w-10">
-        <img class="logo" src="/assets/imgs/logo-black.png" />
+        <img class="logo" src="/assets/imgs/logo-black.png" :alt="settings.title" />
       </div>
     </NuxtLink>
     <NuxtLink to="/">
