@@ -79,6 +79,7 @@ export const qryAllProducts = groq`
       },
     },
     'slug':slug.current,
+    design,
     colours[]->{
       _id,
       'label':title,
@@ -135,7 +136,8 @@ export const qryLatestProducts = groq`
     featureImage{
       'assetId': asset->_id,
       'url':asset->url
-    },
+      },
+      design,
     colours[]->{
       _id,
       'label':title,
@@ -193,6 +195,7 @@ export const qryAllProductsByCollection = groq`
     },
     'slug':slug.current,
     'featureImageUrl':featureImage.asset->url,
+      design,
     colours[]->{
       _id,
       'label':title,
@@ -251,6 +254,7 @@ export const qryProductsByCollections = groq`
       'assetId': asset->_id,
       'url':asset->url
     },
+      design,
     colours[]->{
       _id,
       'label':title,
@@ -314,6 +318,7 @@ export const qryProductBySlug = groq`
       },
       productSizes,
     },
+      design,
     colours[]->{
       _id,
       'label':title,
@@ -384,6 +389,7 @@ export const qryProductsByTags = groq`
       'assetId': asset->_id,
       'url':asset->url,
     },
+      design,
     colours[]->{
       _id,
       'label':title,
@@ -449,6 +455,7 @@ export const qryProductsByTag = groq`
       'assetId': asset->_id,
       'url':asset->url,
     },
+      design,
     colours[]->{
       _id,
       'label':title,
@@ -508,7 +515,8 @@ export const qryProductById = groq`
     featured,
     'slug':slug.current,
     'featureImageUrl':featureImage.asset->url,
-    themes,
+    design,
+    'coloursArray': colours,
     colours[]->{
       _id,
       'label':title,

@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
         Charset: "UTF-8",
         Authorization: `Bearer ${printifyBearerToken}`,
       },
-    },
+    }
   );
   const printifyProduct = await printifyData.json();
   // console.log("Printify Product JSON: ", printifyProduct);
@@ -26,15 +26,20 @@ export default defineEventHandler(async (event) => {
   });
 
   let defaultVariant = printifyProduct.variants.filter(
-    (variant) => variant.is_default,
+    (variant) => variant.is_default
   );
   // console.log("Default Variant Id: ", defaultVariant[0].id);
   let defaultImage = printifyProduct.images.find(
     (image) =>
-      image.variant_ids.includes(defaultVariant[0].id) && image.is_default,
+      image.variant_ids.includes(defaultVariant[0].id) && image.is_default
   );
 
   // console.log("Default Image: ", defaultImage);
+
+  // console.log("sanityProduct:", sanityProduct);
+  // console.log("sanityProduct.featureImage:", sanityProduct.featureImage);
+  // console.log("sanityProduct.coloursArray:", sanityProduct.coloursArray);
+  // console.log("sanityProduct.design:", sanityProduct.design);
 
   let updatePayload = {};
 
@@ -46,8 +51,10 @@ export default defineEventHandler(async (event) => {
       ...(sanityProduct?.featureImage && {
         featureImage: sanityProduct.featureImage,
       }),
-      ...(sanityProduct?.colours && { colours: sanityProduct.colours }),
-      ...(sanityProduct?.themes && { themes: sanityProduct.themes }),
+      ...(sanityProduct?.colours && {
+        colours: sanityProduct.coloursArray,
+      }),
+      ...(sanityProduct?.design && { design: sanityProduct.design }),
       ...(sanityProduct?.details && { details: sanityProduct.details }),
       ...(sanityProduct?.featured && { featured: sanityProduct.featured }),
     };
@@ -69,14 +76,14 @@ export default defineEventHandler(async (event) => {
     featureImage: updatePayload.featureImage
       ? {
           asset: {
-            _ref: updatePayload.featureImage.asset?._ref
-          }
+            _ref: updatePayload.featureImage.assetId,
+          },
         }
       : { assetId: "Null" },
     defaultImageUrl: defaultImage.src,
     slug: updatePayload.slug,
     details: updatePayload?.details,
-    themes: updatePayload?.themes,
+    design: updatePayload?.design,
     colours: updatePayload?.colours,
     featured: updatePayload?.featured,
     store: {
@@ -120,7 +127,7 @@ export default defineEventHandler(async (event) => {
             .filter(
               (image) =>
                 image.variant_ids.includes(variant.id) &&
-                image.is_selected_for_publishing,
+                image.is_selected_for_publishing
             )
             .map((image, index) => ({
               _key: `image-${index}`,
@@ -136,7 +143,6 @@ export default defineEventHandler(async (event) => {
       description: printifyProduct.description,
     },
   });
-
 
   // console.log("Updated: ", updatePayload.slug);
   await fetch(
@@ -154,7 +160,7 @@ export default defineEventHandler(async (event) => {
           handle: `${publicUrl}/products/${updatePayload.slug.current}`,
         },
       },
-    },
+    }
   );
 
   return {
