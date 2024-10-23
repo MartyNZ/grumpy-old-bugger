@@ -23,7 +23,7 @@ const toggleNav = () => {
 </script>
 <template>
   <div id="mobile-toolbar"
-    class="bg-surface-200 dark:bg-primary-950 border-surface-950 text-surface-800 dark:text-surface-100 fixed bottom-0 left-0 right-0 z-[9999] flex w-full justify-around gap-8 border-t p-1 md:hidden">
+    class="bg-surface-200 dark:bg-primary-950 border-surface-950 dark:border-surface-400 text-surface-800 dark:text-surface-100 fixed bottom-0 left-0 right-0 z-[9999] flex w-full justify-around gap-8 border-t p-1 md:hidden">
     <NuxtLink to="/" aria-controls="homeNavigation"
       class="text-surface-700 dark:text-surface-200 align-center cursor-pointer justify-center px-4 py-2 flex flex-col"
       @click="!isToggled ? !isToggled : toggleNav()">

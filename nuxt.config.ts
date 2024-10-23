@@ -1,14 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  debug: false,
-
+  compatibilityDate: "2024-07-09",
   devtools: {
     enabled: true,
     timeline: {
       enabled: true,
     },
   },
-
   modules: [
     "@nuxtjs/color-mode",
     "@nuxtjs/sanity",
@@ -319,6 +317,4 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["stores"],
   },
-
-  compatibilityDate: "2024-07-09",
 });

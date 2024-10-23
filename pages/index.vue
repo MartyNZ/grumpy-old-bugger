@@ -55,5 +55,6 @@ definePageMeta({
       <!-- <product-collection-list /> -->
       <product-list :products="latestProducts" sectionTitle="Latest Products" />
     </main>
+    <ScrollTop />
   </div>
 </template>
