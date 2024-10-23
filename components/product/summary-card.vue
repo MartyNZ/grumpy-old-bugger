@@ -96,13 +96,13 @@ const pricedFrom = computed(() => {
         <NuxtLink :to="`/products/${product.slug}`"
           class=" text-primary-700 hover:text-primary-400 dark:text-primary-400 hover:dark:text-primary-100 mb-2 inline-block text-base font-medium transition duration-500 ease-in-out">
           {{ product.store.title }}</NuxtLink>
-        <p class="text-primary-700 dark:text-primary-300 text-sm">
+        <div class="text-primary-700 dark:text-primary-300 text-sm">
           from:
           <span class="font-brand text-base">${{ pricedFrom }}</span>
           <!-- <span v-if="selectedPromo" class="mr-2">${{ discountedPrice.toFixed(2) }}</span>
           <span :class="selectedPromo ? 'line-through' : ''">${{ totalPrice.toFixed(2) }}</span> -->
-        </p>
-        <div v-if="product.colours && product.colours.length > 1" class="@container mt-4 justify-self-end">
+        </div>
+        <div v-if="product.colours && product.colours.length > 1" class="@container mt-4">
           <div class="text-sm semi-bold w-full mb-2">Available in these colors</div>
           <div class="flex flex-wrap gap-1 lg:gap-2">
             <div v-for="colour in product.colours" :v-tooltip="colour.label" :key="colour._id"
