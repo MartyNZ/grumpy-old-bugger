@@ -312,18 +312,6 @@ const openDialog = () => {
       </h1>
     </div>
     <div id="product-layout relative" class="mb-5 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-2">
-      <template v-if="productPromos.length > 0">
-        <div v-for="productPromo in productPromos"
-          class="absolute  p-3 wax-w-fit text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
-          {{ productPromo.title }}
-        </div>
-      </template>
-      <template v-if="collectionPromos.length > 0">
-        <div v-for="collectionPromo in collectionPromos"
-          class="absolute  p-3 wax-w-fit text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
-          {{ collectionPromo.title }}
-        </div>
-      </template>
       <div id="product-images">
         <client-only>
           <product-slideshow :variantImages="variantImages" :currentImage="currentImage"
@@ -332,6 +320,21 @@ const openDialog = () => {
       </div>
       <div id="product-selection-panel" class="mt-auto">
         <div id="product-options">
+          <div id="promotions" class="mb-2">
+            <template v-if="productPromos.length > 0">
+              <div v-for="productPromo in productPromos"
+                class="p-3 wax-w-fit text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
+                {{ productPromo.title }}
+              </div>
+            </template>
+            <template v-if="collectionPromos.length > 0">
+              <div v-for="collectionPromo in collectionPromos"
+                class="p-3 wax-w-fit text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
+                {{ collectionPromo.title }}
+              </div>
+            </template>
+          </div>
+
           <h3>Select an Option</h3>
           <template v-for="option in activeOptions" :key="option._key">
             <product-options-size v-if="option.type == 'size'" :option="option"
