@@ -59,11 +59,9 @@ definePageMeta({
     </template>
     <template #sidebar>
       <div class="sticky top-[95px] mx-3 grid grid-cols-1 @md:grid-cols-2 @md:gap-3">
-        <div><article-category-list :collectionNav="collectionNav" /></div>
-        <div class="@md:col-span-2" v-if="relatedProducts">
-          <article-related-products :products="relatedProducts" />
-        </div>
-        <div><article-latest /></div>
+        <article-collection-navigation />
+        <product-showcase />
+        <article-sidebar-latest number="4" />
       </div>
     </template>
   </NuxtLayout>

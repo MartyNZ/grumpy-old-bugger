@@ -1,0 +1,62 @@
+export const qryCta = groq`
+  *[_type == 'cta'][]{
+  _id,
+    title,
+    content,
+    buttons[]{
+      title,
+      linkType,
+      _key,
+      internalLink{
+        'link':reference->{
+          'slug':slug.current
+        }
+      },
+      externalLink{
+        url
+      },
+      'phone':{
+        'number':phoneNumber->number,
+        'label':phoneNumber->label
+      },
+      externalVideo{
+        url
+      }
+    },
+    image{
+      'url':asset->url,
+      'assetId':asset->assetId
+    },
+  }
+`;
+export const qryCtaById = groq`
+  *[_type == 'cta' && _id == $id][0]{
+  _id,
+    title,
+    content,
+    buttons[]{
+      title,
+      linkType,
+      _key,
+      internalLink{
+        'link':reference->{
+          'slug':slug.current
+        }
+      },
+      externalLink{
+        url
+      },
+      'phone':{
+        'number':phoneNumber->number,
+        'label':phoneNumber->label
+      },
+      externalVideo{
+        url
+      }
+    },
+    image{
+      'url':asset->url,
+      'assetId':asset->assetId
+    },
+  }
+`;

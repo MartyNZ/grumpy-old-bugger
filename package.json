@@ -37,6 +37,7 @@
     "@awesome.me/kit-ec0be17e84": "^1.0.14",
     "@pinia/nuxt": "^0.5.3",
     "@vee-validate/yup": "^4.13.2",
+    "force": "^0.0.3",
     "nuxt3-meta-pixel": "^1.0.9"
   },
   "overrides": {

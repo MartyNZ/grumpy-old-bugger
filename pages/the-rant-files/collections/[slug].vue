@@ -36,11 +36,10 @@ const articles = collection.value.articles;
       </section>
     </template>
     <template #sidebar>
-      <div
-        class="sticky top-[95px] mx-3 grid grid-cols-1 @md:grid-cols-2 @md:gap-8">
-        <div><article-category-list :collectionNav="collectionNav" /></div>
-        <div><product-showcase/></div>
-        <div><article-latest /></div>
+      <div class="sticky top-[95px] mx-3 grid grid-cols-1 @md:grid-cols-2 @md:gap-8">
+        <article-collection-navigation />
+        <promotion-gallery />
+        <article-sidebar-latest number="4" />
       </div>
     </template>
   </NuxtLayout>

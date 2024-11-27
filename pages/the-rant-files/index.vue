@@ -1,41 +1,36 @@
 <script setup>
-const data = useSiteSettingsStore();
-const settings = data.settings;
-import {
-  qryArticleCollectionNavigation,
-  qryArticlesLatest,
-} from "~/queries/articles";
+// const settings = useSiteSettingsStore().settings
+import { qryArticlesSection, qryArticles } from '~/queries/articles'
 
-const { data: collectionNav } = await useSanityQuery(
-  qryArticleCollectionNavigation,
-);
+const { data: articlesSection } = await useSanityQuery(qryArticlesSection)
 
-const { data: articles } = await useSanityQuery(qryArticlesLatest);
-// console.log("Current Article: ", JSON.stringify(articles.value[0], null, 2));
-const currentArticle = articles.value[0];
+// console.log("Articles Section: ", JSON.stringify(articlesSection.value, null, 2))
+
+const { data: articles } = await useSanityQuery(qryArticles)
+// console.log("Articles: ", JSON.stringify(articles.value, null, 2))
 
 useSeoMeta({
-  title: () => currentArticle.title,
-  description: () => currentArticle.excerpt,
-  ogTitle: () => currentArticle.title,
-  ogDescription: () => currentArticle.excerpt,
-  ogImage: () => currentArticle.image.url,
-  twitterTitle: () => currentArticle.title,
-  twitterDescription: () => currentArticle.excerpt,
-  twitterImage: () => currentArticle.image.url,
+  title: () => articlesSection.value.title,
+  description: () => articlesSection.value.excerpt,
+  ogTitle: () => articlesSection.value.title,
+  ogDescription: () => articlesSection.value.excerpt,
+  ogImage: () => articlesSection.value.image.url,
+  twitterTitle: () => articlesSection.value.title,
+  twitterDescription: () => articlesSection.value.excerpt,
+  twitterImage: () => articlesSection.value.image.url,
   twitterCard: "summary_large_image",
 });
 
-defineOgImageComponent(
-  "article",
-  {
-    title: currentArticle.title,
-    description: currentArticle.excerpt,
-    image: currentArticle.image.url,
-    siteName: settings.title,
-    siteLogo: settings.logoUrl,
-  },
-);
+// defineOgImageComponent(
+//   "article",
+//   {
+//     title: articlesSection.value.title,
+//     description: articlesSection.value.excerpt,
+//     image: articlesSection.value.image.url,
+//     siteName: settings.title,
+//     siteLogo: settings.logoUrl,
+//   },
+// );
 
 definePageMeta({
   layout: false,
@@ -44,21 +39,23 @@ definePageMeta({
 <template>
   <NuxtLayout name="internal">
     <template #main>
-      <div class="pb-5">
-        <p>Welcome to "The Rant Files," the ultimate refuge for the grumpiest old buggers around! Dive into a treasure
-          trove of unapologetic tirades, brutally honest reviews, and cynical musings on everything from the latest
-          gadgets to the state of the world. Here, we don’t sugarcoat—if it’s worth griping about, you’ll find it here.
-          Perfect for those who've earned the right to say it like it is. Buckle up, because this is where no-nonsense
-          meets no filter.</p>
+      <div id="article-main" class="container mx-auto p-4 md:p-6">
+        <div id="page-layout">
+          <section id="articles-list" class="articles">
+            <h2>{{ articlesSection.title }}</h2>
+            <p>{{ articlesSection.description }}</p>
+            <!-- <pre>{{ articles }}</pre> -->
+            <article-list :articles="articles" />
+          </section>
+        </div>
       </div>
-      <article-list :articles="articles" />
     </template>
     <template #sidebar>
       <div class="sticky top-[95px] mx-3 grid grid-cols-1 @md:grid-cols-2 @md:gap-3">
-        <!-- <div class="hidden lg:block"><product-promotions /></div> -->
-        <div><article-category-list :collectionNav="collectionNav" /></div>
-        <div><product-showcase /></div>
-        <div><article-latest /></div>
+        <!-- <div class="hidden lg:block"><product-promotions /> -->
+        <article-collection-navigation />
+        <promotion-gallery />
+        <article-sidebar-latest number="4" />
       </div>
     </template>
   </NuxtLayout>

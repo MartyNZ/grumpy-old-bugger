@@ -1,20 +1,21 @@
+<script setup>
+const data = useSiteNavigationStore();
+const navigation = data.mainNavigation;
+// console.log("Main Nav: ", JSON.stringify(navigation, null, 2));
+</script>
 <template>
   <nav id="desktop-nav" class="hidden md:flex md:items-center">
     <ul class="flex items-center gap-4">
-      <li>
-        <NuxtLink
-          class="after:bg-primary-600 dark:after:bg-primary-300 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]"
-          to="/the-rant-files">The Rant Files</NuxtLink>
-      </li>
-      <li>
-        <NuxtLink
-          class="after:bg-primary-600 dark:after:bg-primary-300 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]"
-          to="/products">Products</NuxtLink>
-      </li>
-      <li>
-        <NuxtLink
-          class="after:bg-primary-600 dark:after:bg-primary-300 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]"
-          to="/contact">Contact Us</NuxtLink>
+      <li v-for="link in navigation.navigationLinks" :key="link._key">
+        <template v-if="link.linkType === 'int'">
+          <app-link-internal :slug="link.internalLink.slug" :title="link.internalLink.title" />
+        </template>
+        <template v-if="link.linkType === 'ext'">
+          <app-link-external :url="link.externalLink.url" :name="link.name" />
+        </template>
+        <template v-if="link.linkType === 'anc'">
+          <app-link-anchor :slug="link.anchorLink.page.slug" :name="link.name" :anchor="link.anchorLink.anchor" />
+        </template>
       </li>
     </ul>
   </nav>

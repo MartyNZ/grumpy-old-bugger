@@ -1,4 +1,5 @@
 <script setup>
+
 const props = defineProps({
   number: {
     type: String,
@@ -27,10 +28,9 @@ const { data: articles } = await useSanityQuery(`  *[_type == "article" && draft
     <h3>Latest Articles</h3>
     <div class="flex items-start pb-3" v-for="article in articles" :key="article._id">
       <div
-        class="aspect-video zoom shadow-surface-700 relative max-w-[75px] overflow-hidden rounded bg-cover bg-[50%] bg-no-repeat shadow-md">
+        class="aspect-video zoom shadow-surface-700 relative max-w-[125px] overflow-hidden rounded bg-cover bg-[50%] bg-no-repeat shadow-md">
         <SanityImage :assetId="article.image.assetId"
-          class="w-full object-cover align-middle transition duration-300 ease-linear" :alt="article.title"
-          max-w="75" />
+          class="w-full object-cover align-middle transition duration-300 ease-linear" :alt="article.title" />
         <NuxtLink :to="`/the-rant-files/${article.slug}`">
           <div>
             <div
@@ -39,21 +39,34 @@ const { data: articles } = await useSanityQuery(`  *[_type == "article" && draft
           </div>
         </NuxtLink>
       </div>
-      <div class="ml-2 text-sm">
+      <div class="ms-2 text-sm">
         <NuxtLink :to="`/the-rant-files/${article.slug}`"
-          class="text-surface-900 dark:text-surface-200 hover:text-primary-600 font-medium leading-none">{{
-            article.title }}</NuxtLink>
+          class="text-surface-900 dark:text-surface-200 hover:text-primary-600 font-medium leading-none">
+          {{ article.title }}
+        </NuxtLink>
         <p class="text-surface-600 dark:text-surface-300 text-xs">
           {{ article.publishedDate }}
         </p>
       </div>
     </div>
-    <!-- </div> -->
+
   </section>
 </template>
 
 <style>
 .zoom:hover img {
   transform: scale(1.1);
+}
+
+.transition {
+  transition: all 0.3s ease-in-out;
+}
+
+.bg-opacity-15 {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.object-fit-cover {
+  object-fit: cover;
 }
 </style>

@@ -3,7 +3,7 @@ export const qryAllLivePromotions = groq`
     _id,
     title,
     'slug':slug.current,
-    byLine,
+    byline,
     summary,
     cta,
     scope,

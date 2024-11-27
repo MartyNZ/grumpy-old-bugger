@@ -29,49 +29,99 @@ export const qrySiteSettings = groq`
 `;
 
 export const qrySiteNavigation = groq`
-  {
-    "mainNav":*[_type=="navigation" && _id == "mainNavigation"][0]{
+{
+  "mainNav":*[_type=="navigation" && _id == "mainNavigation"][0]{
     _id,
     name,
-    links[]->{
-      _id,
-      "root":true,
-      _type,
-      title,
-      'slug':slug.current,
-      printifyCollectionNavGroup[]->{
-         _id,
+    navigationLinks[]{
+      _key,
+      name,
+      linkType,
+      externalLink{
+        _type,
+        newWindow,
+        url
+      },
+      internalLink{
+        _type,
+        'slug':reference->slug.current,
+        'title':reference->title,
+        reference->{
+          _id
+        }
+      },
+      anchorLink{
+        _type,
+        anchor,
+        page->{
+          _id,
         title,
-        'slug':slug.current,
-        parentCollection->{
-          _id,
-          title,
-          'slug':slug.current,
-          image,
-          'imageUrl':image.asset->url,
-          rules
-        },
-        childCollections[]->{
-          _id,
-          title,
-          'slug':slug.current,
-          image,
-          'imageUrl':image.asset->url,
-          rules
-        },
+        'slug':slug.current
+        }
       }
     }
   },
-    "footerNav":*[_type=="navigation" && _id == "footerNavigation"][0]{
-      _id,
-      root,
-      links[]->{
-        _id,
+  "footerNav":*[_type=="navigation" && _id == "footerNavigation"][0]{
+    _id,
+    name,
+    navigationLinks[]{
+      _key,
+      name,
+      linkType,
+      externalLink{
+        _type,
+        newWindow,
+        url
+      },
+      internalLink{
+        _type,
+        'slug':reference->slug.current,
+        'title':reference->title,
+        'id':reference->_id,
+      },
+      anchorLink{
+        _type,
+        anchor,
+        page->{
+          _id,
         title,
         'slug':slug.current
+        }
+      }
+    }
+  },
+  "otherNav":*[_type=="navigation" && _id != 'mainNavigation' && _id != 'footerNavigation'][0]{
+    _id,
+    name,
+    navigationLinks[]{
+      _key,
+      name,
+      linkType,
+      externalLink{
+        _type,
+        newWindow,
+        url
+      },
+      internalLink{
+        _type,
+        reference->{
+          _id,
+          'slug':slug.current,
+          title,
+        }
+      },
+      anchorLink{
+        _type,
+        anchor,
+        page->{
+          _id,
+        title,
+        'slug':slug.current
+        }
       }
     }
   }
+}
 `;
 
 export const qryPage = groq`
@@ -90,11 +140,11 @@ export const qryPage = groq`
 
 export const qryContactPage = groq`
   *[_type == 'contactpage'][0]{
+    _id,
     title,
+    content,
     'slug':slug.current,
     'image':image.asset->url,
-    descr,
-    _id,
     sections[]->{...}
   }
 `;

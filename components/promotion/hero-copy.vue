@@ -15,17 +15,19 @@ const props = defineProps({
 
 <template>
   <div :class="{ 'zoom': enableZoom }"
-    class="promo-container dark:shadow-surface-600 relative overflow-hidden shadow-lg mx-auto w-full">
+    class="dark:shadow-surface-600 relative overflow-hidden shadow-lg mx-auto w-full">
     <SanityImage auto="format" :assetId="promo.image.assetId" height="auto" width="100%"
       class="w-full object-cover align-middle transition duration-300 ease-linear" :alt="promo.title" />
     <div class="z-1 absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden">
-      <div class="flex flex-col items-center justify-around relative h-full">
-        <div class="promo-banner">
+      <div class="@container flex flex-col items-center justify-around relative h-full">
+        <div class="title-banner">
           <span>{{ promo.title }}</span>
         </div>
-        <div v-if="promo.byline && fullPath === `/promotions/${promo.slug}`" class="promo-byline">
+        <div v-if="promo.byline && fullPath === `/promotions/${promo.slug}`"
+          class="absolute max-w-[50%] bottom-1 right-1 sm:bottom-3 sm:right-2 content-end flex">
           <span
-            class="w-full text-sm @sm:text-3xl font-semi-bold sm:font-bold italic text-white text-right drop-shadow-lg">
+            class=" w-full text-sm sm:text-3xl font-semi-bold sm:font-bold italic text-white text-right drop-shadow-lg"
+            style="filter: drop-shadow(0 1px 2px rgb(0 0 0 / 1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.6));">
             {{ promo.byline }}
           </span>
         </div>
@@ -38,7 +40,8 @@ const props = defineProps({
           </span>
         </div> -->
         <div v-if="promo.cta && fullPath !== `/promotions/${promo.slug}`">
-          <NuxtLink :to="`/promotions/${promo.slug}`" class="promo-cta">
+          <NuxtLink :to="`/promotions/${promo.slug}`"
+            class="absolute bottom-5 right-2 bg-primary-200 text-primary-800 hover:bg-primary-300 hover:text-primary-900  focus:bg-primary-300  border-primary-700 active:ring-primary-700 dark:active:ring-primary-200 font-brand text-sm whitespace-nowrap text-nowrap rounded-full border-[1px] px-3 py-1 text-center active:ring-2 active:ring-offset-2 @sm:text-base @sm:px-3 @sm:py-1 @md:text-lg @lg:text-2xl @xl:text-3xl @xl:px-6 @xl:py-4 font-semibold">
             {{ promo.cta }}
           </NuxtLink>
         </div>
@@ -48,11 +51,7 @@ const props = defineProps({
 </template>
 
 <style scoped>
-.promo-container {
-  container: promo-container / inline-size
-}
-
-.promo-banner {
+div.title-banner {
   height: 1rem;
   width: 125px;
   background-color: #9C1B21;
@@ -71,7 +70,7 @@ const props = defineProps({
   transform: rotate(-45deg);
 }
 
-.promo-banner:before {
+.title-banner:before {
   box-sizing: border-box;
   border-style: solid;
   border-color: #9c1b21;
@@ -89,47 +88,12 @@ const props = defineProps({
   z-index: -1;
 }
 
-.promo-byline {
-  position: absolute;
-  display: flex;
-  max-width: 50%;
-  bottom: 1em;
-  right: 1.5em;
-  justify-content: end;
-}
-
-.promo-byline span {
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.6));
-}
-
-.promo-cta {
-  position: absolute;
-  bottom: 0.751em;
-  right: 0.75em;
-  background-color: var(--primary-200);
-  color: var(--primary-800);
-  border-radius: 2em;
-  padding-block: 0.25em;
-  padding-inline: 0.75em;
-  font-size: 0.5em;
-  font-weight: 600;
-  font: var(--font-brand)
-}
-
-.promo-cta:hover,
-.promo-cta:focus {
-  background-color: var(--primary-300);
-  color: var(--primary-900);
-}
-
-.promo-cta:active {}
-
 .zoom:hover img {
   transform: scale(1.1);
 }
 
-@container promo-container (767px < width < 1280px) {
-  .promo-banner {
+@media (767px < width < 1280px) {
+  div.title-banner {
     height: 2rem;
     width: 85px;
     background-color: #9C1B21;
@@ -148,7 +112,7 @@ const props = defineProps({
     transform: rotate(-45deg);
   }
 
-  .promo-banner:before {
+  .title-banner:before {
     box-sizing: border-box;
     border-style: solid;
     border-color: #9c1b21;
@@ -166,13 +130,10 @@ const props = defineProps({
     z-index: -1;
   }
 
-  .promo-cta {
-    font-size: 1.25em;
-  }
 }
 
-@container promo-container (width > 1279px) {
-  .promo-banner {
+@media (width > 1279px) {
+  div.title-banner {
     height: 3rem;
     width: 300px;
     background-color: #9C1B21;
@@ -191,7 +152,7 @@ const props = defineProps({
     transform: rotate(-45deg);
   }
 
-  .promo-banner:before {
+  .title-banner:before {
     box-sizing: border-box;
     border-style: solid;
     border-color: #9c1b21;
@@ -207,9 +168,6 @@ const props = defineProps({
     z-index: -1;
   }
 
-  .promo-cta {
-    font-size: 2.5em;
-  }
 }
 
 .zoom:hover img {

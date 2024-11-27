@@ -1,4 +1,6 @@
 <script setup>
+import { qryContactPage } from '~/queries/siteSettings'
+const { data: page } = await useSanityQuery(qryContactPage)
 import * as yup from "yup";
 const data = useSiteSettingsStore();
 const settings = data.settings;
@@ -79,10 +81,11 @@ definePageMeta({
 <template>
   <NuxtLayout name="internal">
     <template #main>
-      <section class="mb-32">
+      <section class="mb-16">
         <div class="flex justify-center">
           <div class="text-center md:max-w-xl lg:max-w-3xl">
-            <h2 class="mb-12 px-6 text-3xl font-bold">Contact us</h2>
+            <h2 class="mb-12 px-6 text-3xl font-bold">{{ page.title }}</h2>
+            <SanityContent :blocks="page.content" />
           </div>
         </div>
 
@@ -126,8 +129,7 @@ definePageMeta({
               <pre>{{ errors }}</pre>
             </div>
           </div>
-          <div id="contact-social"
-            class="mb-12 ml-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-4/12 lg:px-6">
+          <div id="contact-social" class="mb-12 ml-12 w-full md:px-3 lg:mb-0 lg:w-4/12 lg:px-6">
             <div class="mb-6 mt-6 lg:mb-0">
               <client-only>
                 <div v-for="connection in settings.primaryLocation.socialConnections" :key="connection._key">
@@ -141,10 +143,16 @@ definePageMeta({
           </div>
         </div>
       </section>
+      <section class="mb-16">
+        <app-page-sections :page="page" />
+      </section>
     </template>
     <template #sidebar>
       <div class="@md:grid-cols-2 sticky top-[95px] mx-3 grid grid-cols-1">
         <div class="@md:col-span-2"><product-featured /></div>
+        <div class="@md:col-span-2">
+          <promotion-gallery />
+        </div>
       </div>
     </template>
   </NuxtLayout>
