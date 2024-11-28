@@ -36,7 +36,7 @@ const props = defineProps({
 #products-grid {
   display: grid;
   gap: 1em;
-  grid-template-columns: repeat(auto-fit, minmax(150px, .5fr));
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
   justify-items: center;
 }
 
