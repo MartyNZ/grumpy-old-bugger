@@ -1,18 +1,30 @@
-import { qrySiteNavigation } from "~/queries/siteSettings";
+import {
+  qryMainNavigation,
+  qryFooterNavigation,
+  qryMobileNavigation,
+  qryOtherNav,
+} from "~/queries/siteNavigation";
 export const useSiteNavigationStore = defineStore("navigation", {
   state: () => {
     return {
       mainNavigation: {},
       footerNavigation: {},
+      mobileNavigation: {},
+      otherNavigation: {},
     };
   },
   actions: {
     async fetchStoreNavigation() {
-      const { data } = await useSanityQuery(qrySiteNavigation);
-      this.mainNavigation = data.value.mainNav;
-      this.footerNavigation = data.value.footerNav;
+      const { data: mainNav } = await useSanityQuery(qryMainNavigation);
+      this.mainNavigation = mainNav.value;
+      const { data: footerNav } = await useSanityQuery(qryFooterNavigation);
+      this.footerNavigation = footerNav.value;
+      const { data: mobileNav } = await useSanityQuery(qryMobileNavigation);
+      this.mobileNavigation = mobileNav.value;
+      const { data: otherNav } = await useSanityQuery(qryOtherNav);
+      this.otherNavigation = otherNav.value;
       return this;
-      // console.log(JSON.stringify(data.value.mainNav));
+      // console.log(JSON.stringify(mainNav.value));
     },
   },
 });
