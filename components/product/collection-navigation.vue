@@ -1,24 +1,24 @@
 <script setup>
-const articleCollectionNavigation = useArticleCollectionNavigationStore();
-const collectionNavGroup = articleCollectionNavigation.articleCollectionNavigation;
+const printifyCollectionNavigation = usePrintifyCollectionNavigationStore();
+const collectionNavGroup = printifyCollectionNavigation.printifyCollectionNavigation;
 </script>
 <template>
-  <section id="article-collection-list" class="mb-4">
+  <section id="printify-collection-list" class="mb-4">
 
     <template>
-      <ul class="mx-0 my-5 list-none">
+      <ul class="m-0 list-none">
         <li>
-          <ul class="m-0 list-none overflow-hidden p-0">
+          <ul class="mx-0 my-5 list-none overflow-hidden p-0">
             <li class="mb-4">
-              <NuxtLink to="/the-rant-files"
+              <NuxtLink to="/products"
                 class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit text-sm font-semibold">
                 <h3
                   class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">
-                  {{ collectionNavGroup.title }}
+                  All {{ collectionNavGroup.title }}
                 </h3>
               </NuxtLink>
             </li>
-            <li v-for="collection in collectionNavGroup.articleCollectionNavGroup" :key="collection._id">
+            <li v-for="collection in collectionNavGroup.printifyCollectionNavGroup" :key="collection._id">
               <template v-if="collection.childCollections">
                 <div v-styleclass="{
                   selector: '@next',
@@ -27,7 +27,7 @@ const collectionNavGroup = articleCollectionNavigation.articleCollectionNavigati
                   leaveToClass: 'hidden',
                   leaveActiveClass: 'fadeout',
                 }"
-                  class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative relative block flex w-fit cursor-pointer items-center px-3 py-4 text-lg font-semibold">
+                  class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative flex w-fit cursor-pointer items-center px-4 py-2 text-lg font-semibold">
                   <icons-fa-duotone-angle-down />
                   <div class="text-nowrap">
                     <span class="font-medium">{{ collection.title }}</span>
@@ -35,7 +35,7 @@ const collectionNavGroup = articleCollectionNavigation.articleCollectionNavigati
                 </div>
                 <ul class="ml-4 hidden list-none overflow-hidden">
                   <li>
-                    <NuxtLink :to="`/the-rant-files/collections/${collection.slug}`"
+                    <NuxtLink :to="`/products/collections/${collection.slug}`"
                       class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 pl-8 font-semibold">
                       <span
                         class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">
@@ -44,7 +44,7 @@ const collectionNavGroup = articleCollectionNavigation.articleCollectionNavigati
                     </NuxtLink>
                   </li>
                   <li v-for="child in collection.childCollections" :key="child._id">
-                    <NuxtLink :to="`/the-rant-files/collections/${collection.slug}/${child.slug}`"
+                    <NuxtLink :to="`/products/collections/${collection.slug}/${child.slug}`"
                       class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 pl-8 font-semibold">
                       <span
                         class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">{{
@@ -54,8 +54,8 @@ const collectionNavGroup = articleCollectionNavigation.articleCollectionNavigati
                 </ul>
               </template>
               <template v-else>
-                <NuxtLink :to="`/the-rant-files/collections/${collection.slug}`"
-                  class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-2 pl-5 font-semibold">
+                <NuxtLink :to="`/products/collections/${collection.slug}`"
+                  class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 pl-8 font-semibold">
                   <span
                     class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">{{
                       collection.title }}</span>

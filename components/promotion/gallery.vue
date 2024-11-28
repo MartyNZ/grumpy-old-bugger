@@ -6,7 +6,7 @@ const { data: promotions } = await useSanityQuery(qryAllLivePromotions)
 
 <template>
   <div class="@container">
-    <div class="@lg:grid-cols-2 grid grid-cols-1 gap-1 @md:gap-3 align-center p-1 @md:p-3">
+    <div class="@lg:grid-cols-2 grid grid-cols-1 gap-6  @md:gap-3 align-center p-1 @md:p-3">
       <template v-for="p in promotions" :key="p._id">
         <promotion-hero :promo="p" enableZoom />
       </template>

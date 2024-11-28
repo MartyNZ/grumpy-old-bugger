@@ -232,51 +232,31 @@ export const qryArticleCollectionNavigation = groq`
     title,
     'slug':slug.current,
     articleCollectionNavGroup[]->{
-      _id,
+        _id,
       title,
       'slug':slug.current,
-      category->{
+      parentCollection->{
         _id,
         title,
-        'slug':slug.current,
-        image{
-          'url':asset->url,
-          'assetId':asset->_id
-        },
         description,
-        'count':count(*[_type == 'article' && references(^._id)])
-      },
-      collections[]->{
-        _id,
-        title,
         'slug':slug.current,
         image{
-          'url':asset->url,
-          'assetId':asset->_id
-        },
-        parentCollection->{
-          _id,
-          title,
-          description,
-          'slug':slug.current,
-          image{
-          'url':asset->url,
-          'assetId':asset->_id,
-          rules
-          }
-        },
-        childCollections[]->{
-          _id,
-          title,
-          description,
-          'slug':slug.current,
-          image{
-          'url':asset->url,
-          'assetId':asset->_id,
-          rules
-          }
-        },
-      }
+        'url':asset->url,
+        'assetId':asset->_id,
+        rules
+        }
+      },
+      childCollections[]->{
+        _id,
+        title,
+        description,
+        'slug':slug.current,
+        image{
+        'url':asset->url,
+        'assetId':asset->_id,
+        rules
+        }
+      },
     }
   }
 `;

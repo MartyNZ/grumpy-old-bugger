@@ -1,6 +1,4 @@
 <script setup>
-const articleCollectionNavigation = useArticleCollectionNavigationStore();
-const articleNavigation = articleCollectionNavigation.articleCollectionNavigation;
 
 const data = useSiteNavigationStore();
 const mainNavigation = data.mainNavigation;

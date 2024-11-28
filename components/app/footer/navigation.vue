@@ -14,7 +14,7 @@ const footerNavigation = data.footerNavigation;
           <app-link-internal :slug="link.internalLink.slug" :title="link.internalLink.title" />
         </template>
         <template v-if="link.linkType === 'ext'">
-          <app-link-external :slug="link.externalLink.slug" :name="link.externalLink.name" />
+          <app-link-external :url="link.externalLink.url" :name="link.name" />
         </template>
         <template v-if="link.linkType === 'anc'">
           <app-link-anchor :slug="link.anchorLink.page.slug" :name="link.name" :anchor="link.anchorLink.anchor" />
