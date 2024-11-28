@@ -43,7 +43,7 @@ definePageMeta({
         <div id="page-layout">
           <section id="articles-list" class="articles">
             <h2>{{ articlesSection.title }}</h2>
-            <p>{{ articlesSection.description }}</p>
+            <p class="mb-8">{{ articlesSection.description }}</p>
             <!-- <pre>{{ articles }}</pre> -->
             <article-list :articles="articles" />
           </section>

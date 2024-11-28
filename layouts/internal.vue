@@ -7,7 +7,9 @@
         <slot name="main" />
       </main>
       <aside class="@container px-4 py-8 lg:col-span-2">
-        <slot name="sidebar" />
+        <div class="sticky top-[95px] mx-3 grid grid-cols-1 @md:grid-cols-2 @md:gap-8 gap-10">
+          <slot name="sidebar" />
+        </div>
       </aside>
     </div>
   </div>

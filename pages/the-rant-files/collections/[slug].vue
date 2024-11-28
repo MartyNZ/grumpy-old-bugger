@@ -27,7 +27,7 @@ const articles = collection.value.articles;
       <section id="collection">
         <div class="pb-5">
           <h1>
-            {{ collection.name }}
+            {{ collection.title }}
           </h1>
           <SanityContent v-if="collection.description" :blocks="collection.description" />
         </div>
@@ -36,11 +36,9 @@ const articles = collection.value.articles;
       </section>
     </template>
     <template #sidebar>
-      <div class="sticky top-[95px] mx-3 grid grid-cols-1 @md:grid-cols-2 @md:gap-8">
-        <article-collection-navigation />
-        <promotion-gallery />
-        <article-sidebar-latest number="4" />
-      </div>
+      <article-collection-navigation />
+      <promotion-gallery />
+      <article-sidebar-latest number="4" />
     </template>
   </NuxtLayout>
 </template>

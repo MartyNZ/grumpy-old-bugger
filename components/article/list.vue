@@ -4,11 +4,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  sectionTitle:{
+  sectionTitle: {
     type: String,
-    default: 'Latest Articles'
   },
-  description:{
+  description: {
     type: String
   }
 });
@@ -30,13 +29,15 @@ const props = defineProps({
   container-type: inline-size;
   margin-bottom: 2.5em;
 }
+
 #articles-grid {
   display: grid;
   gap: 1.5em;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   justify-items: center;
 }
-@container ( width > 530px) {
+
+@container (width > 530px) {
   #articles-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 0.5fr));
   }

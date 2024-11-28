@@ -26,9 +26,9 @@ const { data: articles } = await useSanityQuery(`  *[_type == "article" && draft
 <template v-if="articles">
   <section id="latest-articles" class="mb-3">
     <h3>Latest Articles</h3>
-    <div class="flex items-start pb-3" v-for="article in articles" :key="article._id">
+    <div class="flex items-start py-3" v-for="article in articles" :key="article._id">
       <div
-        class="aspect-video zoom shadow-surface-700 relative max-w-[125px] overflow-hidden rounded bg-cover bg-[50%] bg-no-repeat shadow-md">
+        class="aspect-video zoom shadow-surface-700 relative max-w-[100px] overflow-hidden rounded bg-cover bg-[50%] bg-no-repeat shadow-md">
         <SanityImage :assetId="article.image.assetId"
           class="w-full object-cover align-middle transition duration-300 ease-linear" :alt="article.title" />
         <NuxtLink :to="`/the-rant-files/${article.slug}`">
@@ -41,7 +41,7 @@ const { data: articles } = await useSanityQuery(`  *[_type == "article" && draft
       </div>
       <div class="ms-2 text-sm">
         <NuxtLink :to="`/the-rant-files/${article.slug}`"
-          class="text-surface-900 dark:text-surface-200 hover:text-primary-600 font-medium leading-none">
+          class="text-surface-900 dark:text-surface-200 hover:text-primary-600 font-medium leading-none text-balance">
           {{ article.title }}
         </NuxtLink>
         <p class="text-surface-600 dark:text-surface-300 text-xs">
