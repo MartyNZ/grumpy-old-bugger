@@ -11,19 +11,20 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@nuxtjs/sanity",
     "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
     "@stefanobartoletti/nuxt-social-share",
     "@vite-pwa/nuxt",
     "nuxt-mail",
     "@nuxtjs/tailwindcss",
     "nuxt-primevue",
     "@vueuse/nuxt",
-    "@pinia-plugin-persistedstate/nuxt",
     "@nuxt/fonts",
     "nuxt3-meta-pixel",
     "nuxt-posthog",
     "@nuxtjs/seo",
     "vue3-carousel-nuxt",
     "@vee-validate/nuxt",
+    "@nuxtjs/snipcart",
   ],
 
   veeValidate: {
@@ -97,7 +98,7 @@ export default defineNuxtConfig({
       unstyled: true,
     },
     directives: {
-      include: ["Tooltip", "StyleClass", "UseDialog"],
+      include: ["Tooltip", "StyleClass", "UseDialog", "Ripple"],
     },
     components: {
       include: [
@@ -114,6 +115,7 @@ export default defineNuxtConfig({
         "Sidebar",
         "Carousel",
         "Divider",
+        "Dropdown",
       ],
     },
     importPT: { as: "webcnxnz", from: "~/presets/webcnxnz" },
@@ -295,7 +297,10 @@ export default defineNuxtConfig({
     dataset: process.env.SANITY_STUDIO_DATASET,
     apiVersion: process.env.SANITY_STUDIO_API_VERSION,
   },
-
+  snipcart: {
+    publicApiKey: process.env.SNIPCART_API_KEY,
+    templatesUrl: "/snipcart/snipcart-custom.html",
+  },
   runtimeConfig: {
     public: {
       sanity: {
@@ -305,7 +310,6 @@ export default defineNuxtConfig({
       titleSeparator: "|",
       siteName: process.env.NUXT_SITE_NAME,
       publicUrl: process.env.NUXT_SITE_PUBLISHED_URL,
-      snipCartApiKey: process.env.SNIPCART_API_KEY,
     },
     sanity: {
       token: process.env.SANITY_STUDIO_ADMIN_AUTH_TOKEN,

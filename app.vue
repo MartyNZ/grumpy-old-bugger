@@ -1,5 +1,8 @@
 <script setup>
 const router = useRouter();
+const user = useCookie('userInfo', {
+  default: () => ({ currency: { symbol: '$', code: 'USD' }, language: 'en' }),
+})
 
 // Scroll to top after each navigation
 router.afterEach(() => {
