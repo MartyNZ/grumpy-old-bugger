@@ -5,13 +5,11 @@ const { data: promotions } = await useSanityQuery(qryAllLivePromotions)
 </script>
 
 <template>
-  <section id="promotion-gallery" class="mb-5">
-    <div class="@container">
-      <div class="@lg:grid-cols-2 grid grid-cols-1 gap-6  @md:gap-3 align-center p-1 @md:p-3">
-        <template v-for="p in promotions" :key="p._id">
-          <promotion-hero :promo="p" enableZoom />
-        </template>
-      </div>
+  <section id="promotion-gallery" class="@container mb-5">
+    <div class="grid grid-cols-1 gap-6 align-center p-1">
+      <template v-for="p in promotions" :key="p._id">
+        <promotion-hero :promo="p" enableZoom />
+      </template>
     </div>
   </section>
 </template>

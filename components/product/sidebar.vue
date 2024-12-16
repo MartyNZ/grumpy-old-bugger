@@ -1,15 +1,17 @@
 <script setup>
 </script>
 <template>
-  <div class="@md:grid-cols-2 sticky top-[95px] mx-3 grid grid-cols-1">
-    <div class="pb-8">
-      <product-collection-navigation />
-    </div>
-    <div class="pb-8">
-      <product-featured />
-    </div>
-    <div class="pb-8">
-      <promotion-gallery />
+  <div class="@container sticky top-[95px] w-full">
+    <div class="w-full grid grid-cols-1 @xl:grid-cols-2">
+      <div class="hidden sm:pb-8 md:block">
+        <product-collection-navigation />
+      </div>
+      <div class="pb-8 place-content-center">
+        <product-featured />
+      </div>
+      <div class="pb-8 place-content-center">
+        <promotion-gallery />
+      </div>
     </div>
   </div>
 </template>
