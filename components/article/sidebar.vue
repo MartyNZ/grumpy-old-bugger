@@ -1,9 +1,5 @@
-<script setup>
-
-</script>
-
 <template>
-  <div class="sticky top-[95px] mx-3 grid grid-cols-1 @md:grid-cols-2 @md:gap-3">
+  <div class="sticky top-[95px] mx-3 grid grid-cols-1 @2xl:grid-cols-2 @md:gap-3">
     <div class="hidden sm:pb-8 md:block">
       <article-collection-navigation />
     </div>
@@ -15,5 +11,3 @@
     </div>
   </div>
 </template>
-
-<style scoped></style>
