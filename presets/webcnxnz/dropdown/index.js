@@ -6,7 +6,7 @@ export default {
       "relative",
 
       // Shape
-      "w-full md:w-56",
+      "w-20",
       "rounded-md",
       "shadow-sm",
 
@@ -32,7 +32,7 @@ export default {
       //Font
       "font-sans",
       "leading-6",
-      "sm:text-sm",
+      "sm:text-base",
 
       // Display
       "block",
@@ -42,14 +42,14 @@ export default {
       "bg-transparent",
       "border-0",
       {
-        "text-surface-800 dark:text-surface-100/80": props.modelValue,
+        "text-surface-800 dark:text-surface-200": props.modelValue,
         "text-surface-400 dark:text-surface-500": !props.modelValue,
       },
       "placeholder:text-surface-400 dark:placeholder:text-surface-500",
 
       // Sizing and Spacing
       "w-[1%]",
-      "py-1.5 px-3",
+      "py-1 px-1.5",
       { "pr-7": props.showClear },
 
       //Shape
@@ -73,7 +73,7 @@ export default {
   trigger: {
     class: [
       //Font
-      "sm:text-sm",
+      "sm:text-base",
 
       // Flexbox
       "flex items-center justify-center",
@@ -84,7 +84,7 @@ export default {
       "text-surface-500",
 
       // Size
-      "w-12",
+      "w-8",
 
       // Shape
       "rounded-tr-md",
@@ -104,14 +104,14 @@ export default {
 
       // Color
       "bg-surface-0 dark:bg-surface-800",
-      "text-surface-800 dark:text-surface-100/80",
+      "text-surface-800 dark:text-surface-200",
       "ring-1 ring-inset ring-surface-300 dark:ring-surface-700",
     ],
   },
   wrapper: {
     class: [
       // Sizing
-      "max-h-[15rem]",
+      "max-h-[18rem]",
 
       // Misc
       "overflow-auto",
@@ -123,7 +123,7 @@ export default {
   item: ({ context }) => ({
     class: [
       // Font
-      "sm:text-sm",
+      "sm:text-base",
       "leading-none",
       { "font-normal": !context.selected, "font-bold": context.selected },
 
@@ -140,11 +140,11 @@ export default {
 
       // Color
       {
-        "text-surface-700 dark:text-surface-100/80":
+        "text-surface-700 dark:text-surface-200":
           !context.focused && !context.selected,
       },
       {
-        "bg-surface-200 dark:bg-surface-600/60 text-surface-700 dark:text-surface-100/80":
+        "bg-surface-200 dark:bg-surface-400 text-surface-700 dark:text-surface-200":
           context.focused && !context.selected,
       },
       {
@@ -152,7 +152,7 @@ export default {
           context.focused && context.selected,
       },
       {
-        "bg-transparent text-surface-700 dark:text-surface-100/80":
+        "bg-transparent text-surface-700 dark:text-surface-200":
           !context.focused && context.selected,
       },
 
@@ -170,15 +170,15 @@ export default {
     class: [
       //Font
       "font-bold",
-      "sm:text-sm",
+      "sm:text-base",
 
       // Spacing
       "m-0",
       "py-2 px-4",
 
       // Color
-      "text-surface-800 dark:text-surface-100/80",
-      "bg-surface-0 dark:bg-surface-600/80",
+      "text-surface-800 dark:text-surface-200",
+      "bg-surface-0 dark:bg-surface-400",
 
       // Misc
       "cursor-auto",
@@ -188,13 +188,13 @@ export default {
     class: [
       // Font
       "leading-none",
-      "sm:text-sm",
+      "sm:text-base",
 
       // Spacing
       "py-2 px-4",
 
       // Color
-      "text-surface-800 dark:text-surface-100/80",
+      "text-surface-800 dark:text-surface-200",
       "bg-transparent",
     ],
   },
@@ -209,7 +209,7 @@ export default {
       "rounded-tr-md",
 
       // Color
-      "text-surface-700 dark:text-surface-100/80",
+      "text-surface-700 dark:text-surface-200",
       "bg-surface-100 dark:bg-surface-800",
     ],
   },
@@ -221,7 +221,7 @@ export default {
       // Font
       "font-sans",
       "leading-none",
-      "sm:text-sm",
+      "sm:text-base",
 
       // Sizing
       "py-1.5 px-3",
@@ -230,7 +230,7 @@ export default {
       "w-full",
 
       //Color
-      "text-surface-700 dark:text-surface-100/80",
+      "text-surface-700 dark:text-surface-200",
       "bg-surface-0 dark:bg-surface-900",
       "placeholder:text-surface-400",
       "ring-1 ring-inset ring-surface-300 dark:ring-surface-700",

@@ -1,4 +1,5 @@
 <script setup>
+import currencies from '~/assets/data/currencies'
 const props = defineProps({
   product: {
     type: Object,
@@ -271,13 +272,6 @@ watchEffect(() => {
   currentImage.value = variantImages.value[0];
 });
 
-const quantity = ref(1);
-const itemPrice = computed(() => selectedVariant.value.price / 100);
-const totalPrice = computed(() => itemPrice.value * quantity.value);
-const discountedPrice = computed(() => totalPrice.value * ((100 - selectedPromo.value.discount) / 100));
-// console.log("selected Promo discount: ", JSON.stringify(selectedPromo.value.discount, null, 2));
-// console.log("Discounted Price: ", discountedPrice.value);}
-
 // console.log(JSON.stringify(props.product, null, 2));
 
 const sizeCharts = defineAsyncComponent(
@@ -302,6 +296,38 @@ const openDialog = () => {
     },
   });
 };
+
+const selectedCurrency = ref(
+  { name: "USD", code: "USD", symbol: "$" },
+);
+const currencySelect = ref();
+currencySelect.value = Object.values(currencies).map((currency) => {
+  // console.log("Currency: ", currency.symbol_native, currency.code)
+  return {
+    name: currency.code,
+    code: currency.code,
+    symbol: currency.symbol_native
+  }
+})
+// watch(selectedCurrency, (newSelection) => {
+//   console.log("Selected Currency: ", JSON.stringify(newSelection, null, 2));
+//   return {
+//     selectedCurrency.value = {
+//       name: newSelection.code,
+//       code: newSelection.code,
+//       symbol: newSelection.symbol_native
+//     }
+//   }
+// })
+// console.log("Currency Select: ", JSON.stringify(currencySelect.value, null, 2))
+// console.log("Selected Currency: ", JSON.stringify(selectedCurrency.value, null, 2))
+
+const quantity = ref(1);
+const itemPrice = computed(() => selectedVariant.value.price / 100);
+const totalPrice = computed(() => itemPrice.value * quantity.value);
+const discountedPrice = computed(() => totalPrice.value * ((100 - selectedPromo.value.discount) / 100));
+// console.log("selected Promo discount: ", JSON.stringify(selectedPromo.value.discount, null, 2));
+// console.log("Discounted Price: ", discountedPrice.value);}
 </script>
 
 <template>
@@ -370,18 +396,19 @@ const openDialog = () => {
                   {{ option.values[0].title }}
                 </p>
               </template>
+              <div class="relative flex flex-row items-center rounded outline-surface-500">
+                <span class="text-lg">Qty:</span>
+                <input type="number"
+                  class="block min-h-[auto] w-20 rounded border-0 bg-transparent px-2 leading-[1.6] outline-surface-500 transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-surface-100 dark:text-surface-200 dark:placeholder:text-surface-200 dark:peer-focus:text-surface-100"
+                  v-model="quantity" name="quantity" id="quantity" />
+              </div>
             </div>
-            <div class="flex flex-col items-center justify-between gap-1 px-1 pb-4 pt-1">
+            <div class="flex flex-col items-center justify-between gap-1 py-3">
               <div class="flex flex-row items-center gap-1">
-                <div class="relative flex flex-row items-center rounded outline-surface-500">
-                  <span class="text-lg">Qty:</span>
-                  <input type="number"
-                    class="block min-h-[auto] w-20 rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-surface-500 transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-surface-100 dark:text-surface-200 dark:placeholder:text-surface-200 dark:peer-focus:text-surface-100"
-                    v-model="quantity" name="quantity" id="quantity" />
-                </div>
                 <div class="text-xl font-semibold">
                   <span v-if="selectedPromo" class="mr-2">${{ discountedPrice.toFixed(2) }}</span>
                   <span :class="selectedPromo ? 'line-through' : ''">${{ totalPrice.toFixed(2) }}</span>
+                  <Dropdown v-model="selectedCurrency" :options="currencySelect" optionLabel="name" />
                 </div>
               </div>
               <button type="button"
