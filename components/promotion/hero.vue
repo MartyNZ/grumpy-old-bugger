@@ -29,14 +29,6 @@ const props = defineProps({
             {{ promo.byline }}
           </span>
         </div>
-        <!-- <div v-else="promo.byline && fullPath === `/promotions/${promo.slug}`" class=" absolute max-w-[50%] bottom-1
-          left-1 sm:bottom-3 sm:right-2 content-end flex">
-          <span
-            class=" w-full text-sm sm:text-3xl font-semi-bold sm:font-bold italic text-white text-right drop-shadow-lg"
-            style="filter: drop-shadow(0 1px 2px rgb(0 0 0 / 1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.6));">
-            {{ promo.byline }}
-          </span>
-        </div> -->
         <div v-if="promo.cta && fullPath !== `/promotions/${promo.slug}`">
           <NuxtLink :to="`/promotions/${promo.slug}`" class="promo-cta">
             {{ promo.cta }}
@@ -53,9 +45,9 @@ const props = defineProps({
 }
 
 .promo-banner {
-  height: 1rem;
+  height: .75rem;
   width: 125px;
-  background-color: #9C1B21;
+  background-color: #9c1b21;
   position: absolute;
   top: 50px;
   left: -6px;
@@ -104,15 +96,15 @@ const props = defineProps({
 
 .promo-cta {
   position: absolute;
-  bottom: 0.751em;
+  bottom: 0.75em;
   right: 0.75em;
   background-color: var(--primary-200);
   color: var(--primary-800);
   border-radius: 2em;
-  padding-block: 0.25em;
-  padding-inline: 0.75em;
-  font-size: 0.5em;
-  font-weight: 600;
+  padding-block: 0.15em;
+  padding-inline: 0.5em;
+  /* font-size: 8px;
+  font-weight: 600; */
   font: var(--font-brand)
 }
 
@@ -126,6 +118,49 @@ const props = defineProps({
 
 .zoom:hover img {
   transform: scale(1.1);
+}
+
+@container promo-container (321px < width < 767px) {
+  .promo-banner {
+    height: .75rem;
+    width: 125px;
+    background-color: #9c1b21;
+    position: absolute;
+    top: 60px;
+    left: -6px;
+    text-align: center;
+    color: #FFF;
+    font-weight: 500;
+    font-size: .8rem;
+    white-space: nowrap;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+
+  .promo-banner:before {
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: #9c1b21;
+    border-width: 1.75rem;
+    border-left-width: 200px;
+    border-right-width: 200px;
+    content: "";
+    display: block;
+    /* left: -90px; */
+    position: absolute;
+    /* width: 140px; */
+    border-top-width: 0px;
+    border-bottom-color: #9c1b21;
+    top: -2px;
+    z-index: -1;
+  }
+
+  .promo-cta {
+    font-size: .9rem;
+  }
 }
 
 @container promo-container (767px < width < 1280px) {

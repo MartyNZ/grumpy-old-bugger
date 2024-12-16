@@ -97,7 +97,7 @@ export default {
       // Width
       {
         "w-full": props.orientation !== "vertical",
-        "max-w-64": props.orientation == "vertical",
+        "max-w-64 mx-auto": props.orientation == "vertical",
       },
     ],
   }),

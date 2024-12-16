@@ -36,13 +36,13 @@ const props = defineProps({
 #products-grid {
   display: grid;
   gap: 1em;
-  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
   justify-items: center;
 }
 
-@container (width > 530px) {
+/* @media (width > 768px) {
   #products-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 0.5fr));
+    grid-template-columns: 0.33fr, .034fr, 0.33fr;
   }
-}
+} */
 </style>
