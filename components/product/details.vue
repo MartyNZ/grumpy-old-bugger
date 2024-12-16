@@ -1,5 +1,4 @@
 <script setup>
-import currencies from '~/assets/data/currencies'
 const props = defineProps({
   product: {
     type: Object,
@@ -297,30 +296,6 @@ const openDialog = () => {
   });
 };
 
-const selectedCurrency = ref(
-  { name: "USD", code: "USD", symbol: "$" },
-);
-const currencySelect = ref();
-currencySelect.value = Object.values(currencies).map((currency) => {
-  // console.log("Currency: ", currency.symbol_native, currency.code)
-  return {
-    name: currency.code,
-    code: currency.code,
-    symbol: currency.symbol_native
-  }
-})
-// watch(selectedCurrency, (newSelection) => {
-//   console.log("Selected Currency: ", JSON.stringify(newSelection, null, 2));
-//   return {
-//     selectedCurrency.value = {
-//       name: newSelection.code,
-//       code: newSelection.code,
-//       symbol: newSelection.symbol_native
-//     }
-//   }
-// })
-// console.log("Currency Select: ", JSON.stringify(currencySelect.value, null, 2))
-// console.log("Selected Currency: ", JSON.stringify(selectedCurrency.value, null, 2))
 
 const quantity = ref(1);
 const itemPrice = computed(() => selectedVariant.value.price / 100);
@@ -408,7 +383,7 @@ const discountedPrice = computed(() => totalPrice.value * ((100 - selectedPromo.
                 <div class="text-xl font-semibold">
                   <span v-if="selectedPromo" class="mr-2">${{ discountedPrice.toFixed(2) }}</span>
                   <span :class="selectedPromo ? 'line-through' : ''">${{ totalPrice.toFixed(2) }}</span>
-                  <Dropdown v-model="selectedCurrency" :options="currencySelect" optionLabel="name" />
+                  <!-- <Dropdown v-model="selectedCurrency" :options="currencySelect" optionLabel="name" /> -->
                 </div>
               </div>
               <button type="button"

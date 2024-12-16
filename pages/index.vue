@@ -66,7 +66,6 @@ definePageMeta({
       <product-collection-buttons :collectionNav="collectionNav" />
       <product-list :products="products" sectionTitle="Featured Products" />
       <article-list :articles="latestArticles" />
-      <!-- <product-collection-list /> -->
       <product-list :products="latestProducts" sectionTitle="Latest Products" />
     </main>
   </div>
