@@ -17,7 +17,7 @@ definePageMeta({
       <h1 class="mb-2">All Collections</h1>
       <div v-for="category in allArticlesbyCategory" :key="category._id">
         <div id="header" class="my-2 pb-3">
-          <h2>{{ category.name }}</h2>
+          <h2>{{ category.title }}</h2>
           <SanityContent v-if="category.description" :blocks="category.description" />
         </div>
         <article-list :articles="category.articles" />

@@ -41,16 +41,9 @@ export const qryAllArticles = groq`
     },
     'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
     publishedDate,
-    categories[]->{
-      _id,
-      'name': categoryName,
+    category->{
+      title,
       'slug':slug.current,
-      'blogCount':count(*[_type == 'post' && references(^._id)])
-    },
-    tags[]->{
-      _id,
-      tag,
-      'slug':slug.current
     },
     authors[]->{
       _id,
@@ -73,7 +66,10 @@ export const qryArticles = groq`
     body,
     'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
     publishedDate,
-    'category':category->{name,'slug':slug.current},
+    category->{
+      title,
+      'slug':slug.current,
+    },
     authors[]->{
       _id,
       'slug':slug.current,
@@ -108,10 +104,10 @@ export const qryArticlesLatest = groq`
     },
     'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
     publishedDate,
-    'category':category->{
+    category->{
       title,
-      'slug':slug.current
-    }
+      'slug':slug.current,
+    },
   } | order(publishedDate desc)[0...$number]
 `;
 
@@ -127,7 +123,10 @@ export const qryArticleBySlug = groq`
     body,
     'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
     publishedDate,
-    'category':category->{name,'slug':slug.current},
+    category->{
+      title,
+      'slug':slug.current,
+    },
     authors[]->{
       _id,
       'slug':slug.current,
@@ -171,10 +170,10 @@ export const qryAllArticlesByCategory = groq`
       },
       'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
       publishedDate,
-      'category':category->{
-        name,
-        'slug':slug.current
-      },
+    category->{
+      title,
+      'slug':slug.current,
+    },
       authors[]->{
         _id,
         'slug':slug.current,
@@ -205,10 +204,10 @@ export const qryArticlesByCategory = groq`
       },
       'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
       publishedDate,
-      'category':category->{
-        name,
-        'slug':slug.current
-      },
+    category->{
+      title,
+      'slug':slug.current,
+    },
       authors[]->{
         _id,
         'slug':slug.current,
