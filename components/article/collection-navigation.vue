@@ -25,7 +25,7 @@ const collectionNavGroup = articleCollectionNavigation.articleCollectionNavigati
                 leaveToClass: 'hidden',
                 leaveActiveClass: 'fadeout',
               }"
-                class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative relative block flex w-fit cursor-pointer items-center px-3 py-4 text-lg font-semibold">
+                class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative flex w-fit cursor-pointer items-center px-3 py-4 text-lg font-semibold">
                 <icons-fa-duotone-angle-down />
                 <div class="text-nowrap">
                   <span class="font-medium">{{ collection.title }}</span>

@@ -36,9 +36,7 @@ const articles = collection.value.articles;
       </section>
     </template>
     <template #sidebar>
-      <article-collection-navigation />
-      <promotion-gallery />
-      <article-sidebar-latest number="4" />
+      <article-sidebar />
     </template>
   </NuxtLayout>
 </template>
