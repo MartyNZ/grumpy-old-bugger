@@ -262,6 +262,7 @@ export default defineNuxtConfig({
       meta: [
         { name: "generator", content: "Nuxt 3" },
         { name: "theme-color", content: process.env.NUXT_SITE_THEME_COLOR },
+        { name: "viewport", content: "width=device-width, initial-scale=1.0" },
       ],
       script: [
         {

@@ -4,7 +4,7 @@ const { data: featuredProducts } = await useSanityQuery(qryFeaturedProducts);
 </script>
 <template>
   <section v-if="featuredProducts" id="featured-products">
-    <h3 class="dark:text-surface-300">Featured Products</h3>
+    <h3 class="dark:text-surface-300 text-center">Featured Products</h3>
     <div id="featured-product-carousel" class="flex w-full justify-center">
       <Carousel :value="featuredProducts" :numVisible="1" :numScroll="1" orientation="vertical" circular
         :autoplayInterval="7000">
@@ -31,8 +31,3 @@ const { data: featuredProducts } = await useSanityQuery(qryFeaturedProducts);
     </div>
   </section>
 </template>
-<style>
-.carousel__slide {
-  margin-inline: auto;
-}
-</style>
