@@ -24,7 +24,6 @@ export default defineNuxtConfig({
     "@nuxtjs/seo",
     "vue3-carousel-nuxt",
     "@vee-validate/nuxt",
-    "@nuxtjs/snipcart",
   ],
 
   veeValidate: {
@@ -298,10 +297,6 @@ export default defineNuxtConfig({
     dataset: process.env.SANITY_STUDIO_DATASET,
     apiVersion: process.env.SANITY_STUDIO_API_VERSION,
   },
-  snipcart: {
-    publicApiKey: process.env.SNIPCART_API_KEY,
-    templatesUrl: "/snipcart/snipcart-custom.html",
-  },
   runtimeConfig: {
     public: {
       sanity: {
@@ -311,6 +306,7 @@ export default defineNuxtConfig({
       titleSeparator: "|",
       siteName: process.env.NUXT_SITE_NAME,
       publicUrl: process.env.NUXT_SITE_PUBLISHED_URL,
+      snipCartApiKey: process.env.SNIPCART_API_KEY,
     },
     sanity: {
       token: process.env.SANITY_STUDIO_ADMIN_AUTH_TOKEN,
