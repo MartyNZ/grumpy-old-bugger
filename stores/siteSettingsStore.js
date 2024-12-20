@@ -14,3 +14,9 @@ export const useSiteSettingsStore = defineStore("site-settings", {
     },
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(
+    acceptHMRUpdate(useArticleCollectionNavigationStore, import.meta.hot)
+  );
+}

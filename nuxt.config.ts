@@ -11,7 +11,6 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@nuxtjs/sanity",
     "@pinia/nuxt",
-    "@pinia-plugin-persistedstate/nuxt",
     "@stefanobartoletti/nuxt-social-share",
     "@vite-pwa/nuxt",
     "nuxt-mail",
