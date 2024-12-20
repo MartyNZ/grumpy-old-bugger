@@ -149,8 +149,8 @@ definePageMeta({
     </template>
     <template #sidebar>
       <div class="@md:grid-cols-2 sticky top-[95px] mx-3 grid grid-cols-1 gap-4">
-        <div class="@md:col-span-2"><product-featured /></div>
-        <div class="@md:col-span-2"><article-latest /></div>
+        <div><product-featured /></div>
+        <div><article-latest /></div>
       </div>
     </template>
   </NuxtLayout>

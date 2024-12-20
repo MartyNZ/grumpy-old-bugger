@@ -19,7 +19,6 @@
     "@nuxtjs/sanity": "^1.12.0",
     "@nuxtjs/seo": "^2.0.0-rc.18",
     "@nuxtjs/tailwindcss": "^6.12.1",
-    "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@portabletext/vue": "^1.0.11",
     "@sanity/client": "^6.21.2",
     "@stefanobartoletti/nuxt-social-share": "^1.0.0",
