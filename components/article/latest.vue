@@ -2,8 +2,7 @@
 const props = defineProps({
   number: {
     type: String,
-    default: 3,
-    required: true
+    default: "3"
   }
 })
 const { data: articles } = await useSanityQuery(`  *[_type == "article" && draft != true && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
