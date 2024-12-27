@@ -2,6 +2,7 @@ export const qrySiteSettings = groq`
 *[_type == 'settings'][0]{
   siteOwner,
   title,
+  'theme':clrPrimary.hex,
   'logoUrl':logo.asset->url,
   'image':image.asset->url,
   description,
@@ -25,7 +26,7 @@ export const qrySiteSettings = groq`
       'userUrl':url+username
     }
   }
-  }
+}
 `;
 
 export const qryPage = groq`

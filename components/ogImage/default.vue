@@ -31,20 +31,14 @@ const props = defineProps({
     default: "35px",
   },
   icon: {
-    type: [String, Boolean],
+    type: String,
     default: "/assets/imgs/favicon.png",
   },
   image: {
-    type: String,
-    required: false,
+    type: String
   },
   siteName: {
-    type: String,
-    required: true,
-  },
-  siteLogo: {
-    type: String,
-    required: true,
+    type: String
   },
   cta: {
     type: String,
@@ -110,16 +104,16 @@ const titleAttrs = computed(() => {
   return { class: classes, style: styles };
 });
 
-const siteConfig = useSiteConfig();
-const siteName = computed(() => {
-  return props.siteName || siteConfig.name;
-});
-const siteLogo = computed(() => {
-  return (
-    props.siteLogo ||
-    siteConfig.logo
-  );
-});
+// const siteConfig = useSiteConfig();
+// const siteName = computed(() => {
+//   return props.siteName || siteConfig.name;
+// });
+// const siteLogo = computed(() => {
+//   return (
+//     props.siteLogo ||
+//     siteConfig.logo
+//   );
+// });
 </script>
 
 <template>
@@ -143,7 +137,7 @@ const siteLogo = computed(() => {
           </div>
         </div>
         <div class="text-surface-50 flex w-full flex-row">
-          <img v-if="siteLogo" :src="siteLogo" height="50" class="mr-5 rounded" />
+          <img v-if="icon" :src="icon" height="50" class="mr-5 rounded" />
           <div style="color: #e0e2e5; font-size: 1.5rem" class="mt-2 font-bold">
             {{ siteName }}
           </div>

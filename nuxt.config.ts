@@ -41,21 +41,21 @@ export default defineNuxtConfig({
   // posthog: {
   //   disabled: true,
   // },
-  // ogImage: {
-  //   enabled: false,
-  // },
-  // sitemap: {
-  //   enabled: false,
-  // },
-  // robots: {
-  //   enabled: false,
-  // },
+  ogImage: {
+    enabled: false,
+  },
+  sitemap: {
+    enabled: false,
+  },
+  robots: {
+    enabled: false,
+  },
   // seoExperiments: {
   //   enabled: false,
   // },
-  // schemaOrg: {
-  //   enabled: false,
-  // },
+  schemaOrg: {
+    enabled: false,
+  },
   linkChecker: {
     excludeLinks: ["/"],
     report: {
@@ -261,7 +261,6 @@ export default defineNuxtConfig({
       titleTemplate: "%s %separator %siteName",
       meta: [
         { name: "generator", content: "Nuxt 3" },
-        { name: "theme-color", content: process.env.NUXT_SITE_THEME_COLOR },
         { name: "viewport", content: "width=device-width, initial-scale=1.0" },
       ],
       script: [

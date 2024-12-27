@@ -4,10 +4,19 @@ const user = useCookie('userInfo', {
   default: () => ({ currency: { symbol: '$', code: 'USD' }, language: 'en' }),
 })
 
+const data = useSiteSettingsStore();
+const settings = data.settings;
+
 // Scroll to top after each navigation
 router.afterEach(() => {
   window.scrollTo(0, 0);
 });
+
+useHead({
+  meta: [
+    { name: "theme-color", content: settings.theme }
+  ]
+})
 </script>
 
 <template>
