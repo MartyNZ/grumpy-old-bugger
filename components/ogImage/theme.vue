@@ -5,14 +5,10 @@ defineOptions({
 });
 
 const props = defineProps({
-  path: String,
   title: {
     type: String,
   },
-  productTitle: {
-    type: String,
-  },
-  description: {
+  theme: {
     type: String,
   },
   background: {
@@ -50,21 +46,22 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  price: {
+  cta: {
     type: String,
   },
 });
 
 const backgroundAttrs = computed(() => {
   // we want to make a
-  // const isBackgroundTw = props.background?.startsWith("bg-");
+  // const isBackgroundTw = props.background?.startsWith('bg-')
   return {
     style: {
       display: "flex",
       position: "absolute",
       width: "100%",
       height: "100%",
-      background: "linear-gradient(to left,#8D8895, #2D2B31 45%, #171618)",
+      background:
+        "radial-gradient(circle, #8D8895 0%, #2D2B31 30%, #171618 80%)",
     },
   };
 });
@@ -80,7 +77,8 @@ const backgroundFlareAttrs = computed(() => {
       top: "0%",
       width: "200%",
       height: "200%",
-      // backgroundImage: "radial-gradient(circle, #8D8895 0%, #2D2B31 30%, #171618 80%)",
+      backgroundImage:
+        "radial-gradient(circle, #8D8895 0%, #2D2B31 30%, #171618 80%)",
     },
   };
 });
@@ -95,19 +93,19 @@ const backgroundFlareTwoAttrs = computed(() => {
       left: "-5%",
       width: "150%",
       height: "150%",
-      // backgroundImage: "radial-gradient(circle, #8D8895 0%, #2D2B31 30%, #171618 80%)",
+      backgroundImage:
+        "radial-gradient(circle, #8D8895 0%, #2D2B31 30%, #171618 80%)",
     },
   };
 });
 
 const titleAttrs = computed(() => {
-  const classes = ["text-primary-100"];
+  const classes = ["text-surface-100"];
   const styles = {
     fontWeight: "bold",
     marginBottom: "50px",
     lineHeight: "70px",
     fontSize: props.titleFontSize,
-    fontColor: props.color,
   };
   return { class: classes, style: styles };
 });
@@ -130,32 +128,30 @@ const siteLogo = computed(() => {
   <div v-bind="backgroundFlareTwoAttrs" />
   <div class="flex w-full flex-row">
     <div class="w-1/2" style="padding: 50px">
-      <div class="text-white flex h-full flex-col justify-between">
+      <div class="flex h-full flex-col justify-between">
         <div class="flex flex-row items-center justify-between">
           <div class="flex flex-col">
-            <div style="font-size: 3.5rem">
-              {{ title }}
+            <div v-bind="titleAttrs" style="color:#fff;">
+              {{ title || "Null Title" }}
             </div>
-            <p v-if="description" style="font-size: 2.15rem">
-              {{ description }}
+            <p class="text-surface-200" style="font-weight: 700; color: #e0e2e5; font-size: 1.5rem;">
+              From our "{{ theme }}" collection.
             </p>
-            <p v-if="price" style="font-size: 2.5rem">
-              from: USD ${{ price }}
-            </p>
+            <!-- <p v-if="cta" style="font-weight: 700; color: #ca1028; font-size: 3rem; padding-top: 2rem">
+              {{ cta }}
+            </p> -->
           </div>
         </div>
-        <div class="flex w-full flex-row">
+        <div class="text-surface-50 flex w-full flex-row">
           <img v-if="siteLogo" :src="siteLogo" height="50" class="mr-5 rounded" />
-          <div style="font-size: 1.75rem" class="mt-2 font-bold">
+          <div style="color: #e0e2e5; font-size: 1.5rem" class="mt-2 font-bold">
             {{ siteName }}
           </div>
         </div>
       </div>
     </div>
-    <div class=" relative w-1/2 items-end justify-center">
+    <div class="w-1/2 items-end justify-center">
       <img v-if="image" :src="image" height="630" width="630" style="object-fit: cover" class="max-w-full rounded-xl" />
-      <div class="absolute bottom-0 right-0 px-4 py-3 font-semibold text-white"
-        style="background-color: rgba(24, 14, 6, 0.85); font-size:2rem; text-align:right;">{{ productTitle }}</div>
     </div>
   </div>
 </template>

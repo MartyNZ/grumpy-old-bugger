@@ -133,20 +133,20 @@ const currentProduct = Math.floor(Math.random() * productCount);
 // console.log("Current Product index: ", currentProduct);
 const product = allProducts.value[currentProduct];
 
-useSeoMeta({
-  title: () => settings.name,
-  ogTitle: () => settings.name,
-  ogImage: () => product.featureImage?.url || product.defaultImageUrl,
-  description: () => settings.description,
-  ogDescription: () => settings.description,
-  twitterTitle: () => settings.name,
-  twitterImage: () => product.featureImage?.url || product.defaultImageUrl,
-  twitterDescription: () => settings.description,
-  twitterCard: "summary_large_image",
-});
+// useSeoMeta({
+//   title: () => settings.name,
+//   ogTitle: () => settings.name,
+//   ogImage: () => product.featureImage?.url || product.defaultImageUrl,
+//   description: () => settings.description,
+//   ogDescription: () => settings.description,
+//   twitterTitle: () => settings.name,
+//   twitterImage: () => product.featureImage?.url || product.defaultImageUrl,
+//   twitterDescription: () => settings.description,
+//   twitterCard: "summary_large_image",
+// });
 
 defineOgImageComponent(
-  'products',
+  'product',
   {
     title: settings.title,
     productTitle: product.store.title,

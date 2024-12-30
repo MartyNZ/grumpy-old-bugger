@@ -93,6 +93,24 @@ export const qryArticles = groq`
   } | order(publishedDate desc)[]
 `;
 
+export const qryArticleLatest = groq`
+  *[_type == "article" && draft != true && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
+    _id,
+    title,
+    'slug': slug.current,
+    image{
+    'url': asset->url,
+    "assetId":asset->_id
+    },
+    'excerpt': array::join(string::split(pt::text(body), "")[0...75], "") + "...",
+    publishedDate,
+    category->{
+      title,
+      'slug':slug.current,
+    },
+  } | order(publishedDate desc)[0]
+`;
+
 export const qryArticlesLatest = groq`
   *[_type == "article" && draft != true && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
     _id,
@@ -121,7 +139,7 @@ export const qryArticleBySlug = groq`
     "assetId":asset->_id
     },
     body,
-    'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
+    'excerpt': array::join(string::split(pt::text(body), "")[0...100], "") + "...",
     publishedDate,
     category->{
       title,
@@ -194,6 +212,7 @@ export const qryArticlesByCategory = groq`
     },
     'slug':slug.current,
     description,
+    'excerpt': array::join(string::split(pt::text(description), "")[0...75], "") + "...",
     'articles':*[_type=='article' && draft!= true && references(^._id) && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
       _id,
       title,
@@ -238,6 +257,7 @@ export const qryArticleCollectionNavigation = groq`
         _id,
         title,
         description,
+        'excerpt': array::join(string::split(pt::text(description), "")[0...125], "") + "...",
         'slug':slug.current,
         image{
         'url':asset->url,
@@ -249,6 +269,7 @@ export const qryArticleCollectionNavigation = groq`
         _id,
         title,
         description,
+        'excerpt': array::join(string::split(pt::text(description), "")[0...125], "") + "...",
         'slug':slug.current,
         image{
         'url':asset->url,

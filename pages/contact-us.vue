@@ -52,17 +52,17 @@ const onSubmit = handleSubmit(values => {
 
 const debug = ref(false);
 
-useSeoMeta({
-  title: () => settings.title,
-  ogTitle: () => settings.title,
-  description: () => settings.description,
-  ogDescription: () => settings.description,
-  ogImage: () => settings.image,
-  twitterTitle: () => settings.title,
-  twitterDescription: () => settings.description,
-  twitterImage: () => settings.image,
-  twitterCard: "summary_large_image",
-});
+// useSeoMeta({
+//   title: () => settings.title,
+//   ogTitle: () => settings.title,
+//   description: () => settings.description,
+//   ogDescription: () => settings.description,
+//   ogImage: () => settings.image,
+//   twitterTitle: () => settings.title,
+//   twitterDescription: () => settings.description,
+//   twitterImage: () => settings.image,
+//   twitterCard: "summary_large_image",
+// });
 
 defineOgImageComponent(
   'default',
@@ -71,7 +71,7 @@ defineOgImageComponent(
     description: settings.description,
     image: settings.image,
     siteName: settings.title,
-    siteLogo: settings.logoUrl,
+    icon: settings.logoUrl,
   });
 
 definePageMeta({

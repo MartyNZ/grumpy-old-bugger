@@ -31,18 +31,18 @@ const data = useSiteSettingsStore();
 const settings = data.settings;
 // console.log("From Index: ", JSON.stringify(settings, null, 2));
 
-useSeoMeta({
-  icon: () => settings.logoUrl,
-  title: () => settings.title,
-  ogTitle: () => settings.title,
-  description: () => settings.description,
-  ogDescription: () => settings.description,
-  ogImage: () => settings.image,
-  twitterTitle: () => settings.title,
-  twitterDescription: () => settings.description,
-  twitterImage: () => settings.image,
-  twitterCard: "summary_large_image",
-});
+// useSeoMeta({
+//   icon: () => settings.logoUrl,
+//   title: () => settings.title,
+//   ogTitle: () => settings.title,
+//   description: () => settings.description,
+//   ogDescription: () => settings.description,
+//   ogImage: () => settings.image,
+//   twitterTitle: () => settings.title,
+//   twitterDescription: () => settings.description,
+//   twitterImage: () => settings.image,
+//   twitterCard: "summary_large_image",
+// });
 
 defineOgImageComponent(
   'default',

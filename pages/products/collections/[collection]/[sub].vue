@@ -146,25 +146,28 @@ const openDialog = () => {
   // console.log("From openDialog: ", dialogRef);
 };
 
-useSeoMeta({
-  title: () => currentCollection.value.title,
-  description: () => currentCollection.value.description,
-  ogTitle: () => currentCollection.value.title,
-  ogDescription: () => currentCollection.value.description,
-  ogImage: () => currentCollection.value.imageUrl,
-  twitterTitle: () => currentCollection.value.title,
-  twitterDescription: () => currentCollection.value.description,
-  twitterImage: () => currentCollection.value.imageUrl,
-  twitterCard: "summary_large_image",
-});
-
-defineOgImageComponent('collection', {
-  title: currentCollection.value.title,
-  description: currentCollection.value.description,
-  siteName: settings.title,
-  image: currentCollection.value.imageUrl,
-  siteLogo: settings.logoUrl,
-});
+// useSeoMeta({
+//   title: () => currentCollection.value.title,
+//   description: () => currentCollection.value.description,
+//   ogTitle: () => currentCollection.value.title,
+//   ogDescription: () => currentCollection.value.description,
+//   ogImage: () => currentCollection.value.imageUrl,
+//   twitterTitle: () => currentCollection.value.title,
+//   twitterDescription: () => currentCollection.value.description,
+//   twitterImage: () => currentCollection.value.imageUrl,
+//   twitterCard: "summary_large_image",
+// });
+// console.log("Current Collection: ", JSON.stringify(currentCollection.value, null, 2));
+defineOgImageComponent(
+  'collection',
+  {
+    title: currentCollection.value.title,
+    description: currentCollection.value.excerpt,
+    siteName: settings.title,
+    image: currentCollection.value.imageUrl,
+    siteLogo: settings.logoUrl,
+  }
+);
 
 definePageMeta({
   layout: false,

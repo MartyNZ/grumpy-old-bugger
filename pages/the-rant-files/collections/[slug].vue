@@ -4,9 +4,8 @@ import {
   qryArticleCollectionNavigation,
 } from "~/queries/articles";
 
-definePageMeta({
-  layout: false,
-});
+const data = useSiteSettingsStore();
+const settings = data.settings;
 
 const route = useRoute();
 const routeParams = route.params;
@@ -17,9 +16,24 @@ const { data: collectionNav } = await useSanityQuery(qryArticleCollectionNavigat
 const { data: collection } = await useSanityQuery(qryArticlesByCategory, {
   slug: routeParams.slug,
 });
-// console.log(JSON.stringify(collection.value));
+// console.log("Collection: ", JSON.stringify(collection.value, null, 2));
 
 const articles = collection.value.articles;
+
+defineOgImageComponent(
+  'article',
+  {
+    title: collection.value.title,
+    description: collection.value.excerpt,
+    siteName: settings.title,
+    image: collection.value.image.url,
+    siteLogo: settings.logoUrl,
+  }
+);
+
+definePageMeta({
+  layout: false,
+});
 </script>
 <template>
   <NuxtLayout name="internal">

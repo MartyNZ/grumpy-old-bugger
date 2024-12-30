@@ -104,16 +104,6 @@ const titleAttrs = computed(() => {
   return { class: classes, style: styles };
 });
 
-// const siteConfig = useSiteConfig();
-// const siteName = computed(() => {
-//   return props.siteName || siteConfig.name;
-// });
-// const siteLogo = computed(() => {
-//   return (
-//     props.siteLogo ||
-//     siteConfig.logo
-//   );
-// });
 </script>
 
 <template>

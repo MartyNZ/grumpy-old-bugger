@@ -10,31 +10,36 @@ const collections = printifyColNav.printifyCollectionNavigation;
 const collectionCount = collections.printifyCollectionNavGroup.length;
 // // console.log("collectionCount: ", collectionCount);
 const currentCollection = Math.floor(Math.random() * collectionCount);
+const themeCount = themes.value.length;
+// console.log("Theme Count: ", themeCount);
+const currentTheme = themes.value[Math.floor(Math.random() * themeCount)];
+console.log("Current Theme: ", JSON.stringify(currentTheme, null, 2));
 // // console.log("Current Product index: ", currentProduct);
 const collection = collections.printifyCollectionNavGroup[currentCollection];
 // console.log("Current Collection: ", JSON.stringify(collection, null, 2));
 
-useSeoMeta({
-  title: () => collection.parentCollection.title,
-  ogTitle: () => collection.parentCollection.title,
-  description: () => collection.parentCollection.description,
-  ogDescription: () => collection.parentCollection.description,
-  ogImage: () => collection.parentCollection.image.url,
-  twitterTitle: () => collection.parentCollection.title,
-  twitterDescription: () => collection.parentCollection.description,
-  twitterImage: () => collection.parentCollection.image.url,
-  twitterCard: "summary_large_image",
-});
+// useSeoMeta({
+//   title: () => currentTheme.title,
+//   ogTitle: () => currentTheme.title,
+//   description: () => currentTheme.description,
+//   ogDescription: () => currentTheme.description,
+//   ogImage: () => currentTheme.image.url,
+//   twitterTitle: () => currentTheme.title,
+//   twitterDescription: () => currentTheme.description,
+//   twitterImage: () => currentTheme.image.url,
+//   twitterCard: "summary_large_image",
+// });
 
 defineOgImageComponent(
-  'collection',
+  'theme',
   {
-    title: collection.parentCollection.title,
-    description: collection.parentCollection.description,
-    image: collection.parentCollection.image.url,
+    title: currentTheme.title,
+    description: currentTheme.excerpt,
+    image: currentTheme.image.url,
     siteName: settings.title,
     siteLogo: settings.logoUrl,
-  });
+  }
+);
 
 definePageMeta({
   layout: false,

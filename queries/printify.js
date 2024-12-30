@@ -3,6 +3,7 @@ export const qryAllPrintifyCollections = groq`
   _id,
   title,
   description,
+  'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
   'imageUrl':image.asset->url,
   'imageId':image.asset->_id,
   'slug':slug.current,
@@ -15,6 +16,7 @@ export const qryPrintifyCollectionBySlug = groq`
     _id,
     title,
     description,
+    'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
     'slug':slug.current,
     rules,
     'imageUrl':image.asset->url
@@ -38,6 +40,7 @@ export const qryPrintifyCollectionNavigation = groq`
         _id,
         title,
         description,
+        'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
         'slug':slug.current,
         image{
         'url':asset->url,
@@ -49,6 +52,7 @@ export const qryPrintifyCollectionNavigation = groq`
         _id,
         title,
         description,
+        'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
         'slug':slug.current,
         image{
         'url':asset->url,
@@ -576,6 +580,7 @@ export const qryProductThemes = groq`
     },
     'slug':slug.current,
     description,
+    'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
     'designs':*[_type=='productDesign' && references(^._id)]{
       _id,
       title,
@@ -593,6 +598,7 @@ export const qryAllProductsByTheme = groq`
   'slug':slug.current,
   'imageUrl':image.asset->url,
   description,
+  'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
   'products':*[_type == 'printify.product' && references(^._id)]{
     _id,
     defaultImage,
@@ -623,6 +629,7 @@ export const qryProductsByTheme = groq`
   _id,
   title,
   description,
+  'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
   image{
     'assetId': asset->_id,
     'url': asset->url
@@ -694,7 +701,8 @@ export const qryAllProductDesigns = groq`
     title,
   theme->{
     title,
-    description
+    description,
+    'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
     },
     image{
       'assetId': asset->_id,
@@ -710,7 +718,8 @@ export const qryProductsByDesign = groq`
   title,
   theme->{
     title,
-    description
+    description,
+    'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
   },
   image{
     'assetId': asset->_id,

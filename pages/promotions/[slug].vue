@@ -22,38 +22,38 @@ const settings = data.settings;
 
 // console.log("Settings: ", JSON.stringify(settings, null, 2));
 
-useSeoMeta({
-  title: () => promo.value.title,
-  description: () => promo.value.description,
-  ogTitle: () => promo.value.title,
-  ogDescription: () => promo.value.description,
-  ogImage: () => promo.value.image.url,
-  twitterTitle: () => promo.value.title,
-  twitterDescription: () => promo.value.description,
-  twitterImage: () => promo.value.image.url,
-  twitterCard: "summary_large_image",
-});
+// useSeoMeta({
+//   title: () => promo.value.title,
+//   description: () => promo.value.description,
+//   ogTitle: () => promo.value.title,
+//   ogDescription: () => promo.value.description,
+//   ogImage: () => promo.value.image.url,
+//   twitterTitle: () => promo.value.title,
+//   twitterDescription: () => promo.value.description,
+//   twitterImage: () => promo.value.image.url,
+//   twitterCard: "summary_large_image",
+// });
 
 
-const ogImageComponent = ref();
-const ogImage = ref();
-if (promo.value.useSocialImage) {
-  ogImageComponent.value = 'social-image';
-  ogImage.value = promo.value.socialImage.url;
-} else {
-  ogImageComponent.value = 'promotion';
-  ogImage.value = promo.value.image.url;
-}
+// const ogImageComponent = ref();
+// const ogImage = ref();
+// if (promo.value.useSocialImage) {
+//   ogImageComponent.value = 'social-image';
+//   ogImage.value = promo.value.socialImage.url;
+// } else {
+//   ogImageComponent.value = 'promotion';
+//   ogImage.value = promo.value.image.url;
+// }
 // console.log("Use Social Image: ", promo.value.useSocialImage);
 
 defineOgImageComponent(
-  ogImageComponent.value,
+  'promotion',
   {
     title: promo.value.title,
     description: promo.value.byline,
     siteName: settings.title,
     siteLogo: settings.logoUrl,
-    image: ogImage.value,
+    image: promo.value.image.url,
     cta: promo.value.cta,
   },
 );

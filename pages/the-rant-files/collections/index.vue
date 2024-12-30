@@ -3,9 +3,26 @@ import {
   qryAllArticlesByCategory,
   qryArticleCollectionNavigation,
 } from "~/queries/articles";
+
+const data = useSiteSettingsStore();
+const settings = data.settings;
 const { data: allArticlesbyCategory } = await useSanityQuery(qryAllArticlesByCategory);
 const { data: collectionNav } = await useSanityQuery(qryArticleCollectionNavigation);
-// console.log("collectionNav: ", JSON.stringify(collectionNav.value));
+// console.log("collectionNav: ", JSON.stringify(collectionNav.value, null, 2));
+const collectionCount = collectionNav.value.articleCollectionNavGroup.length;
+const currentCollection = collectionNav.value.articleCollectionNavGroup[Math.floor(Math.random() * collectionCount)];
+// console.log("Current Collection: ", JSON.stringify(currentCollection, null, 2));
+
+defineOgImageComponent(
+  'article',
+  {
+    title: currentCollection.title,
+    description: currentCollection.parentCollection.excerpt,
+    siteName: settings.title,
+    image: currentCollection.parentCollection.image.url,
+    siteLogo: settings.logoUrl,
+  }
+);
 
 definePageMeta({
   layout: false,

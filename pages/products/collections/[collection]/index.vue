@@ -145,25 +145,28 @@ const openDialog = () => {
 
 // console.log("All Products: ", JSON.stringify(allProducts.value));
 
-useSeoMeta({
-  title: () => collectionData.value.title,
-  description: () => collectionData.value.description,
-  ogTitle: () => collectionData.value.title,
-  ogDescription: () => collectionData.value.description,
-  ogImage: () => collectionData.value.imageUrl,
-  twitterTitle: () => collectionData.value.title,
-  twitterDescription: () => collectionData.value.description,
-  twitterImage: () => collectionData.value.imageUrl,
-  twitterCard: "summary_large_image",
-});
+// useSeoMeta({
+//   title: () => collectionData.value.title,
+//   description: () => collectionData.value.description,
+//   ogTitle: () => collectionData.value.title,
+//   ogDescription: () => collectionData.value.description,
+//   ogImage: () => collectionData.value.imageUrl,
+//   twitterTitle: () => collectionData.value.title,
+//   twitterDescription: () => collectionData.value.description,
+//   twitterImage: () => collectionData.value.imageUrl,
+//   twitterCard: "summary_large_image",
+// });
 
-defineOgImageComponent('collection', {
-  title: collectionData.value.title,
-  description: collectionData.value.description,
-  siteName: settings.title,
-  image: collectionData.value.imageUrl,
-  siteLogo: settings.logoUrl,
-});
+defineOgImageComponent(
+  'collection',
+  {
+    title: collectionData.parentCollection.title,
+    description: collectionData.parentCollection.excerpt,
+    siteName: settings.title,
+    image: collectionData.parentCollection.image.url,
+    siteLogo: settings.logoUrl,
+  }
+);
 
 definePageMeta({
   layout: false,

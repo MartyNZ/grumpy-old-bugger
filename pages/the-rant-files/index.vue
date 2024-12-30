@@ -1,6 +1,9 @@
 <script setup>
 // const settings = useSiteSettingsStore().settings
-import { qryArticlesSection, qryArticles } from '~/queries/articles'
+import { qryArticlesSection, qryArticles, qryArticleLatest } from '~/queries/articles'
+
+const data = useSiteSettingsStore();
+const settings = data.settings;
 
 const { data: articlesSection } = await useSanityQuery(qryArticlesSection)
 
@@ -8,29 +11,31 @@ const { data: articlesSection } = await useSanityQuery(qryArticlesSection)
 
 const { data: articles } = await useSanityQuery(qryArticles)
 // console.log("Articles: ", JSON.stringify(articles.value, null, 2))
+const { data: latestArticle } = await useSanityQuery(qryArticleLatest)
+console.log("Latest Article: ", JSON.stringify(latestArticle.value, null, 2))
 
-useSeoMeta({
-  title: () => articlesSection.value.title,
-  description: () => articlesSection.value.excerpt,
-  ogTitle: () => articlesSection.value.title,
-  ogDescription: () => articlesSection.value.excerpt,
-  ogImage: () => articlesSection.value.image.url,
-  twitterTitle: () => articlesSection.value.title,
-  twitterDescription: () => articlesSection.value.excerpt,
-  twitterImage: () => articlesSection.value.image.url,
-  twitterCard: "summary_large_image",
-});
+// useSeoMeta({
+//   title: () => articlesSection.value.title,
+//   description: () => articlesSection.value.excerpt,
+//   ogTitle: () => articlesSection.value.title,
+//   ogDescription: () => articlesSection.value.excerpt,
+//   ogImage: () => articlesSection.value.image.url,
+//   twitterTitle: () => articlesSection.value.title,
+//   twitterDescription: () => articlesSection.value.excerpt,
+//   twitterImage: () => articlesSection.value.image.url,
+//   twitterCard: "summary_large_image",
+// });
 
-// defineOgImageComponent(
-//   "article",
-//   {
-//     title: articlesSection.value.title,
-//     description: articlesSection.value.excerpt,
-//     image: articlesSection.value.image.url,
-//     siteName: settings.title,
-//     siteLogo: settings.logoUrl,
-//   },
-// );
+defineOgImageComponent(
+  'article',
+  {
+    title: latestArticle.value.title,
+    description: latestArticle.value.excerpt,
+    siteName: settings.title,
+    image: latestArticle.value.image.url,
+    siteLogo: settings.logoUrl,
+  }
+);
 
 definePageMeta({
   layout: false,

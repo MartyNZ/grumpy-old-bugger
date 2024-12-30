@@ -134,7 +134,7 @@ const siteLogo = computed(() => {
             <div v-bind="titleAttrs" style="color:#fff;">
               {{ title || "Null Title" }}
             </div>
-            <p class="text-surface-200" style="font-weight: 700; color: #e0e2e5; font-size: 1.5rem;">
+            <p v-if="description" class="text-surface-200" style="font-weight: 700; font-size: 1.5rem;">
               {{ description }}
             </p>
             <!-- <p v-if="cta" style="font-weight: 700; color: #ca1028; font-size: 3rem; padding-top: 2rem">

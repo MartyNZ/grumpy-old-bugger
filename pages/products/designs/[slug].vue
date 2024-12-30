@@ -9,27 +9,30 @@ const { data: design } = await useSanityQuery(qryProductsByDesign, {
 })
 // console.log("Products by design: ", JSON.stringify(design.value, null, 2))
 
-useSeoMeta({
-  title: () => design.value.title,
-  description: () => design.value.theme.description,
-  ogTitle: () => design.value.title,
-  ogDescription: () => design.value.theme.description,
-  ogImage: () =>
-    design.value.image.url,
-  twitterTitle: () => design.value.title,
-  twitterDescription: () => design.value.theme.description,
-  twitterImage: () =>
-    design.value.image.url,
-  twitterCard: "summary_large_image",
-});
+// useSeoMeta({
+//   title: () => design.value.title,
+//   description: () => design.value.theme.description,
+//   ogTitle: () => design.value.title,
+//   ogDescription: () => design.value.theme.description,
+//   ogImage: () =>
+//     design.value.image.url,
+//   twitterTitle: () => design.value.title,
+//   twitterDescription: () => design.value.theme.description,
+//   twitterImage: () =>
+//     design.value.image.url,
+//   twitterCard: "summary_large_image",
+// });
 
-defineOgImageComponent('collection', {
-  title: design.value.title,
-  description: design.value.description,
-  siteName: settings.title,
-  image: design.value.image.url,
-  siteLogo: settings.logoUrl,
-});
+defineOgImageComponent(
+  'theme',
+  {
+    title: design.value.title,
+    theme: design.value.theme.title,
+    image: design.value.image.url,
+    siteName: settings.title,
+    siteLogo: settings.logoUrl,
+  }
+);
 
 definePageMeta({
   layout: false,

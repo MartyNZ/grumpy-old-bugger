@@ -24,7 +24,7 @@ const props = defineProps({
   },
   titleFontSize: {
     type: String,
-    default: "50px",
+    default: "40px",
   },
   descriptionFontSize: {
     type: String,
@@ -104,7 +104,7 @@ const titleAttrs = computed(() => {
   const styles = {
     fontWeight: "bold",
     marginBottom: "50px",
-    lineHeight: "70px",
+    lineHeight: "45px",
     fontSize: props.titleFontSize,
   };
   return { class: classes, style: styles };
@@ -134,12 +134,9 @@ const siteLogo = computed(() => {
             <div v-bind="titleAttrs" style="color:#fff;">
               {{ title || "Null Title" }}
             </div>
-            <!-- <p class="text-surface-200" style="font-weight: 700; color: #e0e2e5; font-size: 2rem;">
+            <p class="text-surface-200" style="font-weight: 700; color: #e0e2e5; font-size: 2rem;">
               {{ description }}
             </p>
-            <p v-if="cta" style="font-weight: 700; color: #ca1028; font-size: 3rem; padding-top: 2rem">
-              {{ cta }}
-            </p> -->
           </div>
         </div>
         <div class="text-surface-50 flex w-full flex-row">

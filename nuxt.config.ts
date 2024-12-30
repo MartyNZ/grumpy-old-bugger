@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     "@nuxtjs/seo",
     "vue3-carousel-nuxt",
     "@vee-validate/nuxt",
+    "@nuxt/icon",
   ],
 
   veeValidate: {
@@ -38,30 +39,32 @@ export default defineNuxtConfig({
     prefix: "v3cn",
   },
 
-  // posthog: {
-  //   disabled: true,
-  // },
-  ogImage: {
-    enabled: false,
+  posthog: {
+    disabled: true,
   },
+  // ogImage: {
+  //   enabled: false,
+  // },
   sitemap: {
     enabled: false,
   },
   robots: {
     enabled: false,
   },
-  // seoExperiments: {
-  //   enabled: false,
-  // },
+  seo: {
+    // seo utils
+    enabled: false,
+  },
   schemaOrg: {
     enabled: false,
   },
   linkChecker: {
-    excludeLinks: ["/"],
-    report: {
-      // generate both a html and markdown report
-      html: true,
-    },
+    enabled: false,
+    //   excludeLinks: ["/"],
+    //   report: {
+    //     // generate both a html and markdown report
+    //     html: true,
+    //   },
   },
 
   routeRules: {

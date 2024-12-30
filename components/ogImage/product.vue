@@ -9,6 +9,9 @@ const props = defineProps({
   title: {
     type: String,
   },
+  productTitle: {
+    type: String,
+  },
   description: {
     type: String,
   },
@@ -51,7 +54,7 @@ const props = defineProps({
     type: String,
   },
 });
-
+console.log("title: ", props.title)
 const backgroundAttrs = computed(() => {
   // we want to make a
   // const isBackgroundTw = props.background?.startsWith("bg-");
@@ -150,7 +153,11 @@ const siteLogo = computed(() => {
       </div>
     </div>
     <div class=" relative w-1/2 items-end justify-center">
-      <img v-if="image" :src="image" height="630" width="630" style="object-fit: cover" class="max-w-full rounded-xl" />
+      <img v-if="image" :src="image" class="object-cover max-w-full rounded-xl" />
+      <div v-if="productTitle"
+        class="absolute text-3xl truncate px-4 py-3 rounded-ss-xl bottom-0 right-0 font-semibold text-white text-right bg-[rgba(24, 14, 6, 0.85)]">
+        {{
+          productTitle }}</div>
     </div>
   </div>
 </template>

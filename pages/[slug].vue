@@ -5,21 +5,21 @@ const slug = route.params.slug;
 const { data: page } = await useSanityQuery(qryPage, { slug: slug });
 const data = useSiteSettingsStore();
 const settings = data.settings;
-console.log('Page: ', JSON.stringify(page.value, null, 2));
-console.log('Page slug: ', slug, "Number of sections: ", JSON.stringify(page.value.sections.length, null, 2));
+// console.log('Page: ', JSON.stringify(page.value, null, 2));
+// console.log('Page slug: ', slug, "Number of sections: ", JSON.stringify(page.value.sections.length, null, 2));
 
-useSeoMeta({
-  icon: () => settings.logoUrl,
-  title: () => page.value.title,
-  description: () => page.value.description,
-  ogTitle: () => page.value.title,
-  ogDescription: () => page.value.description,
-  ogImage: () => settings.image,
-  twitterTitle: () => page.value.title,
-  twitterDescription: () => page.value.description,
-  twitterImage: () => settings.image,
-  twitterCard: "summary_large_image",
-});
+// useSeoMeta({
+//   icon: () => settings.logoUrl,
+//   title: () => page.value.title,
+//   description: () => page.value.description,
+//   ogTitle: () => page.value.title,
+//   ogDescription: () => page.value.description,
+//   ogImage: () => settings.image,
+//   twitterTitle: () => page.value.title,
+//   twitterDescription: () => page.value.description,
+//   twitterImage: () => settings.image,
+//   twitterCard: "summary_large_image",
+// });
 
 defineOgImageComponent(
   'default',
