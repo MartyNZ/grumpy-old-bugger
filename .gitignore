@@ -26,3 +26,4 @@ logs
 
 # Local Netlify folder
 .netlify
+stores/userStore.js.ignore
