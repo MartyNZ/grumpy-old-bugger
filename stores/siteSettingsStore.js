@@ -13,6 +13,7 @@ export const useSiteSettingsStore = defineStore("site-settings", {
       // console.log("From State: ", JSON.stringify(this.settings));
     },
   },
+  // persist: true,
 });
 
 if (import.meta.hot) {
