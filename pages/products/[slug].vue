@@ -44,15 +44,15 @@ defineOgImageComponent(
   },
 );
 
-// useSchemaOrg([
-//   defineProduct({
-//     name: product.value.title,
-//     brand: settings.title,
-//     description: product.value.description,
-//     image: product.value.featureImage?.url || product.value.defaultImageUrl,
-//     offers: [{ price: defaultPrice.toFixed(2) }],
-//   }),
-// ]);
+useSchemaOrg([
+  defineProduct({
+    name: product.value.title,
+    brand: settings.title,
+    description: product.value.description,
+    image: product.value.featureImage?.url || product.value.defaultImageUrl,
+    offers: [{ price: defaultPrice.toFixed(2) }],
+  }),
+]);
 
 definePageMeta({
   layout: false,

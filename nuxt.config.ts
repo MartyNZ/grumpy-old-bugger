@@ -50,14 +50,26 @@ export default defineNuxtConfig({
     enabled: false,
   },
   robots: {
-    enabled: false,
+    // enabled: false,
+    // disallow: ['/secret', '/admin'],
+    // allow: "/admin/login",
   },
   // seo: {
   //   // seo utils
   //   enabled: false,
   // },
   schemaOrg: {
-    enabled: false,
+    // enabled: false,
+    identity: {
+      type: process.env.NUXT_SITE_TYPE,
+      name: process.env.NUXT_PUBLIC_SITE_NAME,
+      logo: "/assets/imgs/logo_maskable.png", // will resolve to canonical URL + /logo.png
+      sameAs: [
+        process.env.NUXT_PUBLIC_SITE_PUBLIC_URL,
+        process.env.NUXT_SITE_FACEBOOK,
+        process.env.NUXT_SITE_INSTAGRAM,
+      ],
+    },
   },
   linkChecker: {
     enabled: false,

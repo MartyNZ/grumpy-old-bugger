@@ -21,6 +21,7 @@ const { data: collectionNav } = await useSanityQuery(
 
 // const articleTags = article.value.tags;
 // console.log("Article Tags: ", JSON.stringify(articleTags));
+// console.log("Arrticle: ", JSON.stringify(article.value, null, 2));
 
 useSeoMeta({
   title: () => article.value.title,
@@ -44,6 +45,14 @@ defineOgImageComponent(
     siteLogo: settings.logoUrl,
   },
 );
+useSchemaOrg([
+  defineArticle({
+    // name and description can usually be inferred
+    image: article.value.image.url,
+    datePublished: article.value._createdAt,
+    dateModified: article.value.publishedDate,
+  })
+])
 
 definePageMeta({
   layout: false,
