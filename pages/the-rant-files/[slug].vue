@@ -21,18 +21,19 @@ const { data: collectionNav } = await useSanityQuery(
 
 // const articleTags = article.value.tags;
 // console.log("Article Tags: ", JSON.stringify(articleTags));
+// console.log("Arrticle: ", JSON.stringify(article.value, null, 2));
 
-// useSeoMeta({
-//   title: () => article.value.title,
-//   description: () => article.value.excerpt,
-//   ogTitle: () => article.value.title,
-//   ogDescription: () => article.value.excerpt,
-//   ogImage: () => article.value.image.url,
-//   twitterTitle: () => article.value.title,
-//   twitterDescription: () => article.value.excerpt,
-//   twitterImage: () => article.value.image.url,
-//   twitterCard: "summary_large_image",
-// });
+useSeoMeta({
+  title: () => article.value.title,
+  description: () => article.value.excerpt,
+  ogTitle: () => article.value.title,
+  ogDescription: () => article.value.excerpt,
+  // ogImage: () => article.value.image.url,
+  twitterTitle: () => article.value.title,
+  twitterDescription: () => article.value.excerpt,
+  // twitterImage: () => article.value.image.url,
+  twitterCard: "summary_large_image",
+});
 
 defineOgImageComponent(
   "article",
@@ -44,6 +45,14 @@ defineOgImageComponent(
     siteLogo: settings.logoUrl,
   },
 );
+useSchemaOrg([
+  defineArticle({
+    // name and description can usually be inferred
+    image: article.value.image.url,
+    datePublished: article.value._createdAt,
+    dateModified: article.value.publishedDate,
+  })
+])
 
 definePageMeta({
   layout: false,

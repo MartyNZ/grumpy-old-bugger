@@ -19,19 +19,19 @@ const defaultPrice = product.value.store.pricedFrom.price / 100;
 // console.log("Default Price: ", defaultPrice);
 
 
-// useSeoMeta({
-//   title: () => product.value.title,
-//   description: () => product.value.description,
-//   ogTitle: () => product.value.title,
-//   ogDescription: () => settings.description,
-//   ogImage: () =>
-//     product.value.featureImage?.url || product.value.defaultImageUrl,
-//   twitterTitle: () => product.value.title,
-//   twitterDescription: () => settings.description,
-//   twitterImage: () =>
-//     product.value.featureImage?.url || product.value.defaultImageUrl,
-//   twitterCard: "summary_large_image",
-// });
+useSeoMeta({
+  title: () => product.value.title,
+  description: () => product.value.description,
+  ogTitle: () => product.value.title,
+  ogDescription: () => settings.description,
+  // ogImage: () =>
+  // product.value.featureImage?.url || product.value.defaultImageUrl,
+  twitterTitle: () => product.value.title,
+  twitterDescription: () => settings.description,
+  // twitterImage: () =>
+  // product.value.featureImage?.url || product.value.defaultImageUrl,
+  twitterCard: "summary_large_image",
+});
 
 defineOgImageComponent(
   'product',
@@ -44,15 +44,15 @@ defineOgImageComponent(
   },
 );
 
-// useSchemaOrg([
-//   defineProduct({
-//     name: product.value.title,
-//     brand: settings.title,
-//     description: product.value.description,
-//     image: product.value.featureImage?.url || product.value.defaultImageUrl,
-//     offers: [{ price: defaultPrice.toFixed(2) }],
-//   }),
-// ]);
+useSchemaOrg([
+  defineProduct({
+    name: product.value.title,
+    brand: settings.title,
+    description: product.value.description,
+    image: product.value.featureImage?.url || product.value.defaultImageUrl,
+    offers: [{ price: defaultPrice.toFixed(2) }],
+  }),
+]);
 
 definePageMeta({
   layout: false,
