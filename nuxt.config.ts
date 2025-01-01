@@ -52,10 +52,10 @@ export default defineNuxtConfig({
   robots: {
     enabled: false,
   },
-  seo: {
-    // seo utils
-    enabled: false,
-  },
+  // seo: {
+  //   // seo utils
+  //   enabled: false,
+  // },
   schemaOrg: {
     enabled: false,
   },

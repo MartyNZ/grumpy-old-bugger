@@ -20,6 +20,18 @@ const { data: collection } = await useSanityQuery(qryArticlesByCategory, {
 
 const articles = collection.value.articles;
 
+useSeoMeta({
+  title: () => collection.value.title,
+  description: () => collection.value.excerpt,
+  ogTitle: () => collection.value.title,
+  ogDescription: () => collection.value.excerpt,
+  // ogImage: () => collection.value.image.url,
+  twitterTitle: () => collection.value.title,
+  twitterDescription: () => collection.value.excerpt,
+  // twitterImage: () => collection.value.image.url,
+  twitterCard: "summary_large_image",
+});
+
 defineOgImageComponent(
   'article',
   {

@@ -22,17 +22,17 @@ const { data: collectionNav } = await useSanityQuery(
 // const articleTags = article.value.tags;
 // console.log("Article Tags: ", JSON.stringify(articleTags));
 
-// useSeoMeta({
-//   title: () => article.value.title,
-//   description: () => article.value.excerpt,
-//   ogTitle: () => article.value.title,
-//   ogDescription: () => article.value.excerpt,
-//   ogImage: () => article.value.image.url,
-//   twitterTitle: () => article.value.title,
-//   twitterDescription: () => article.value.excerpt,
-//   twitterImage: () => article.value.image.url,
-//   twitterCard: "summary_large_image",
-// });
+useSeoMeta({
+  title: () => article.value.title,
+  description: () => article.value.excerpt,
+  ogTitle: () => article.value.title,
+  ogDescription: () => article.value.excerpt,
+  // ogImage: () => article.value.image.url,
+  twitterTitle: () => article.value.title,
+  twitterDescription: () => article.value.excerpt,
+  // twitterImage: () => article.value.image.url,
+  twitterCard: "summary_large_image",
+});
 
 defineOgImageComponent(
   "article",

@@ -23,10 +23,7 @@ const { data: currentCollection } = await useSanityQuery(
   },
 );
 
-// console.log(
-//   "Current Collection: ",
-//   JSON.stringify(currentCollection.value, null, 2),
-// );
+// console.log("Current Collection: ", JSON.stringify(currentCollection.value, null, 2));
 const { data: allProducts } = await useSanityQuery(qryProductsByTags, {
   collection: tagsLookup[collection],
   sub: tagsLookup[sub],
@@ -146,17 +143,17 @@ const openDialog = () => {
   // console.log("From openDialog: ", dialogRef);
 };
 
-// useSeoMeta({
-//   title: () => currentCollection.value.title,
-//   description: () => currentCollection.value.description,
-//   ogTitle: () => currentCollection.value.title,
-//   ogDescription: () => currentCollection.value.description,
-//   ogImage: () => currentCollection.value.imageUrl,
-//   twitterTitle: () => currentCollection.value.title,
-//   twitterDescription: () => currentCollection.value.description,
-//   twitterImage: () => currentCollection.value.imageUrl,
-//   twitterCard: "summary_large_image",
-// });
+useSeoMeta({
+  title: () => currentCollection.value.title,
+  description: () => currentCollection.value.description,
+  ogTitle: () => currentCollection.value.title,
+  ogDescription: () => currentCollection.value.description,
+  // ogImage: () => currentCollection.value.imageUrl,
+  twitterTitle: () => currentCollection.value.title,
+  twitterDescription: () => currentCollection.value.description,
+  // twitterImage: () => currentCollection.value.imageUrl,
+  twitterCard: "summary_large_image",
+});
 // console.log("Current Collection: ", JSON.stringify(currentCollection.value, null, 2));
 defineOgImageComponent(
   'collection',

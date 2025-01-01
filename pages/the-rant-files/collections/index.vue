@@ -13,6 +13,18 @@ const collectionCount = collectionNav.value.articleCollectionNavGroup.length;
 const currentCollection = collectionNav.value.articleCollectionNavGroup[Math.floor(Math.random() * collectionCount)];
 // console.log("Current Collection: ", JSON.stringify(currentCollection, null, 2));
 
+useSeoMeta({
+  title: () => currentCollection.title,
+  description: () => currentCollection.parentCollection.excerpt,
+  ogTitle: () => currentCollection.title,
+  ogDescription: () => currentCollection.parentCollection.excerpt,
+  // ogImage: () => currentCollection.parentCollection.image.url,
+  twitterTitle: () => currentCollection.title,
+  twitterDescription: () => currentCollection.parentCollection.excerpt,
+  // twitterImage: () => currentCollection.parentCollection.image.url,
+  twitterCard: "summary_large_image",
+});
+
 defineOgImageComponent(
   'article',
   {
