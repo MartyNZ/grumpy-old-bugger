@@ -41,6 +41,7 @@
     "nuxt3-meta-pixel": "^1.0.9"
   },
   "overrides": {
-    "vue": "latest"
+    "vue": "latest",
+    "vue-router": "latest"
   }
 }
