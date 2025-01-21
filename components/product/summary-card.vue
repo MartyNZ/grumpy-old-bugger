@@ -5,7 +5,13 @@ const props = defineProps({
     required: true,
   },
 });
+const userInfo = useCookie('user-info');
 
+// onMounted(() => {
+//   document.addEventListener('snipcart.ready', () => {
+
+//   });
+// })
 const collectionPromotions = props.product.promotedBy.filter((promo) => {
   return promo.scope === 'collections';
 });
@@ -30,7 +36,8 @@ const productPromos = props.product.promotedBy.filter((promo) => {
 
 const pricedFrom = computed(() => {
   let priceData = props.product.store.pricedFrom.price / 100;
-  return priceData.toFixed(2);
+  let rateAdjustedPrice = priceData * userInfo.value.currency.rate;
+  return rateAdjustedPrice.toFixed(2);
 });
 
 // const discountedPrice = computed(() => pricedFrom.value * ((100 - selectedPromo.value.discount) / 100));
@@ -98,7 +105,7 @@ const pricedFrom = computed(() => {
           {{ product.store.title }}</NuxtLink>
         <div class="text-primary-700 dark:text-primary-300 text-sm">
           from:
-          <span class="font-brand text-base">${{ pricedFrom }}</span>
+          <span v-if="userInfo" class="font-brand text-base">{{ userInfo.currency.symbol }}{{ pricedFrom }}</span>
           <!-- <span v-if="selectedPromo" class="mr-2">${{ discountedPrice.toFixed(2) }}</span>
           <span :class="selectedPromo ? 'line-through' : ''">${{ totalPrice.toFixed(2) }}</span> -->
         </div>

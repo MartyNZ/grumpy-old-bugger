@@ -9,8 +9,55 @@ const props = defineProps({
     required: true,
   },
 });
-// console.log("Product: ", JSON.stringify(props.product, null, 2))
 
+const userInfo = useCookie('user-info');
+const data = useCurrenciesStore();
+const availableCurrencies = data.availableCurrencies;
+// console.log("Available currencies: ", JSON.stringify(availableCurrencies, null, 2))
+
+const selectedCurrency = ref();
+selectedCurrency.value = userInfo.value.currency;
+console.log("Selected Currency from cookie: ", JSON.stringify(selectedCurrency.value.name, null, 2));
+const snipcart = ref()
+onMounted(async () => {
+  document.addEventListener('snipcart.ready', () => {
+    snipcart.value = window.Snipcart;
+    snipcart.value.api.session.setCurrency(selectedCurrency.value.code);
+    console.log("Initial Currency in Snipcart: ", JSON.stringify(snipcart.value.store.getState().cart.currency, null, 2))
+  })
+});
+const currencySelect = ref();
+// TODO: Set currency object
+currencySelect.value = Object.values(availableCurrencies)
+// console.log("Currency Select: ", JSON.stringify(currencySelect.value, null, 2))
+
+watch(selectedCurrency, async (newCurrency) => {
+  userInfo.value = {
+    ...userInfo.value,
+    currency: newCurrency
+  };
+
+  if (snipcart.value) {
+    const cartState = snipcart.value.store.getState().cart;
+    const items = cartState.items;
+    console.log("Currency: ", JSON.stringify(snipcart.value.store.getState().cart.currency, null, 2))
+    console.log("Cart State: ", JSON.stringify(items, null, 2))
+
+    // First update each item's price with new currency rate
+    for (const item of items) {
+      const updatedPrice = (item.price * newCurrency.rate).toFixed(2);
+      await snipcart.value.api.cart.items.update(item.uniqueId, {
+        ...item,
+        price: updatedPrice
+      });
+    }
+
+    // Then update Snipcart session currency after prices are updated
+    await snipcart.value.api.session.setCurrency(newCurrency.code);
+    console.log("Currency: ", JSON.stringify(snipcart.value.store.getState().cart.currency, null, 2))
+    console.log("Cart State: ", JSON.stringify(items.count, null, 2))
+  }
+}, { deep: true });
 const collectionPromotions = props.product.promotedBy.filter((promo) => {
   return promo.scope === 'collections';
 });
@@ -298,11 +345,44 @@ const openDialog = () => {
 
 
 const quantity = ref(1);
-const itemPrice = computed(() => selectedVariant.value.price / 100);
-const totalPrice = computed(() => itemPrice.value * quantity.value);
-const discountedPrice = computed(() => totalPrice.value * ((100 - selectedPromo.value.discount) / 100));
-// console.log("selected Promo discount: ", JSON.stringify(selectedPromo.value.discount, null, 2));
-// console.log("Discounted Price: ", discountedPrice.value);}
+const discountedPrice = ref(0);
+const prices = computed(() => {
+  if (selectedVariant.value) {
+    const itemPrice = ((selectedVariant.value.price / 100) * selectedCurrency.value.rate).toFixed(2);
+    const totalPrice = (itemPrice * quantity.value).toFixed(2);
+    if (selectedPromo.value) {
+      discountedPrice.value = (totalPrice * ((100 - selectedPromo.value.discount) / 100)).toFixed(2);
+    }
+    return {
+      itemPrice,
+      totalPrice,
+      discountedPrice
+    };
+  }
+
+  return {
+    itemPrice: 0,
+    totalPrice: 0,
+    discountedPrice: 0
+  };
+});
+// console.log("Available Currencies: ", JSON.stringify(availableCurrencies, null, 2))
+const formattedPrices = computed(() => {
+  const priceObject = Object.values(availableCurrencies).reduce((acc, currency) => {
+    const convertedPrice = Number(prices.value.itemPrice);
+    acc[currency.code.toLowerCase()] = convertedPrice;
+    // console.log(`Converted price for ${currency.code}: ${convertedPrice}`);
+    return acc;
+  }, {});
+
+  // console.log("Selected currency code:", selectedCurrency.value.code);
+  // console.log("Selected currency rate:", selectedCurrency.value.rate);
+  // console.log("Base item price:", prices.value.itemPrice);
+
+  return JSON.stringify(priceObject);
+});
+// console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value, null, 2))
+
 </script>
 
 <template>
@@ -366,30 +446,39 @@ const discountedPrice = computed(() => totalPrice.value * ((100 - selectedPromo.
               <span class="text-lg text-surface-100">
                 {{ product.store.title }}</span>
               <template v-for="option in selectedOptionsValues" :key="option._key">
-                <p>
+                <div class="relative flex flex-row items-center rounded outline-surface-500">
                   <span class="capitalize">{{ option.type }}</span> :
                   {{ option.values[0].title }}
-                </p>
+                </div>
               </template>
-              <div class="relative flex flex-row items-center rounded outline-surface-500">
-                <span class="text-lg">Qty:</span>
+              <div class="relative flex flex-row items-center rounded outline-surface-100">
+                <span>Quantity:</span>
                 <input type="number"
-                  class="block min-h-[auto] w-20 rounded border-0 bg-transparent px-2 leading-[1.6] outline-surface-500 transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-surface-100 dark:text-surface-200 dark:placeholder:text-surface-200 dark:peer-focus:text-surface-100"
+                  class="block min-h-[auto] w-20 rounded border-0 bg-transparent outline-surface-100 px-2 leading-[1.6] transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-surface-100 dark:text-surface-200 dark:placeholder:text-surface-200 dark:peer-focus:text-surface-100"
                   v-model="quantity" name="quantity" id="quantity" />
               </div>
             </div>
             <div class="flex flex-col items-center justify-between gap-1 py-3">
               <div class="flex flex-row items-center gap-1">
                 <div class="text-xl font-semibold">
-                  <span v-if="selectedPromo" class="mr-2">${{ discountedPrice.toFixed(2) }}</span>
-                  <span :class="selectedPromo ? 'line-through' : ''">${{ totalPrice.toFixed(2) }}</span>
-                  <!-- <Dropdown v-model="selectedCurrency" :options="currencySelect" optionLabel="name" /> -->
+                  <span v-if="selectedPromo" class="mr-4">
+                    {{ selectedCurrency.symbol_native }}
+                    {{
+                      prices.discountedPrice
+                    }}</span>
+                  <span :class="selectedPromo ? 'line-through' : ''" class="mr-3">
+                    {{ selectedCurrency.symbol_native }}
+                    {{
+                      prices.totalPrice
+                    }}</span>
+                  <Dropdown v-model="selectedCurrency" :options="currencySelect" optionLabel="code" />
                 </div>
               </div>
               <button type="button"
                 class="snipcart-add-item flex gap-2 rounded bg-surface-500 px-10 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-surface-50 shadow-surface-200 transition duration-150 ease-in-out hover:bg-surface-800 focus:bg-surface-800 focus:outline-none focus:ring-0 active:bg-surface-400 text-nowrap"
                 :data-item-url="validationUrl" :data-item-id="product._id" :data-item-image="currentImage.src"
-                :data-item-price="itemPrice" :data-item-name="product.store.title" data-item-custom1-name="Variant_SKU"
+                :data-item-price="formattedPrices" :data-item-name="product.store.title"
+                data-item-custom1-name="Variant_SKU"
                 :data-item-categories="selectedPromo ? selectedPromo.slug : 'no-promo'" data-item-custom1-type="hidden"
                 :data-item-custom1-value="selectedVariant.sku" data-item-custom2-name="Blueprint_id"
                 data-item-custom2-type="hidden" :data-item-custom2-value="product.store.blueprintId"
@@ -407,37 +496,31 @@ const discountedPrice = computed(() => totalPrice.value * ((100 - selectedPromo.
             </div>
           </div>
           <div class="text-center text-sm italic">
-            <!-- <pre>{{ product.store }}</pre> -->
-            ** Note: all prices are in USD.
+            Please note that prices may vary based on your location and the current exchange rate.
           </div>
         </div>
       </div>
     </div>
     <div id="product-details-features" v-if="product.details">
-      <!-- <pre>{{ product.details }}</pre> -->
       <TabView>
         <TabPanel v-for="item in product.details.productFeatures" :header="item.title" :key="item._key">
           <WebcnxnzPortableText :blocks="item.body" />
         </TabPanel>
       </TabView>
     </div>
-    <!-- <div id="product-details-moreInfo" v-else-if="product.moreInfo">
-      <TabView>
-        <TabPanel
-          v-for="item in product.moreInfo"
-          :header="item.title"
-          :key="item._key"
-        >
-          <div v-html="item.description"></div>
-        </TabPanel>
-      </TabView>
-    </div> -->
     <div id="product-details-store-description" v-else="product.store.description">
       <div v-html="product.store.description"></div>
     </div>
   </section>
 </template>
-
+<!-- <template>
+  <pre>Quantity: {{ quantity }}</pre>
+  <pre v-if="selectedCurrency">Exchange Rate: {{ selectedCurrency.rate }}</pre>
+  <pre v-if="prices.itemPrice">Item Price: {{ prices.itemPrice }}</pre>
+  <pre v-if="prices.totalPrice">Total Price: {{ prices.totalPrice }}</pre>
+  <pre v-if="prices.discountedPrice">Discounted Price: {{ prices.discountedPrice }}</pre>
+  <pre v-if="snipcart">Snipcart ready: {{ snipcart }}</pre>
+</template> -->
 <style>
 .selected-option {
   outline-color: var(--surface-600);
