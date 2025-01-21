@@ -6,7 +6,8 @@ const { data: page } = await useSanityQuery(qryPage, { slug: slug });
 const data = useSiteSettingsStore();
 const settings = data.settings;
 // console.log('Page: ', JSON.stringify(page.value, null, 2));
-// console.log('Page slug: ', slug, "Number of sections: ", JSON.stringify(page.value.sections.length, null, 2));
+// console.log('Page slug: ', slug,);
+// console.log("Number of sections: ", JSON.stringify(page.value.sections.length, null, 2));
 
 useSeoMeta({
   icon: () => settings.logoUrl,

@@ -26,7 +26,6 @@ export default defineNuxtConfig({
     "@vee-validate/nuxt",
     "@nuxt/icon",
   ],
-
   veeValidate: {
     // disable or enable auto imports
     autoImports: true,

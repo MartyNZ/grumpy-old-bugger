@@ -1,22 +1,28 @@
 <script setup>
 const router = useRouter();
-const user = useCookie('userInfo', {
-  default: () => ({ currency: { symbol: '$', code: 'USD' }, language: 'en' }),
-})
-
 const data = useSiteSettingsStore();
 const settings = data.settings;
-
-// Scroll to top after each navigation
-router.afterEach(() => {
-  window.scrollTo(0, 0);
+const userInfo = useCookie('user-info');
+const snipcart = ref();
+onMounted(() => {
+  document.addEventListener('snipcart.ready', () => {
+    snipcart.value = window.Snipcart;
+    // console.log("User Currency Code: ", JSON.stringify(userInfo.value.currency.code, null, 2))
+    snipcart.value.api.session.setCurrency(userInfo.value.currency.code)
+  })
 });
+
 
 useHead({
   meta: [
     { name: "theme-color", content: settings.theme }
   ]
 })
+
+// Scroll to top after each navigation
+router.afterEach(() => {
+  window.scrollTo(0, 0);
+});
 </script>
 
 <template>
