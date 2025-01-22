@@ -377,19 +377,14 @@ const prices = computed(() => {
 // console.log("Available Currencies: ", JSON.stringify(availableCurrencies, null, 2))
 const formattedPrices = computed(() => {
   const priceObject = Object.values(availableCurrencies).reduce((acc, currency) => {
-    const convertedPrice = Number(prices.value.itemPrice);
-    acc[currency.code.toLowerCase()] = convertedPrice;
-    // console.log(`Converted price for ${currency.code}: ${convertedPrice}`);
+    const convertedPrice = (selectedVariant.value.price / 100 * currency.rate).toFixed(2);
+    acc[currency.code.toLowerCase()] = Number(convertedPrice);
     return acc;
   }, {});
 
-  // console.log("Selected currency code:", selectedCurrency.value.code);
-  // console.log("Selected currency rate:", selectedCurrency.value.rate);
-  // console.log("Base item price:", prices.value.itemPrice);
-
   return JSON.stringify(priceObject);
 });
-// console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value, null, 2))
+console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value, null, 2))
 
 </script>
 
