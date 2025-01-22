@@ -1,4 +1,5 @@
 import { qryProductById } from "~/queries/printify";
+// import currenciesData from "~/assets/data/currencies.json";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -6,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const id = getQuery(event).id;
   const variantId = getQuery(event).vId;
   const queryId = id.split("-")[1];
-
+  // const currencies = currenciesData;
 
   // console.log("Variant ID: ", variantId);
   // console.log("Query ID: ", queryId);
@@ -21,7 +22,7 @@ export default defineEventHandler(async (event) => {
   });
   if (!sanityProduct || !sanityProduct.store || !sanityProduct.store.variants) {
     console.error(
-      "sanityProduct, sanityProduct.store, or sanityProduct.store.variants is undefined or null.",
+      "sanityProduct, sanityProduct.store, or sanityProduct.store.variants is undefined or null."
     );
   }
 
@@ -46,9 +47,27 @@ export default defineEventHandler(async (event) => {
     // },
   ];
 
+  // console.log("Curriences: ", currencies.currenciesData);
+  // console.log("Base price:", (selectedVariant.price / 100).toFixed(2));
+  // console.log("current-rates", currentRates);
+
+  const currentRates = JSON.parse(getCookie(event, "current-rates"));
+  const basePrice = (selectedVariant.price / 100).toFixed(2);
+
+  // console.log("Current rates:", currentRates);
+  // console.log("Base price:", basePrice);
+
+  const formattedPrices = {};
+  Object.keys(currentRates.data).forEach((code) => {
+    formattedPrices[code.toLowerCase()] = (
+      basePrice * currentRates.data[code].value
+    ).toFixed(2);
+  });
+
+  // console.log("Formatted prices:", formattedPrices);
   return {
     id: sanityProduct._id,
-    price: selectedVariant.price / 100,
+    price: formattedPrices,
     customFields: customFields,
     url: `${config.public.publicUrl}/products/${sanityProduct.slug}`,
   };
