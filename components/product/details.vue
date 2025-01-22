@@ -10,6 +10,7 @@ const props = defineProps({
   },
 });
 
+// console.log("Product base price in US$: ", props.product.store.pricedFrom.price);
 const userInfo = useCookie('user-info');
 const data = useCurrenciesStore();
 const availableCurrencies = data.availableCurrencies;
@@ -17,13 +18,13 @@ const availableCurrencies = data.availableCurrencies;
 
 const selectedCurrency = ref();
 selectedCurrency.value = userInfo.value.currency;
-console.log("Selected Currency from cookie: ", JSON.stringify(selectedCurrency.value.name, null, 2));
+// console.log("Selected Currency from cookie: ", JSON.stringify(selectedCurrency.value.name, null, 2));
 const snipcart = ref()
 onMounted(async () => {
   document.addEventListener('snipcart.ready', () => {
     snipcart.value = window.Snipcart;
     snipcart.value.api.session.setCurrency(selectedCurrency.value.code);
-    console.log("Initial Currency in Snipcart: ", JSON.stringify(snipcart.value.store.getState().cart.currency, null, 2))
+    // console.log("Initial Currency in Snipcart: ", JSON.stringify(snipcart.value.store.getState().cart.currency, null, 2))
   })
 });
 const currencySelect = ref();
@@ -32,32 +33,39 @@ currencySelect.value = Object.values(availableCurrencies)
 // console.log("Currency Select: ", JSON.stringify(currencySelect.value, null, 2))
 
 watch(selectedCurrency, async (newCurrency) => {
-  userInfo.value = {
-    ...userInfo.value,
-    currency: newCurrency
-  };
+  console.log("New Currency update: ", JSON.stringify(newCurrency.name, null, 2));
+  if (!snipcart.value) return;
 
-  if (snipcart.value) {
-    const cartState = snipcart.value.store.getState().cart;
-    const items = cartState.items;
-    console.log("Currency: ", JSON.stringify(snipcart.value.store.getState().cart.currency, null, 2))
-    console.log("Cart State: ", JSON.stringify(items, null, 2))
+  const cartState = snipcart.value.store.getState().cart;
+  const items = cartState.items;
 
-    // First update each item's price with new currency rate
+  console.log("Cart items: ", JSON.stringify(items.value, null, 2))
+
+  if (items.length > 0) {
     for (const item of items) {
-      const updatedPrice = (item.price * newCurrency.rate).toFixed(2);
+      const basePrice = props.product.store.pricedFrom.price;
+      const updatedPrice = (basePrice * newCurrency.rate).toFixed(2);
+
       await snipcart.value.api.cart.items.update(item.uniqueId, {
         ...item,
         price: updatedPrice
       });
     }
-
-    // Then update Snipcart session currency after prices are updated
-    await snipcart.value.api.session.setCurrency(newCurrency.code);
-    console.log("Currency: ", JSON.stringify(snipcart.value.store.getState().cart.currency, null, 2))
-    console.log("Cart State: ", JSON.stringify(items.count, null, 2))
   }
-}, { deep: true });
+
+  // Only after all prices are updated, we change the currency
+  await snipcart.value.api.session.setCurrency(newCurrency.code);
+
+  // Finally update the cookie
+  userInfo.value = {
+    ...userInfo.value,
+    currency: newCurrency
+  };
+
+  console.log("Selected Currency after update: ", JSON.stringify(selectedCurrency.value.name, null, 2));
+});
+
+
 const collectionPromotions = props.product.promotedBy.filter((promo) => {
   return promo.scope === 'collections';
 });
@@ -369,19 +377,14 @@ const prices = computed(() => {
 // console.log("Available Currencies: ", JSON.stringify(availableCurrencies, null, 2))
 const formattedPrices = computed(() => {
   const priceObject = Object.values(availableCurrencies).reduce((acc, currency) => {
-    const convertedPrice = Number(prices.value.itemPrice);
-    acc[currency.code.toLowerCase()] = convertedPrice;
-    // console.log(`Converted price for ${currency.code}: ${convertedPrice}`);
+    const convertedPrice = (selectedVariant.value.price / 100 * currency.rate).toFixed(2);
+    acc[currency.code.toLowerCase()] = Number(convertedPrice);
     return acc;
   }, {});
 
-  // console.log("Selected currency code:", selectedCurrency.value.code);
-  // console.log("Selected currency rate:", selectedCurrency.value.rate);
-  // console.log("Base item price:", prices.value.itemPrice);
-
   return JSON.stringify(priceObject);
 });
-// console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value, null, 2))
+console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value, null, 2))
 
 </script>
 
