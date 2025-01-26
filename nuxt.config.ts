@@ -129,6 +129,7 @@ export default defineNuxtConfig({
         "Carousel",
         "Divider",
         "Dropdown",
+        "ConfirmDialog",
       ],
     },
     importPT: { as: "webcnxnz", from: "~/presets/webcnxnz" },

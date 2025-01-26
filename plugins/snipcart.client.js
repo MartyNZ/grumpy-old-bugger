@@ -4,8 +4,9 @@ export default defineNuxtPlugin(async () => {
 
   window.SnipcartSettings = {
     publicApiKey: config.public.snipCartApiKey,
-    loadStrategy: "on-user-interaction",
+    // loadStrategy: "on-user-interaction",
     modalStyle: "side",
+    version: "3.7.1",
   };
 
   (function () {
@@ -52,12 +53,12 @@ export default defineNuxtPlugin(async () => {
         i = document.querySelector(
           'src[src^="'
             .concat(window.SnipcartSettings.protocol, "://")
-            .concat(window.SnipcartSettings.domain, '"][src$="snipcart.js"]'),
+            .concat(window.SnipcartSettings.domain, '"][src$="snipcart.js"]')
         ),
         e = document.querySelector(
           'link[href^="'
             .concat(window.SnipcartSettings.protocol, "://")
-            .concat(window.SnipcartSettings.domain, '"][href$="snipcart.css"]'),
+            .concat(window.SnipcartSettings.domain, '"][href$="snipcart.css"]')
         );
       n ||
         ((n = document.createElement("div")),
@@ -101,4 +102,9 @@ export default defineNuxtPlugin(async () => {
           (t.dataset.templatesUrl = window.SnipcartSettings.templatesUrl));
     }
   })();
+
+  // console.log(
+  //   "Snipcart is ready!",
+  //   JSON.stringify(window.SnipcartSettings, null, 2)
+  // );
 });
