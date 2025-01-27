@@ -1,4 +1,5 @@
 <script setup>
+
 const props = defineProps({
   product: {
     type: Object,
@@ -10,66 +11,96 @@ const props = defineProps({
   },
 });
 
-// console.log("Product base price in US$: ", props.product.store.pricedFrom.price);
 const userInfo = useCookie('user-info');
-const data = useCurrenciesStore();
-const availableCurrencies = data.availableCurrencies;
-// console.log("Available currencies: ", JSON.stringify(availableCurrencies, null, 2))
+const optionIdsArrays = props.product.store.variants.map((variant) =>
+  variant.options.split(", "),
+);
 
+const flatOptionIdsArray = optionIdsArrays.flat();
+const uniqueOptionIds = [...new Set(flatOptionIdsArray)];
+
+const activeOptions = props.product.store.options.map((option) => {
+  return {
+    ...option,
+    values: option.values.filter((value) => uniqueOptionIds.includes(value.id)),
+  };
+});
+
+const { snipcart, initializeSnipcart, updateCartCurrency } = useSnipcartCurrency()
+const { calculatePrices } = usePriceCalculations()
+const { getSelectedOptionValue } = useProductOptions(activeOptions)
+
+const data = useCurrenciesStore();
+
+// Price calculations using the new composable
+const quantity = ref(1);
+
+// Currency handling
 const selectedCurrency = ref();
 selectedCurrency.value = userInfo.value.currency;
-// console.log("Selected Currency from cookie: ", JSON.stringify(selectedCurrency.value.name, null, 2));
-const snipcart = ref()
-onMounted(async () => {
-  document.addEventListener('snipcart.ready', () => {
-    snipcart.value = window.Snipcart;
-    snipcart.value.api.session.setCurrency(selectedCurrency.value.code);
-    // console.log("Initial Currency in Snipcart: ", JSON.stringify(snipcart.value.store.getState().cart.currency, null, 2))
-  })
+
+const prices = computed(() => {
+  if (selectedVariant.value) {
+    return calculatePrices(
+      selectedVariant.value,
+      selectedCurrency.value,
+      quantity.value,
+      selectedPromo.value
+    )
+  }
+  return { itemPrice: 0, totalPrice: 0, discountedPrice: 0 }
+})
+
+
+onMounted(() => {
+  initializeSnipcart(selectedCurrency.value)
+})
+
+watch(selectedCurrency, (newCurrency) => {
+  const cartState = snipcart.value?.store.getState().cart;
+  updateCartCurrency(newCurrency, cartState.items, props.product.store.pricedFrom.price);
+  userInfo.value = { ...userInfo.value, currency: newCurrency };
 });
-const currencySelect = ref();
-// TODO: Set currency object
-currencySelect.value = Object.values(availableCurrencies)
-// console.log("Currency Select: ", JSON.stringify(currencySelect.value, null, 2))
 
-watch(selectedCurrency, async (newCurrency) => {
-  console.log("New Currency update: ", JSON.stringify(newCurrency.name, null, 2));
-  if (!snipcart.value) return;
+const updateSelectedOptionAndVariant = (newOptionValueId) => {
+  // console.log("Option Value ID received:", newOptionValueId);
 
-  const cartState = snipcart.value.store.getState().cart;
-  const items = cartState.items;
+  const relevantOption = activeOptions.find(opt =>
+    opt.values.some(val => val.id === newOptionValueId)
+  );
+  // console.log("Found matching option:", JSON.stringify(relevantOption, null, 2));
 
-  console.log("Cart items: ", JSON.stringify(items.value, null, 2))
+  const selectedValue = getSelectedOptionValue(relevantOption, [newOptionValueId]);
+  // console.log("Selected value:", selectedValue);
 
-  if (items.length > 0) {
-    for (const item of items) {
-      const basePrice = props.product.store.pricedFrom.price;
-      const updatedPrice = (basePrice * newCurrency.rate).toFixed(2);
+  if (selectedValue) {
+    const currentOptionsIds = [...selectedOptionsValuesIds.value];
+    const optionIndex = activeOptions.findIndex(opt =>
+      opt.values.some(val => val.id === newOptionValueId)
+    );
 
-      await snipcart.value.api.cart.items.update(item.uniqueId, {
-        ...item,
-        price: updatedPrice
-      });
+    if (optionIndex !== -1) {
+      currentOptionsIds[optionIndex] = newOptionValueId;
+      const newVariant = props.product.store.variants.find(
+        variant => variant.options === currentOptionsIds.join(", ")
+      );
+
+      if (newVariant) {
+        selectedOptionsValuesIds.value = currentOptionsIds;
+        selectedVariant.value = newVariant;
+      }
     }
   }
+};
 
-  // Only after all prices are updated, we change the currency
-  await snipcart.value.api.session.setCurrency(newCurrency.code);
+const availableCurrencies = data.availableCurrencies;
 
-  // Finally update the cookie
-  userInfo.value = {
-    ...userInfo.value,
-    currency: newCurrency
-  };
-
-  console.log("Selected Currency after update: ", JSON.stringify(selectedCurrency.value.name, null, 2));
-});
-
+const currencySelect = ref();
+currencySelect.value = Object.values(availableCurrencies)
 
 const collectionPromotions = props.product.promotedBy.filter((promo) => {
   return promo.scope === 'collections';
 });
-
 const collectionPromos = props.product.store.tags.split(",").reduce((acc, tag) => {
   const matchingPromos = collectionPromotions.filter((promo) => {
     return promo.collections.some((collection) => {
@@ -82,54 +113,35 @@ const collectionPromos = props.product.store.tags.split(",").reduce((acc, tag) =
 const productPromos = props.product.promotedBy.filter((promo) => {
   return promo.scope === 'products';
 });
-// if (productPromos.length > 0) {
-//   console.log(JSON.stringify(props.product.store.title, null, 2), ": ", JSON.stringify(productPromos, null, 2))
-// }
 
 const selectedPromo = ref()
 selectedPromo.value = productPromos[0] || collectionPromos[0];
 
-// console.log("Selected Promotion: ", JSON.stringify(selectedPromo.value, null, 2));
+const activePromotions = computed(() => ({
+  product: productPromos,
+  collection: collectionPromos,
+  selected: selectedPromo.value
+}))
 
 const config = useRuntimeConfig();
-// console.log("Published URL: ", JSON.stringify(config.public.publicUrl))
 
 const selectedVariant = ref({});
 selectedVariant.value = props.defaultVariant;
-// console.log("Selected Variant: ", JSON.stringify(selectedVariant.value.id));
 
 const selectedOptionsValuesIds = ref([]);
 selectedOptionsValuesIds.value = selectedVariant.value.options.split(", ");
-// console.log(
-//   "Selected Options Values ID's: ",
-//   JSON.stringify(selectedOptionsValuesIds.value),
-// );
+
+
+// console.log("Active Options:", JSON.stringify(activeOptions, null, 2))
+// console.log("Default Variant:", JSON.stringify(selectedVariant.value, null, 2))
+// console.log("Initial Options Values:", JSON.stringify(selectedOptionsValuesIds.value, null, 2))
+
 
 const validationUrl = ref("");
-validationUrl.value = `${config.public.publicUrl}/api/printify/validate-sanity-product?id=${props.product._id}&vId=${selectedVariant.value.id}`;
-// console.log("Validation URL on load: ", validationUrl.value);
-
-watch(selectedVariant, () => {
+validationUrl.value = `${config.public.publicUrl}/api/printify/validate-sanity-product?id=${props.product._id}&vId=${selectedVariant.value.id}`; watch(selectedVariant, () => {
   validationUrl.value = `${config.public.publicUrl}/api/printify/validate-sanity-product?id=${props.product._id}&vId=${selectedVariant.value.id}`;
   console.log("Validation URL: ", validationUrl.value);
 });
-
-const optionIdsArrays = props.product.store.variants.map((variant) =>
-  variant.options.split(", "),
-);
-
-const flatOptionIdsArray = optionIdsArrays.flat();
-const uniqueOptionIds = [...new Set(flatOptionIdsArray)];
-// console.log("Unique Option Ids: ", uniqueOptionIds);
-// Map over the options and filter the values array for each option
-const activeOptions = props.product.store.options.map((option) => {
-  return {
-    ...option,
-    values: option.values.filter((value) => uniqueOptionIds.includes(value.id)),
-  };
-});
-// console.log("Active Options: ", activeOptions);
-
 const selectedOptionsValues = ref([]);
 selectedOptionsValues.value = activeOptions.map((option) => {
   return {
@@ -139,7 +151,6 @@ selectedOptionsValues.value = activeOptions.map((option) => {
     ),
   };
 });
-// console.log("Selected options: ", JSON.stringify(selectedOptionsValues.value));
 
 const selectedValues = ref([]);
 const selectedVariantOptions = ref();
@@ -149,10 +160,6 @@ selectedOptionsValues.value.map((option) => {
   });
   selectedVariantOptions.value = selectedValues.value.join(" / ");
 });
-// console.log(
-//   "Selected Variant options: ",
-//   JSON.stringify(selectedVariantOptions.value),
-// );
 
 watch(selectedOptionsValues, (newValues, oldValues) => {
   selectedValues.value = [];
@@ -162,159 +169,39 @@ watch(selectedOptionsValues, (newValues, oldValues) => {
     });
   });
   selectedVariantOptions.value = selectedValues.value.join(" / ");
-  // console.log(
-  //   "Selected Variant options: ",
-  //   JSON.stringify(selectedVariantOptions.value),
-  // );
 });
-// const variantStrings = props.product.store.variants.map((variant, index) => {
-//   if (index === 0) {
-//     return props.defaultVariant.title;
-//   } else if (variant.id !== props.defaultVariant.id) {
-//     const priceDifference = (variant.price - props.defaultVariant.price) / 100;
-//     return `${variant.title}[+${priceDifference}]`;
-//   }
-// });
-
-// const variantSelector = variantStrings.join("|");
-// console.log("Variant Selector: ", variantSelector);
 
 watch(selectedVariant, (newVariant, oldVariant) => {
-  // console.log("Old Variant option Ids: ", JSON.stringify(oldVariant.options));
-  // console.log("New Variant option Ids: ", JSON.stringify(newVariant.options));
-  // Assuming newVariant.options is a string of option IDs separated by ", "
   const newVariantOptionIds = newVariant.options.split(", ");
 
-  // Update the selectedOptionsValues array in place
   selectedOptionsValues.value = newVariantOptionIds.map((optionId) => {
-    // Find the option that contains a value with an id === optionId
     const option = activeOptions.find((option) =>
       option.values.some((value) => value.id === optionId),
     );
 
-    // If a matching option is found, create a new object with the same structure as the original option
-    // but with the values array containing only the selected option value
     if (option) {
       const newOptionValue = option.values.find(
         (value) => value.id === optionId,
       );
-      // console.log("New Option Value: ", JSON.stringify(newOptionValue));
       return {
         ...option,
-        values: [newOptionValue], // Only include the selected option value in the values array
+        values: [newOptionValue],
       };
     }
 
-    // If no matching option is found, handle as needed
-    // For example, you might want to return null or an empty object
     return console.error("This variant is currently out of stock");
   });
 });
 
-// Take the new selected option value and create the updateSelectedObjectAndVariant
-const updateSelectedOptionAndVariant = (newOptionValueId) => {
-  // console.log("New Selected Option ID: ", newOptionValueId);
-
-  // Find the option that contains a value with an id === newOptionValueId
-  const option = activeOptions.find((option) =>
-    option.values.some((value) => value.id === newOptionValueId),
-  );
-  // console.log("Option with value to be updated: ", JSON.stringify(option));
-
-  // Find the index of the value id currently in selectedOptionsValuesIds that is also an id on a value in option
-
-  if (option) {
-    // Find the index of the currently selected option's value in the selectedOptionsValuesIds array
-    const optionValueIndex = selectedOptionsValuesIds.value.findIndex(
-      (optionValueId) =>
-        option.values.some((value) => value.id === optionValueId),
-    );
-    // console.log("optionValueIndex: ", optionValueIndex);
-
-    if (optionValueIndex !== -1) {
-      try {
-        // Replace the currently selected option's value with the new one
-        selectedOptionsValuesIds.value[optionValueIndex] = newOptionValueId;
-        // console.log(
-        //   "Updated Options Values ID's: ",
-        //   JSON.stringify(selectedOptionsValuesIds.value),
-        // );
-      } catch (error) {
-        console.error("Error updating selectedOptionsValues:", error);
-      }
-      // Update selectedOptionsValuesIds based on updated values
-      selectedOptionsValuesIds.value = selectedOptionsValuesIds.value
-        .map((optionValueId) => {
-          // Find the option that contains a value with an id === optionValueId
-          const option = activeOptions.find((option) =>
-            option.values.some((value) => value.id === optionValueId),
-          );
-
-          // If a matching option is found, return the id of the first matching value
-          if (option) {
-            const matchingValue = option.values.find(
-              (value) => value.id === optionValueId,
-            );
-            return matchingValue ? matchingValue.id : null;
-          }
-
-          // If no matching option is found, return null or handle as needed
-          return;
-        })
-        .filter((id) => id !== null); // Filter out any null values
-
-      // console.log(
-      //   "New Selected Options Values Ids: ",
-      //   JSON.stringify(selectedOptionsValuesIds.value),
-      // );
-
-      // and update selectedVariants based on the new selectedOptionsValuesIds
-      const matchingVariant = props.product.store.variants.find((variant) => {
-        // Assuming variant.options is a string of option IDs separated by ", "
-        const variantOptionIds = variant.options.split(", ");
-        // Check if all selectedOptionsValuesIds are included in the variant's options
-        return selectedOptionsValuesIds.value.every((selectedOptionId) =>
-          variantOptionIds.includes(selectedOptionId),
-        );
-      });
-
-      if (matchingVariant) {
-        // Update selectedVariant with the matching variant
-        selectedVariant.value = matchingVariant;
-        // console.log(
-        //   "New Selected Variant: ",
-        //   JSON.stringify(selectedVariant.value),
-        // );
-      } else {
-        console.error("No matching variant found for the selected options.");
-        return;
-      }
-    } else {
-      // If the option is not found in the selectedOptionsValuesIds array, log it
-      console.error("No matching option found.");
-      return;
-    }
-  } else {
-    console.error("No matching option found for the selected value.");
-    return;
-  }
-};
-
 const findSelectedOptionValue = (option) => {
-  // console.log("Options for: ", JSON.stringify(option.type));
-
-  // create an array of strings from the id of each value in the option.values array
   const optionValuesIds = option.values.map((value) => value.id);
 
-  // console.log("optionValuesIds: ", JSON.stringify(optionValuesIds));
-  // Find the values in optionValuesIds that are also in selectedOptionsValuesIds.value
   const matchingValue = optionValuesIds.filter((valueId) =>
     selectedOptionsValuesIds.value.includes(valueId),
   );
 
-  // If there are matching values, return the first one (or handle as needed)
   if (matchingValue.length > 0) {
-    return matchingValue[0]; // or handle as needed
+    return matchingValue[0];
   }
 };
 
@@ -326,13 +213,38 @@ watchEffect(() => {
   currentImage.value = variantImages.value[0];
 });
 
-// console.log(JSON.stringify(props.product, null, 2));
+import { useConfirm } from "primevue/useconfirm";
+const confirm = useConfirm();
 
+const handleCurrencyChange = (event) => {
+  // Store the attempted new currency
+  const newCurrency = event.value
+
+  // Immediately revert to current currency
+  selectedCurrency.value = userInfo.value.currency
+
+  // Now show confirmation
+  confirm.require({
+    message: 'Changing currency requires emptying your cart first. Would you like to proceed?',
+    header: 'Currency Warning',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      // Only update currency after user confirms
+      selectedCurrency.value = newCurrency
+      const cartState = snipcart.value?.store.getState().cart
+      updateCartCurrency(newCurrency, cartState.items, props.product.store.pricedFrom.price)
+      userInfo.value = { ...userInfo.value, currency: newCurrency }
+    },
+    reject: () => {
+      // Already reverted, nothing more needed
+    }
+  })
+}
 const sizeCharts = defineAsyncComponent(
   () => import("~/components/product/sizeCharts.vue"),
 );
 const showSizeCharts = useDialog();
-const openDialog = () => {
+const openSizeChart = () => {
   const dialogRef = showSizeCharts.open(sizeCharts, {
     data: {
       productSizes: props.product.details.productSizes,
@@ -351,30 +263,6 @@ const openDialog = () => {
   });
 };
 
-
-const quantity = ref(1);
-const discountedPrice = ref(0);
-const prices = computed(() => {
-  if (selectedVariant.value) {
-    const itemPrice = ((selectedVariant.value.price / 100) * selectedCurrency.value.rate).toFixed(2);
-    const totalPrice = (itemPrice * quantity.value).toFixed(2);
-    if (selectedPromo.value) {
-      discountedPrice.value = (totalPrice * ((100 - selectedPromo.value.discount) / 100)).toFixed(2);
-    }
-    return {
-      itemPrice,
-      totalPrice,
-      discountedPrice
-    };
-  }
-
-  return {
-    itemPrice: 0,
-    totalPrice: 0,
-    discountedPrice: 0
-  };
-});
-// console.log("Available Currencies: ", JSON.stringify(availableCurrencies, null, 2))
 const formattedPrices = computed(() => {
   const priceObject = Object.values(availableCurrencies).reduce((acc, currency) => {
     const convertedPrice = (selectedVariant.value.price / 100 * currency.rate).toFixed(2);
@@ -384,7 +272,7 @@ const formattedPrices = computed(() => {
 
   return JSON.stringify(priceObject);
 });
-console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value, null, 2))
+// console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value, null, 2))
 
 </script>
 
@@ -437,7 +325,7 @@ console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value
         </div>
         <template v-if="product.details && product.details.productSizes">
           <div id="product-size-chart" class="align-center flex justify-center pb-4">
-            <NuxtLink @click="openDialog()"
+            <NuxtLink @click="openSizeChart()"
               class="relative cursor-pointer after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:bg-primary-700 after:duration-300 after:content-[''] hover:after:w-[100%] dark:after:bg-primary-500">
               Size Charts</NuxtLink>
           </div>
@@ -474,7 +362,8 @@ console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value
                     {{
                       prices.totalPrice
                     }}</span>
-                  <Dropdown v-model="selectedCurrency" :options="currencySelect" optionLabel="code" />
+                  <Dropdown v-model="selectedCurrency" :options="currencySelect" optionLabel="code"
+                    @change="handleCurrencyChange($event)" />
                 </div>
               </div>
               <button type="button"
