@@ -1,5 +1,4 @@
 import { qryProductById } from "~/queries/printify";
-// import currenciesData from "~/assets/data/currencies.json";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -7,56 +6,32 @@ export default defineEventHandler(async (event) => {
   const id = getQuery(event).id;
   const variantId = getQuery(event).vId;
   const queryId = id.split("-")[1];
-  // const currencies = currenciesData;
+  const currentRates = JSON.parse(getCookie(event, "current-rates"));
 
-  // console.log("Variant ID: ", variantId);
-  // console.log("Query ID: ", queryId);
-
-  // Fetch product from Sanity
   const sanityProduct = await sanity.client.fetch(qryProductById, {
     id: queryId,
   });
-  // console.log(JSON.stringify(sanityProduct.store.variants));
+  // console.log("Sanity Product: ", sanityProduct);
+
   const selectedVariant = sanityProduct?.store?.variants?.find((variant) => {
     if (variant.id === variantId) return variant;
   });
-  if (!sanityProduct || !sanityProduct.store || !sanityProduct.store.variants) {
-    console.error(
-      "sanityProduct, sanityProduct.store, or sanityProduct.store.variants is undefined or null."
-    );
-  }
+  const optionIdsArrays = sanityProduct.store.variants.map((variant) =>
+    variant.options.split(", ")
+  );
+  const flatOptionIdsArray = optionIdsArrays.flat();
+  const uniqueOptionIds = [...new Set(flatOptionIdsArray)];
 
-  if (!selectedVariant) {
-    console.warn("No variant found with the provided variantId.");
-  }
-  // console.log("Product Slug: ", sanityProduct.slug);
-
-  // const variantStrings = sanityProduct?.store.variants.map((variant, index) => {
-  //   if (index === 0) {
-  //     return selectedVariant.title;
-  //   } else if (variant.id !== defaultVariant.id) {
-  //     const priceDifference = (variant.price - defaultVariant.price) / 100;
-  //     return `${variant.title}[+${priceDifference}]`;
-  //   }
-  // });
-
-  const customFields = [
-    // {
-    //   name: "Variants",
-    //   options: variantStrings.join("|"),
-    // },
-  ];
-
-  // console.log("Curriences: ", currencies.currenciesData);
-  // console.log("Base price:", (selectedVariant.price / 100).toFixed(2));
-  // console.log("current-rates", currentRates);
-
-  const currentRates = JSON.parse(getCookie(event, "current-rates"));
+  const activeOptions = sanityProduct.store.options.map((option) => {
+    return {
+      ...option,
+      values: option.values.filter((value) =>
+        uniqueOptionIds.includes(value.id)
+      ),
+    };
+  });
+  // Base price calculations
   const basePrice = (selectedVariant.price / 100).toFixed(2);
-
-  // console.log("Current rates:", currentRates);
-  // console.log("Base price:", basePrice);
-
   const formattedPrices = {};
   Object.keys(currentRates.data).forEach((code) => {
     formattedPrices[code.toLowerCase()] = (
@@ -64,7 +39,24 @@ export default defineEventHandler(async (event) => {
     ).toFixed(2);
   });
 
-  // console.log("Formatted prices:", formattedPrices);
+  // Format custom fields using active options
+  const customFields = activeOptions.map((option) => ({
+    name: option.type,
+    options: option.values
+      .map((value) => {
+        const variant = sanityProduct.store.variants.find((v) =>
+          v.options.includes(value.id)
+        );
+        const priceDiff = variant
+          ? ((variant.price - selectedVariant.price) / 100).toFixed(2)
+          : "0.00";
+        return priceDiff !== "0.00"
+          ? `${value.title}[+${priceDiff}]`
+          : value.title;
+      })
+      .join("|"),
+  }));
+
   return {
     id: sanityProduct._id,
     price: formattedPrices,

@@ -510,17 +510,20 @@ export const qryProductById = groq`
   *[_type=='printify.product' && store.productId == $id && store.isVisible && !store.isDeleted][0]{
     _id,
     _createdAt,
-    _updatedAt,
     defaultImageUrl,
     featureImage{
       'assetId': asset->_id,
-      'url':asset->url
+      'url':asset->url,
     },
-    featured,
     'slug':slug.current,
-    'featureImageUrl':featureImage.asset->url,
-    design,
-    'coloursArray': colours,
+    details->{
+      productFeatures[]{
+        title,
+        body
+      },
+      productSizes,
+    },
+      design,
     colours[]->{
       _id,
       'label':title,
@@ -528,16 +531,19 @@ export const qryProductById = groq`
       'colour':"#" + colour,
       'value':slug.current
     },
-    details,
     store{
+      blueprintId,
+      shopId,
+      printProviderId,
       title,
       productId,
       tags,
       description,
+      options,
       variants,
       'pricedFrom':variants[]{
         price
-      }
+      }|order(price asc)[0]
     },
     'promotedBy': *[_type=='promotion'
       && scope == 'products' && references(^._id)

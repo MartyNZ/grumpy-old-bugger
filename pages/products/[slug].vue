@@ -7,7 +7,7 @@ const { data: product } = await useSanityQuery(qryProductBySlug, {
   slug: slug,
 });
 
-// console.log(JSON.stringify(product.value, null, 2));
+console.log(JSON.stringify(product.value.store.options, null, 2));
 const defaultVariant = product?.value?.store?.variants?.find((variant) => {
   return variant.isDefault;
 });
