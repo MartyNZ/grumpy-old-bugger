@@ -138,8 +138,9 @@ selectedOptionsValuesIds.value = selectedVariant.value.options.split(", ");
 
 
 const validationUrl = ref("");
-validationUrl.value = `${config.public.publicUrl}/api/printify/validate-sanity-product?id=${props.product._id}&vId=${selectedVariant.value.id}`; watch(selectedVariant, () => {
-  validationUrl.value = `${config.public.publicUrl}/api/printify/validate-sanity-product?id=${props.product._id}&vId=${selectedVariant.value.id}`;
+validationUrl.value = `${config.public.publicUrl.replace(/\/$/, '')}/api/printify/validate-sanity-product?id=${props.product._id}&vId=${selectedVariant.value.id}`;
+watch(selectedVariant, () => {
+  validationUrl.value = `${config.public.publicUrl.replace(/\/$/, '')}/api/printify/validate-sanity-product?id=${props.product._id}&vId=${selectedVariant.value.id}`;
   console.log("Validation URL: ", validationUrl.value);
 });
 const selectedOptionsValues = ref([]);

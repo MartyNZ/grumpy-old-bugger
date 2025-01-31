@@ -332,4 +332,15 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["stores"],
   },
+
+  nitro: {
+    routeRules: {
+      "/api/**": {
+        cors: true,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      },
+    },
+  },
 });
