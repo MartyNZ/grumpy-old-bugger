@@ -27,14 +27,14 @@ export const useSnipcartCurrency = () => {
   const updateCartCurrency = async (newCurrency, cartState, basePrice) => {
     if (!snipcart.value) return;
 
-    console.log("Starting currency update with:", newCurrency.code);
+    // console.log("Starting currency update with:", newCurrency.code);
 
     // Set currency first
     await snipcart.value.api.session.setCurrency(newCurrency.code);
 
     // Get fresh cart state after currency update
     const updatedCartState = snipcart.value.store.getState().cart;
-    console.log("Cart state after currency update:", updatedCartState);
+    // console.log("Cart state after currency update:", updatedCartState);
 
     const items = updatedCartState.items;
     if (items && items.length > 0) {
