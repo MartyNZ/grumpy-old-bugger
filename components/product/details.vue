@@ -58,7 +58,8 @@ onMounted(() => {
 
 watch(selectedCurrency, (newCurrency) => {
   const cartState = snipcart.value?.store.getState().cart;
-  updateCartCurrency(newCurrency, cartState.items, props.product.store.pricedFrom.price);
+  // Pass cartState directly instead of cartState.items
+  updateCartCurrency(newCurrency, cartState, props.product.store.pricedFrom.price);
   userInfo.value = { ...userInfo.value, currency: newCurrency };
 });
 
@@ -94,10 +95,18 @@ const updateSelectedOptionAndVariant = (newOptionValueId) => {
 };
 
 const availableCurrencies = data.availableCurrencies;
-
 const currencySelect = ref();
 currencySelect.value = Object.values(availableCurrencies)
 
+// Add to watch handler
+watch(() => data.availableCurrencies, (newCurrencies) => {
+  // console.log("Currency data in component:", newCurrencies)
+  if (Object.keys(newCurrencies).length > 0) {
+    // console.log("Selected currency:", newCurrencies[userInfo.value.currency.code])
+    selectedCurrency.value = newCurrencies[userInfo.value.currency.code];
+    currencySelect.value = Object.values(newCurrencies);
+  }
+}, { immediate: true });
 const collectionPromotions = props.product.promotedBy.filter((promo) => {
   return promo.scope === 'collections';
 });
@@ -130,11 +139,6 @@ selectedVariant.value = props.defaultVariant;
 
 const selectedOptionsValuesIds = ref([]);
 selectedOptionsValuesIds.value = selectedVariant.value.options.split(", ");
-
-
-// console.log("Active Options:", JSON.stringify(activeOptions, null, 2))
-// console.log("Default Variant:", JSON.stringify(selectedVariant.value, null, 2))
-// console.log("Initial Options Values:", JSON.stringify(selectedOptionsValuesIds.value, null, 2))
 
 
 const validationUrl = ref("");

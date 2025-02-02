@@ -6,22 +6,23 @@ export const useCurrenciesStore = defineStore("currencies", {
   }),
   actions: {
     async initializeCurrencies() {
-      const currentRates = useCookie("current-rates");
+      const { data: ratesData } = await useFetch("/api/currency/set-rates");
+
+      // console.log("Rates data received:", ratesData.value);
 
       this.availableCurrencies = Object.entries(
         currenciesData.currenciesData
       ).reduce((acc, [code, details]) => {
         acc[code] = {
           ...details,
-          rate: currentRates.value?.data?.[code].value || null,
+          rate: ratesData.value?.data?.[code]?.value || null,
         };
         return acc;
       }, {});
-      // console.log("From State: ", JSON.stringify(this.availableCurrencies));
+      // console.log("Populated availableCurrencies:", this.availableCurrencies);
     },
   },
 });
-
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useCurrenciesStore, import.meta.hot));
 }
