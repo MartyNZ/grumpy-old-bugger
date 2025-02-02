@@ -5,7 +5,11 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const sanity = useSanity();
 
-  const userInfo = parseCookies(event)["user-info"];
+  const cookies = parseCookies(event);
+  console.log("All available cookies:", cookies);
+  console.log("Validate endpoint cookies:", cookies);
+  console.log("User info cookie specifically:", cookies["user-info"]);
+  const userInfo = cookies["user-info"];
   const userCurrency = JSON.parse(userInfo).currency.code.toLowerCase();
   console.log("User currency: ", userCurrency);
   // Get rates from server storage

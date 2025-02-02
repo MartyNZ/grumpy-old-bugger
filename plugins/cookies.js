@@ -4,6 +4,7 @@ export default defineNuxtPlugin(async () => {
     process.server ? "Server Side" : "Client Side"
   );
   const userInfo = useCookie("user-info");
+  console.log("Current userInfo value:", userInfo.value);
   if (!userInfo.value) {
     userInfo.value = {
       currency: {
