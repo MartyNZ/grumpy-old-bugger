@@ -42,6 +42,11 @@ const props = defineProps({
       </div>
     </template>
   </div>
+  <div v-else>
+    <div class="container">
+      No page selected.
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

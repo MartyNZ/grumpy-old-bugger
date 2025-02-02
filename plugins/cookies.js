@@ -1,15 +1,13 @@
+// import { getRates } from "../server/utils/storage.js";
+
 export default defineNuxtPlugin(async () => {
-  console.log(
-    "2. Cookies plugin running:",
-    process.server ? "Server Side" : "Client Side"
-  );
   const userInfo = useCookie("user-info", {
-    maxAge: 60 * 60 * 24 * 30, // 30 days
+    maxAge: 60 * 60 * 24 * 7,
     path: "/",
     secure: true,
-    sameSite: "lax", // Important for cross-domain access
+    sameSite: "lax",
   });
-  console.log("Current userInfo value:", userInfo.value);
+
   if (!userInfo.value) {
     userInfo.value = {
       currency: {
@@ -50,23 +48,19 @@ export default defineNuxtPlugin(async () => {
       language: "en",
     };
   }
+  // Check and update rates
+  const response = await $fetch("/api/currency/set-rates", {
+    method: "GET", // Changed from POST since we're using cached handler
+  });
 
-  const currentRates = useCookie("current-rates");
-  if (
-    !currentRates.value ||
-    Date.now() - currentRates.value.timestamp > 60 * 60 * 24 * 1000
-  ) {
-    const response = await fetch(
-      "https://api.currencyapi.com/v3/latest?apikey=cur_live_hWPrWYz61czoqcngc4aqy1kAFAbLNL9r16cfBpzn&currencies=EUR%2CUSD%2CCAD%2CAUD%2CNZD%2CGBP"
+  if (!response || Date.now() - response.timestamp > 60 * 60 * 24 * 1000) {
+    const latestRates = await fetch(
+      "https://api.currencyapi.com/v3/latest?apikey=cur_live_hWPrWYz61czoqcngc4aqy1kAFAbLNL9r16cfBpzn¤cies=EUR%2CUSD%2CCAD%2CAUD%2CNZD%2CGBP"
     );
-    const latestRates = await response.json();
-    // Set cookie
-    currentRates.value = latestRates;
-
-    // Set server storage via API endpoint
+    const rates = await latestRates.json();
     await $fetch("/api/currency/set-rates", {
       method: "POST",
-      body: latestRates,
+      body: rates,
     });
   }
 });

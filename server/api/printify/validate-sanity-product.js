@@ -1,29 +1,11 @@
 import { qryProductById } from "../../../queries/printify";
-import { getRates } from "../../utils/storage.js";
-
+// import { getRates } from "../../utils/storage.js";
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const sanity = useSanity();
 
-  // Check if it's a Snipcart crawler request
-  const isSnipcartCrawler = event.headers
-    .get("user-agent")
-    ?.includes("Snipcart");
-
-  // For crawler requests, use a default currency
-  let userCurrency = "usd";
-
-  // For regular user requests, get currency from cookie
-  if (!isSnipcartCrawler) {
-    const userInfo = parseCookies(event)["user-info"];
-    userCurrency = JSON.parse(userInfo).currency.code.toLowerCase();
-  }
-
-  console.log("User currency: ", userCurrency);
-
-  // Get rates from server storage
-  const { rates } = await getRates();
-  console.log("Rates: ", rates);
+  const rates = await $fetch("/api/currency/set-rates");
+  console.log("Rates received:", rates);
 
   const id = getQuery(event).id;
   const variantId = getQuery(event).vId;
@@ -37,15 +19,16 @@ export default defineEventHandler(async (event) => {
     (variant) => variant.id === variantId
   );
 
-  // Calculate prices using stored rates
   const basePrice = (selectedVariant.price / 100).toFixed(2);
   const formattedPrices = {};
 
-  Object.keys(rates.data).forEach((code) => {
-    formattedPrices[code.toLowerCase()] = (
-      basePrice * rates.data[code].value
-    ).toFixed(2);
-  });
+  if (rates && rates.data) {
+    Object.keys(rates.data).forEach((code) => {
+      formattedPrices[code.toLowerCase()] = (
+        basePrice * rates.data[code].value
+      ).toFixed(2);
+    });
+  }
 
   // Get unique option IDs from variants
   const optionIdsArrays = sanityProduct.store.variants.map((variant) =>
@@ -83,10 +66,11 @@ export default defineEventHandler(async (event) => {
         .join("|"),
     };
   });
+
   return {
     id: sanityProduct._id,
     price: formattedPrices,
     customFields: customFields,
-    url: `${config.public.publicUrl}/products/${sanityProduct.slug}`,
+    url: `${config.public.publicUrl}products/${sanityProduct.slug}`,
   };
 });
