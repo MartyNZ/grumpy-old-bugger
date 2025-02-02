@@ -345,7 +345,7 @@ export default defineNuxtConfig({
     storage: {
       rates: {
         driver: "fsLite",
-        base: "./data/rates",
+        base: "/tmp/rates",
       },
     },
   },
