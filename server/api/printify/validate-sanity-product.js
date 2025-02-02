@@ -5,11 +5,20 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const sanity = useSanity();
 
-  const cookies = parseCookies(event);
-  console.log("Request headers:", event.headers);
+  // Check if it's a Snipcart crawler request
+  const isSnipcartCrawler = event.headers
+    .get("user-agent")
+    ?.includes("Snipcart");
 
-  const userInfo = cookies["user-info"];
-  const userCurrency = JSON.parse(userInfo).currency.code.toLowerCase();
+  // For crawler requests, use a default currency
+  let userCurrency = "usd";
+
+  // For regular user requests, get currency from cookie
+  if (!isSnipcartCrawler) {
+    const userInfo = parseCookies(event)["user-info"];
+    userCurrency = JSON.parse(userInfo).currency.code.toLowerCase();
+  }
+
   console.log("User currency: ", userCurrency);
 
   // Get rates from server storage
