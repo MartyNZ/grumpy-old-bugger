@@ -3,7 +3,12 @@ export default defineNuxtPlugin(async () => {
     "2. Cookies plugin running:",
     process.server ? "Server Side" : "Client Side"
   );
-  const userInfo = useCookie("user-info");
+  const userInfo = useCookie("user-info", {
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+    path: "/",
+    secure: true,
+    sameSite: "lax", // Important for cross-domain access
+  });
   console.log("Current userInfo value:", userInfo.value);
   if (!userInfo.value) {
     userInfo.value = {
