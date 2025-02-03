@@ -3,13 +3,13 @@ import { qryFeaturedProducts } from "~/queries/printify";
 const { data: featuredProducts } = await useSanityQuery(qryFeaturedProducts);
 </script>
 <template>
-  <section v-if="featuredProducts" id="featured-products">
+  <section v-if="featuredProducts" id="featured-products" class="h-[400px]">
     <h3 class="dark:text-surface-300 text-center">Featured Products</h3>
-    <div id="featured-product-carousel" class="flex w-full justify-center">
+    <div id="featured-product-carousel" class="flex w-full justify-center h-full">
       <Carousel :value="featuredProducts" :numVisible="1" :numScroll="1" orientation="vertical" circular
-        :autoplayInterval="7000">
+        :autoplayInterval="7000" class="h-full">
         <template #item="product">
-          <NuxtLink :to="`/products/${product.data.slug}`">
+          <NuxtLink :to="`/products/${product.data.slug}`" class="h-full flex items-center">
             <div class="border-1 surface-border border-round m-2 flex flex-col items-center p-3">
               <div class="relative mx-auto">
                 <template v-if="product.data.featureImage">
