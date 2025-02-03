@@ -9,7 +9,8 @@ const formSchema = toTypedSchema(
   yup.object(
     {
       name: yup.string().required('Please enter your full name.'),
-      email: yup.string().email().required('Please provide a valid email address.'),
+      email: yup.string().email().required('Please provide a valid email address.')
+        .matches(/^[^@]+@[^@]+\.[^@]+$/, 'Email must include domain extension'),
       message: yup.string().optional()
     },
   ),
