@@ -1,5 +1,3 @@
-// import { setRates } from "../../utils/storage";
-
 export default defineCachedEventHandler(
   async (event) => {
     const storage = useStorage("rates");

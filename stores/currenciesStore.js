@@ -3,12 +3,20 @@ import currenciesData from "~/assets/data/currencies.json";
 export const useCurrenciesStore = defineStore("currencies", {
   state: () => ({
     availableCurrencies: {},
+    selectedCurrency: {
+      symbol: "$",
+      name: "US Dollar",
+      symbol_native: "$",
+      decimal_digits: 2,
+      rounding: 0,
+      code: "USD",
+      rate: 1,
+    },
   }),
-  actions: {
-    async initializeCurrencies() {
-      const { data: ratesData } = await useFetch("/api/currency/set-rates");
 
-      // console.log("Rates data received:", ratesData.value);
+  actions: {
+    async initializeCurrencies(userCurrency) {
+      const { data: ratesData } = await useFetch("/api/currency/set-rates");
 
       this.availableCurrencies = Object.entries(
         currenciesData.currenciesData
@@ -19,8 +27,19 @@ export const useCurrenciesStore = defineStore("currencies", {
         };
         return acc;
       }, {});
-      // console.log("Populated availableCurrencies:", this.availableCurrencies);
+
+      if (userCurrency) {
+        this.selectedCurrency = this.availableCurrencies[userCurrency.code];
+      }
     },
+
+    updateSelectedCurrency(currency) {
+      this.selectedCurrency = currency;
+    },
+  },
+
+  getters: {
+    currentCurrency: (state) => state.selectedCurrency,
   },
 });
 if (import.meta.hot) {

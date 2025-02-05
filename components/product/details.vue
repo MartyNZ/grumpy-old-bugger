@@ -54,6 +54,7 @@ const prices = computed(() => {
 
 onMounted(() => {
   initializeSnipcart(selectedCurrency.value)
+  window.Snipcart.DEBUG = true
 })
 
 watch(selectedCurrency, (newCurrency) => {
@@ -222,29 +223,28 @@ import { useConfirm } from "primevue/useconfirm";
 const confirm = useConfirm();
 
 const handleCurrencyChange = (event) => {
-  // Store the attempted new currency
   const newCurrency = event.value
 
-  // Immediately revert to current currency
-  selectedCurrency.value = userInfo.value.currency
-
-  // Now show confirmation
   confirm.require({
     message: 'Changing currency requires emptying your cart first. Would you like to proceed?',
     header: 'Currency Warning',
     icon: 'pi pi-exclamation-triangle',
-    accept: () => {
-      // Only update currency after user confirms
+    accept: async () => {
       selectedCurrency.value = newCurrency
+      await $fetch('/api/currency/state', {
+        method: 'POST',
+        body: newCurrency
+      })
       const cartState = snipcart.value?.store.getState().cart
-      updateCartCurrency(newCurrency, cartState.items, props.product.store.pricedFrom.price)
+      updateCartCurrency(newCurrency, cartState, props.product.store.pricedFrom.price)
       userInfo.value = { ...userInfo.value, currency: newCurrency }
     },
     reject: () => {
-      // Already reverted, nothing more needed
+      selectedCurrency.value = userInfo.value.currency
     }
   })
-}
+};
+
 const sizeCharts = defineAsyncComponent(
   () => import("~/components/product/sizeCharts.vue"),
 );
