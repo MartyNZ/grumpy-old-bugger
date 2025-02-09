@@ -1,5 +1,5 @@
 import { qryProductById } from "../../../queries/printify";
-// import { getRates } from "../../utils/storage.js";
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const sanity = useSanity();

@@ -27,24 +27,27 @@ export const useSnipcartCurrency = () => {
   const updateCartCurrency = async (newCurrency, cartState, basePrice) => {
     if (!snipcart.value) return;
 
-    // console.log("Starting currency update with:", newCurrency.code);
+    // Batch all updates
+    const updates = [];
 
     // Set currency first
-    await snipcart.value.api.session.setCurrency(newCurrency.code);
+    updates.push(snipcart.value.api.session.setCurrency(newCurrency.code));
 
-    // Get fresh cart state after currency update
-    const updatedCartState = snipcart.value.store.getState().cart;
-    // console.log("Cart state after currency update:", updatedCartState);
-
-    const items = updatedCartState.items;
+    // Queue item updates
+    const items = cartState.items;
     if (items && items.length > 0) {
       for (const item of items) {
         const updatedPrice = (item.price * newCurrency.rate).toFixed(2);
-        await snipcart.value.api.cart.items.update(item.uniqueId, {
-          price: updatedPrice,
-        });
+        updates.push(
+          snipcart.value.api.cart.items.update(item.uniqueId, {
+            price: updatedPrice,
+          })
+        );
       }
     }
+
+    // Execute all updates at once
+    await Promise.all(updates);
   };
   return {
     snipcart,

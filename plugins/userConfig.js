@@ -1,5 +1,3 @@
-// import { getRates } from "../server/utils/storage.js";
-
 export default defineNuxtPlugin(async () => {
   const userInfo = useCookie("user-info", {
     maxAge: 60 * 60 * 24 * 7,
