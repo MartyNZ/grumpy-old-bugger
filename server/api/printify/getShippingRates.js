@@ -1,15 +1,15 @@
 export default defineEventHandler(async (event) => {
-  console.log("\n--- New Shipping Rate Request ---");
-  console.log("Request path:", event.path);
-  console.log("Timestamp:", new Date().toISOString());
+  // console.log("\n--- New Shipping Rate Request ---");
+  // console.log("Request path:", event.path);
+  // console.log("Timestamp:", new Date().toISOString());
 
   const rates = await $fetch("/api/currency/set-rates");
   const body = await readBody(event);
   const cartCurrency = body.content.currency.toUpperCase();
   const currencyRate = rates.data[cartCurrency].value;
 
-  console.log("Cart currency:", body.content.currency);
-  console.log("Using rate:", currencyRate);
+  // console.log("Cart currency:", body.content.currency);
+  // console.log("Using rate:", currencyRate);
 
   const shippingCountry = body.content.shippingAddress.country;
   const itemsInfo = body.content.items.map((item) => {
@@ -85,8 +85,8 @@ export default defineEventHandler(async (event) => {
   }
 
   const convertedShippingCost = (totalShippingCost / 100) * currencyRate;
-  console.log("Base shipping cost:", totalShippingCost / 100);
-  console.log("Converted shipping cost:", convertedShippingCost);
+  // console.log("Base shipping cost:", totalShippingCost / 100);
+  // console.log("Converted shipping cost:", convertedShippingCost);
 
   const response = {
     rates: [
@@ -96,6 +96,6 @@ export default defineEventHandler(async (event) => {
       },
     ],
   };
-  console.log("Sending response to Snipcart:", response);
+  // console.log("Sending response to Snipcart:", response);
   return response;
 });

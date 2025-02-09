@@ -6,10 +6,10 @@ export const useSnipcartCurrency = () => {
     if (window.Snipcart) {
       snipcart.value = window.Snipcart;
       snipcart.value.api.session.setCurrency(currency.code);
-      console.log(
-        "Direct currency set:",
-        snipcart.value?.store.getState().cart.currency
-      );
+      // console.log(
+      //   "Direct currency set:",
+      //   snipcart.value?.store.getState().cart.currency
+      // );
       return;
     }
 
@@ -17,10 +17,10 @@ export const useSnipcartCurrency = () => {
     document.addEventListener("snipcart.ready", () => {
       snipcart.value = window.Snipcart;
       snipcart.value.api.session.setCurrency(currency.code);
-      console.log(
-        "Event currency set:",
-        snipcart.value?.store.getState().cart.currency
-      );
+      // console.log(
+      //   "Event currency set:",
+      //   snipcart.value?.store.getState().cart.currency
+      // );
     });
   };
 

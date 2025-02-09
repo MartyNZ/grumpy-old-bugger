@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
         Charset: "UTF-8",
         Authorization: `Bearer ${printifyBearerToken}`,
       },
-    },
+    }
   );
   if (error) {
     console.error(error);
@@ -26,5 +26,5 @@ export default defineEventHandler(async (event) => {
   const filteredData = data.filter((product) => product.variants.length > 0);
 
   return filteredData;
-  console.log(filteredData);
+  // console.log(filteredData);
 });

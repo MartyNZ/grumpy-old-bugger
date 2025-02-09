@@ -28,4 +28,4 @@ export default defineCachedEventHandler(
     maxAge: 60 * 60 * 24,
   }
 );
-console.log("🟢 SET-RATES.JS");
+// console.log("🟢 SET-RATES.JS");

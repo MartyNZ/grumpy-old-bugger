@@ -54,7 +54,7 @@ const props = defineProps({
     type: String,
   },
 });
-console.log("title: ", props.title)
+// console.log("title: ", props.title)
 const backgroundAttrs = computed(() => {
   // we want to make a
   // const isBackgroundTw = props.background?.startsWith("bg-");

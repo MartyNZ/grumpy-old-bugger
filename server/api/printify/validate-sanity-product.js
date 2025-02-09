@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   const sanity = useSanity();
 
   const rates = await $fetch("/api/currency/set-rates");
-  console.log("Rates received:", rates);
+  // console.log("Rates received:", rates);
 
   const id = getQuery(event).id;
   const variantId = getQuery(event).vId;
