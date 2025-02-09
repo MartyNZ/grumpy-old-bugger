@@ -26,6 +26,11 @@ export default defineNuxtConfig({
     "@vee-validate/nuxt",
     "@nuxt/icon",
   ],
+  vite: {
+    server: {
+      allowedHosts: ["2tzg9a9usl2l.share.zrok.io"],
+    },
+  },
   veeValidate: {
     // disable or enable auto imports
     autoImports: true,
@@ -64,7 +69,7 @@ export default defineNuxtConfig({
       name: process.env.NUXT_PUBLIC_SITE_NAME,
       logo: "/assets/imgs/logo_maskable.png", // will resolve to canonical URL + /logo.png
       sameAs: [
-        process.env.NUXT_PUBLIC_SITE_PUBLIC_URL,
+        process.env.NUXT_SITE_PUBLISHED_URL,
         process.env.NUXT_SITE_FACEBOOK,
         process.env.NUXT_SITE_INSTAGRAM,
       ],
