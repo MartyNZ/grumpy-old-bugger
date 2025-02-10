@@ -5,32 +5,30 @@ export default {
             'inline-flex items-center',
 
             // Spacing
-            'px-2 py-0.5',
+            'px-3 py-1 gap-2',
 
             // Shape
-            'rounded-[1.14rem]',
+            'rounded-[16px]',
 
             // Colors
-            'text-surface-700 dark:text-surface-0/70',
-            'bg-surface-200 dark:bg-surface-700'
+            'text-surface-700 dark:text-white',
+            'bg-surface-100 dark:bg-surface-700'
         ]
     },
     label: {
-        class: 'text-xs leading-6 mx-0'
+        class: 'leading-6 m-0'
     },
     icon: {
         class: 'leading-6 mr-2'
     },
     image: {
-        class: ['w-6 h-6 mr-2', 'rounded-full']
+        class: ['w-8 h-8 -ml-2 mr-2', 'rounded-full']
     },
     removeIcon: {
         class: [
+            'inline-block',
             // Shape
             'rounded-md leading-6',
-
-            // Spacing
-            'ml-2',
 
             // Size
             'w-4 h-4',

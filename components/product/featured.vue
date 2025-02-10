@@ -7,7 +7,7 @@ const { data: featuredProducts } = await useSanityQuery(qryFeaturedProducts);
     <h3 class="dark:text-surface-300 text-center">Featured Products</h3>
     <div id="featured-product-carousel" class="flex w-full justify-center h-full">
       <Carousel :value="featuredProducts" :numVisible="1" :numScroll="1" orientation="vertical" circular
-        :autoplayInterval="7000" class="h-full">
+        :autoplayInterval="7000" containerClass="flex items-center">
         <template #item="product">
           <NuxtLink :to="`/products/${product.data.slug}`" class="h-full flex items-center">
             <div class="border-1 surface-border border-round m-2 flex flex-col items-center p-3">

@@ -1,37 +1,53 @@
 export default {
     root: {
         class: [
+            //Flex
+            'flex flex-col',
+
             //Shape
-            'rounded-lg',
+            'rounded-[12px]',
             'shadow-md',
 
             //Color
             'bg-surface-0 dark:bg-surface-900',
-            'text-surface-700 dark:text-surface-0/80'
+            'text-surface-700 dark:text-surface-0'
         ]
     },
-    header: {
-        class: ['border-b border-surface-200 dark:border-surface-700']
-    },
     body: {
-        class: 'py-5'
+        class: [
+            //Flex
+            'flex flex-col',
+            'gap-4',
+
+            'p-6'
+        ]
+    },
+    caption: {
+        class: [
+            //Flex
+            'flex flex-col',
+            'gap-2'
+        ]
     },
     title: {
-        class: 'text-lg font-medium mb-2 px-5 md:px-6'
+        class: 'text-xl font-semibold mb-0'
     },
     subtitle: {
         class: [
+            //Font
+            'font-normal',
+
             //Spacing
-            'mb-1 px-5 md:px-6',
+            'mb-0',
 
             //Color
             'text-surface-600 dark:text-surface-0/60'
         ]
     },
     content: {
-        class: 'py-6 px-5 md:px-6'
+        class: 'p-0'
     },
     footer: {
-        class: ['px-5 md:px-6 pt-5 pb-0', 'border-t border-surface-200 dark:border-surface-700']
+        class: 'p-0'
     }
 };

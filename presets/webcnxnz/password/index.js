@@ -1,81 +1,66 @@
 export default {
-  root: ({ props }) => ({
-    class: [
-      "inline-flex relative",
-      {
-        "opacity-60 select-none pointer-events-none cursor-default":
-          props.disabled,
-      },
-    ],
-  }),
-  panel: {
-    class: [
-      // Spacing
-      "p-3",
+    root: ({ props }) => ({
+        class: ['relative [&>input]:w-full', { '[&>input]:pr-10': props.toggleMask }, { 'flex [&>input]:w-full': props.fluid, 'inline-flex': !props.fluid }]
+    }),
+    overlay: {
+        class: [
+            // Spacing
+            'p-3',
 
-      // Shape
-      "border-0 dark:border",
-      "shadow-md rounded-md",
+            // Shape
+            'border',
+            'shadow-md rounded-md',
 
-      // Colors
-      "bg-surface-0 dark:bg-surface-900",
-      "text-surface-700 dark:text-surface-100/80",
-      "dark:border-surface-700",
-    ],
-  },
-  meter: {
-    class: [
-      // Position and Overflow
-      "overflow-hidden",
-      "relative",
+            // Colors
+            'bg-surface-0 dark:bg-surface-900',
+            'text-surface-700 dark:text-white/80',
+            'border-surface-200 dark:border-surface-700'
+        ]
+    },
+    meter: {
+        class: [
+            // Position and Overflow
+            'overflow-hidden',
+            'relative',
 
-      // Shape and Size
-      "border-0",
-      "h-2",
-      "rounded-md",
+            // Shape and Size
+            'border-0',
+            'h-[10px]',
+            'rounded-md',
 
-      // Spacing
-      "mb-2",
+            // Spacing
+            'mb-3',
 
-      // Colors
-      "bg-surface-100 dark:bg-surface-700",
-    ],
-  },
-  meterlabel: ({ instance }) => ({
-    class: [
-      // Size
-      "h-full",
+            // Colors
+            'bg-surface-100 dark:bg-surface-700'
+        ]
+    },
+    meterLabel: ({ instance }) => ({
+        class: [
+            // Size
+            'h-full',
 
-      // Colors
-      {
-        "bg-red-500 dark:bg-red-400/50": instance?.meter?.strength == "weak",
-        "bg-orange-500 dark:bg-orange-400/50":
-          instance?.meter?.strength == "medium",
-        "bg-green-500 dark:bg-green-400/50":
-          instance?.meter?.strength == "strong",
-      },
+            // Colors
+            {
+                'bg-red-500 dark:bg-red-400/50': instance?.meter?.strength == 'weak',
+                'bg-orange-500 dark:bg-orange-400/50': instance?.meter?.strength == 'medium',
+                'bg-green-500 dark:bg-green-400/50': instance?.meter?.strength == 'strong'
+            },
 
-      // Transitions
-      "transition-all duration-1000 ease-in-out",
-    ],
-  }),
-  showicon: {
-    class: [
-      "absolute top-1/2 right-3 -mt-2",
-      "text-surface-600 dark:text-surface-100/70",
-    ],
-  },
-  hideicon: {
-    class: [
-      "absolute top-1/2 right-3 -mt-2",
-      "text-surface-600 dark:text-surface-100/70",
-    ],
-  },
-  transition: {
-    enterFromClass: "opacity-0 scale-y-[0.8]",
-    enterActiveClass:
-      "transition-[transform,opacity] duration-[120ms] ease-[cubic-bezier(0,0,0.2,1)]",
-    leaveActiveClass: "transition-opacity duration-100 ease-linear",
-    leaveToClass: "opacity-0",
-  },
+            // Transitions
+            'transition-all duration-1000 ease-in-out'
+        ]
+    }),
+    maskIcon: {
+        class: ['absolute top-1/2 right-3 -mt-2 z-10', 'text-surface-600 dark:text-white/70']
+    },
+    unmaskIcon: {
+        class: ['absolute top-1/2 right-3 -mt-2 z-10', 'text-surface-600 dark:text-white/70']
+    },
+    transition: {
+        enterFromClass: 'opacity-0 scale-y-[0.8]',
+        enterActiveClass: 'transition-[transform,opacity] duration-[120ms] ease-[cubic-bezier(0,0,0.2,1)]',
+        leaveActiveClass: 'transition-opacity duration-100 ease-linear',
+        leaveToClass: 'opacity-0'
+    }
 };

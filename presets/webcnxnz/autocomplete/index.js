@@ -1,280 +1,189 @@
 export default {
-  root: ({ props }) => ({
-    class: [
-      "relative",
+    root: ({ props }) => ({
+        class: [
+            'relative',
 
-      // Flex
-      "inline-flex",
+            // Flex
+            {
+                flex: props.fluid,
+                'inline-flex': !props.fluid
+            },
 
-      // Size
-      { "w-full": props.multiple },
+            // Size
+            { 'w-full': props.multiple },
+            { '[&>input]:!rounded-r-none': props.dropdown },
 
-      // Color
-      "text-surface-900 dark:text-surface-0",
+            // Color
+            'text-surface-900 dark:text-surface-0',
 
-      //States
-      {
-        "opacity-60 select-none pointer-events-none cursor-default":
-          props.disabled,
-      },
-    ],
-  }),
-  container: ({ props, state }) => ({
-    class: [
-      // Font
-      "font-sans sm:text-sm leading-none",
+            //States
+            {
+                'bg-surface-200 dark:bg-surface-700 select-none pointer-events-none cursor-default': props.disabled
+            }
+        ]
+    }),
+    inputMultiple: ({ props, state }) => ({
+        class: [
+            // Font
+            'leading-none',
 
-      // Flex
-      "flex items-center flex-wrap",
-      "gap-1",
+            // Flex
+            'flex items-center flex-wrap',
+            'gap-2',
 
-      // Spacing
-      "m-0 list-none",
-      "px-3 py-1",
-      { "px-3 py-1.5": !props.multiple, "px-3 py-1": props.multiple },
-      // Size
-      "w-full",
+            // Spacing
+            'm-0 list-none',
+            'py-1 px-1',
 
-      // Shape
-      "appearance-none rounded-md",
+            // Size
+            'w-full',
 
-      // Color
-      "text-surface-900 dark:text-surface-0",
-      "bg-surface-0 dark:bg-surface-900",
-      "placeholder:text-surface-400 dark:placeholder:text-surface-500",
-      "shadow-sm",
+            // Shape
+            'appearance-none rounded-md',
 
-      // States
-      "focus:outline-none focus:outline-offset-0",
-      {
-        "ring-1 ring-inset ring-surface-300 dark:ring-surface-700 ring-offset-0":
-          !state.focused,
-        "ring-2 ring-primary-500 dark:ring-primary-400": state.focused,
-      },
+            // Color
+            'text-surface-700 dark:text-white/80',
+            'placeholder:text-surface-400 dark:placeholder:text-surface-500',
+            { 'bg-surface-0 dark:bg-surface-950': !props.disabled },
+            'border',
+            { 'border-surface-300 dark:border-surface-700': !props.invalid },
 
-      // Transition
-      "transition duration-200 ease-in-out",
+            // Invalid State
+            'invalid:focus:ring-red-200',
+            'invalid:hover:border-red-500',
+            { 'border-red-500 dark:border-red-400': props.invalid },
 
-      // Misc
-      "cursor-text overflow-hidden",
-    ],
-  }),
-  inputtoken: ({ props }) => ({
-    class: [
-      { "py-1.5 px-0": !props.multiple, "p-0.5": props.multiple },
-      ,
-      "inline-flex flex-auto",
-    ],
-  }),
-  input: ({ props }) => ({
-    class: [
-      // Font
-      "font-sans sm:text-sm leading-none",
+            // States
+            { 'hover:border-surface-400 dark:hover:border-surface-700': !props.invalid },
+            { 'outline-none outline-offset-0 z-10 ring-1 ring-primary-500 dark:ring-primary-400': state.focused },
 
-      // Shape
-      "appearance-none rounded-md",
-      { "rounded-tr-none rounded-br-none": props.dropdown },
-      { "outline-none shadow-none rounded-none": props.multiple },
+            // Transition
+            'transition duration-200 ease-in-out',
 
-      // Size
-      { "w-full": props.multiple },
-
-      // Spacing
-      "m-0",
-      { "py-1.5 px-3": !props.multiple, "p-0": props.multiple },
-
-      // Colors
-      "text-surface-700 dark:text-surface-100/80",
-      {
-        "bg-surface-0 dark:bg-surface-900": !props.multiple,
-        "border border-surface-300 dark:border-surface-700": !props.multiple,
-        "border-0 bg-transparent": props.multiple,
-      },
-
-      // States
-      {
-        "focus:outline-none focus:outline-offset-0 focus:ring-inset focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400":
-          !props.multiple,
-      },
-
-      // Transition
-      "transition-colors duration-200",
-    ],
-  }),
-  token: {
-    class: [
-      // Flexbox
-      "inline-flex items-center",
-
-      // Spacing
-      "py-0.5 px-3",
-
-      // Shape
-      "rounded-[1.14rem]",
-
-      // Colors
-      "text-surface-700 dark:text-surface-100/70",
-      "bg-surface-200 dark:bg-surface-700",
-    ],
-  },
-  label: {
-    class: "leading-5",
-  },
-  removeTokenIcon: {
-    class: [
-      // Shape
-      "rounded-md leading-6",
-
-      // Spacing
-      "ml-2",
-
-      // Size
-      "w-4 h-4",
-
-      // Transition
-      "transition duration-200 ease-in-out",
-
-      // Misc
-      "cursor-pointer",
-    ],
-  },
-  dropdownbutton: {
-    root: {
-      class: [
-        "relative text-sm leading-none",
-
-        // Alignments
-        "items-center inline-flex text-center align-bottom",
-
-        // Shape
-        "rounded-r-md",
-
-        // Size
-        "px-2.5 py-1.5",
-        "-ml-[1px]",
-
-        // Colors
-        "text-surface-600 dark:text-surface-100",
-        "bg-surface-100 dark:bg-surface-800",
-        "ring-1 ring-inset ring-surface-300 dark:ring-surface-700",
-
-        // States
-        "hover:bg-surface-200 dark:hover:bg-surface-700",
-        "focus:outline-none focus:outline-offset-0 focus:ring-1",
-        "focus:ring-primary-500 dark:focus:ring-primary-400",
-      ],
+            // Misc
+            'cursor-text overflow-hidden'
+        ]
+    }),
+    inputToken: {
+        class: ['py-1 px-0 ml-2', 'inline-flex flex-auto']
     },
-  },
-  loadingicon: {
-    class: [
-      "text-sm leading-none text-surface-500 dark:text-surface-0/70",
-      "absolute top-[50%] right-[0.5rem] -mt-2 animate-spin",
-    ],
-  },
-  panel: {
-    class: [
-      // Position
-      "absolute top-0 left-0",
-      "mt-2",
+    inputChip: {
+        class: 'flex-auto inline-flex pt-1 pb-1'
+    },
+    input: {
+        class: 'border-none outline-none bg-transparent m-0 p-0 shadow-none rounded-none w-full'
+    },
+    dropdown: {
+        class: [
+            'relative',
 
-      // Shape
-      "border-0",
-      "rounded-md",
-      "shadow-md",
-      "max-h-[15rem]",
-      "overflow-auto",
+            // Alignments
+            'items-center inline-flex justify-center text-center align-bottom',
 
-      // Color
-      "bg-surface-0 dark:bg-surface-800",
-      "text-surface-800 dark:text-surface-100/80",
-      "ring-1 ring-inset ring-surface-300 dark:ring-surface-700",
-    ],
-  },
-  list: {
-    class: "py-1 list-none m-0",
-  },
-  item: ({ context }) => ({
-    class: [
-      // Font
-      "sm:text-sm",
-      "leading-none",
-      { "font-normal": !context.selected, "font-bold": context.selected },
+            // Shape
+            'rounded-r-md',
 
-      // Position
-      "relative",
+            // Size
+            'py-2 leading-none',
+            'w-10',
 
-      // Shape
-      "border-0",
-      "rounded-none",
+            // Colors
+            'text-primary-contrast',
+            'bg-primary',
+            'border border-primary',
 
-      // Spacing
-      "m-0",
-      "py-2 px-4",
+            // States
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 ',
+            'hover:bg-primary-emphasis hover:border-primary-emphasis',
+            'focus:ring-primary-500 dark:focus:ring-primary-400'
+        ]
+    },
+    loader: {
+        class: ['text-surface-500 dark:text-surface-0/70', 'absolute top-[50%] right-[0.5rem] -mt-2 animate-spin']
+    },
+    overlay: {
+        class: [
+            // Colors
+            'bg-surface-0 dark:bg-surface-900',
+            'text-surface-700 dark:text-white/80',
 
-      // Color
-      {
-        "text-surface-700 dark:text-surface-100/80":
-          !context.focused && !context.selected,
-      },
-      {
-        "bg-surface-200 dark:bg-surface-600/60 text-surface-700 dark:text-surface-100/80":
-          context.focused && !context.selected,
-      },
-      {
-        "bg-primary-500 dark:bg-primary-400 text-surface-100 dark:text-surface-700":
-          context.focused && context.selected,
-      },
-      {
-        "bg-transparent text-surface-700 dark:text-surface-100/80":
-          !context.focused && context.selected,
-      },
+            // Shape
+            'border border-surface-300 dark:border-surface-700',
+            'rounded-md',
+            'shadow-md',
 
-      //States
-      "hover:bg-primary-500 dark:hover:bg-primary-400 hover:text-surface-100 dark:hover:text-surface-700",
+            // Size
+            'overflow-auto'
+        ]
+    },
+    list: {
+        class: 'p-1 list-none m-0'
+    },
+    option: ({ context }) => ({
+        class: [
+            'relative',
 
-      // Misc
-      "cursor-pointer",
-      "overflow-hidden",
-      "whitespace-nowrap",
-    ],
-  }),
-  itemgroup: {
-    class: [
-      //Font
-      "font-bold",
-      "sm:text-sm",
+            // Font
+            'leading-none',
 
-      // Spacing
-      "m-0",
-      "py-2 px-4",
+            // Spacing
+            'm-0 px-3 py-2',
+            'first:mt-0 mt-[2px]',
 
-      // Color
-      "text-surface-800 dark:text-surface-100/80",
-      "bg-surface-0 dark:bg-surface-600/80",
+            // Shape
+            'border-0 rounded',
 
-      // Misc
-      "cursor-auto",
-    ],
-  },
-  emptymessage: {
-    class: [
-      // Font
-      "leading-none",
-      "sm:text-sm",
+            // Colors
+            {
+                'text-surface-700 dark:text-white/80': !context.focused && !context.selected,
+                'bg-surface-200 dark:bg-surface-600/60': context.focused && !context.selected,
+                'text-surface-700 dark:text-white/80': context.focused && !context.selected,
+                'bg-highlight': context.selected
+            },
 
-      // Spacing
-      "py-2 px-4",
+            //States
+            { 'hover:bg-surface-100 dark:hover:bg-[rgba(255,255,255,0.03)]': !context.focused && !context.selected },
+            { 'hover:bg-highlight-emphasis': context.selected },
+            { 'hover:text-surface-700 hover:bg-surface-100 dark:hover:text-white dark:hover:bg-[rgba(255,255,255,0.03)]': context.focused && !context.selected },
 
-      // Color
-      "text-surface-800 dark:text-surface-100/80",
-      "bg-transparent",
-    ],
-  },
-  transition: {
-    enterFromClass: "opacity-0 scale-y-[0.8]",
-    enterActiveClass:
-      "transition-[transform,opacity] duration-[120ms] ease-[cubic-bezier(0,0,0.2,1)]",
-    leaveActiveClass: "transition-opacity duration-100 ease-linear",
-    leaveToClass: "opacity-0",
-  },
+            // Transition
+            'transition-shadow duration-200',
+
+            // Misc
+            'cursor-pointer overflow-hidden whitespace-nowrap'
+        ]
+    }),
+    optionGroup: {
+        class: [
+            'font-semibold',
+
+            // Spacing
+            'm-0 py-2 px-3',
+
+            // Colors
+            'text-surface-400 dark:text-surface-500',
+
+            // Misc
+            'cursor-auto'
+        ]
+    },
+    emptyMessage: {
+        class: [
+            // Font
+            'leading-none',
+
+            // Spacing
+            'py-2 px-3',
+
+            // Color
+            'text-surface-800 dark:text-white/80',
+            'bg-transparent'
+        ]
+    },
+    transition: {
+        enterFromClass: 'opacity-0 scale-y-[0.8]',
+        enterActiveClass: 'transition-[transform,opacity] duration-[120ms] ease-[cubic-bezier(0,0,0.2,1)]',
+        leaveActiveClass: 'transition-opacity duration-100 ease-linear',
+        leaveToClass: 'opacity-0'
+    }
 };

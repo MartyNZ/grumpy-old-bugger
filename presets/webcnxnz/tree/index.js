@@ -1,243 +1,111 @@
 export default {
-  root: {
-    class: [
-      "relative",
+    root: {
+        class: [
+            // Space
+            'p-4',
 
-      // Space
-      "p-1.5",
+            // Shape
+            'rounded-md',
+            'border-none',
 
-      // Shape
-      "rounded-md",
+            // Color
+            'bg-surface-0 dark:bg-surface-900',
+            'text-surface-700 dark:text-white/80',
+            '[&_[data-pc-name=pcfilter]]:w-full'
+        ]
+    },
+    wrapper: {
+        class: ['overflow-auto']
+    },
+    container: {
+        class: [
+            // Spacing
+            'm-0 p-0',
 
-      // Color
-      "bg-surface-0 dark:bg-surface-800",
-      "text-surface-700 dark:text-surface-100/80",
-      "ring-1 ring-surface-200 dark:ring-surface-700",
-    ],
-  },
-  wrapper: {
-    class: ["overflow-auto"],
-  },
-  container: {
-    class: [
-      // Spacing
-      "m-0 p-0",
+            // Misc
+            'list-none overflow-auto'
+        ]
+    },
+    node: {
+        class: ['p-0 my-[2px] mx-0 first:mt-0', 'rounded-md', 'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-inset focus:ring-primary-500 dark:focus:ring-primary-400 focus:z-10']
+    },
+    nodeContent: ({ context, props }) => ({
+        class: [
+            // Flex and Alignment
+            'flex items-center',
 
-      // Misc
-      "list-none overflow-auto",
-    ],
-  },
-  node: {
-    class: [
-      "p-[2px]",
-      "rounded-md",
-      "focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:focus:ring-primary-400",
-    ],
-  },
-  content: ({ context, props }) => ({
-    class: [
-      // Flex and Alignment
-      "flex items-center",
+            // Shape
+            'rounded-md',
 
-      // Shape
-      "rounded-md",
+            // Spacing
+            'py-1 px-2 gap-2',
 
-      // Spacing
-      "p-2",
+            // Colors
+            context.selected ? 'bg-highlight text-highlight-contrast ' : 'bg-transparent text-surface-600 dark:text-white/70',
 
-      // Colors
-      "text-surface-700 dark:text-surface-0",
-      {
-        "bg-surface-100 text-primary-500 dark:bg-surface-300/10 dark:text-primary-400":
-          context.selected,
-      },
+            // States
+            { 'hover:bg-surface-50 dark:hover:bg-[rgba(255,255,255,0.03)]': (props.selectionMode == 'single' || props.selectionMode == 'multiple') && !context.selected },
 
-      // States
-      {
-        "hover:bg-surface-200 dark:hover:bg-surface-400/10":
-          props.selectionMode == "single" || props.selectionMode == "multiple",
-      },
+            // Transition
+            'transition-shadow duration-200',
 
-      // Transition
-      "transition-shadow duration-200",
+            { 'cursor-pointer select-none': props.selectionMode == 'single' || props.selectionMode == 'multiple' }
+        ]
+    }),
+    nodeToggleButton: ({ context }) => ({
+        class: [
+            // Flex and Alignment
+            'inline-flex items-center justify-center',
 
-      {
-        "cursor-pointer select-none":
-          props.selectionMode == "single" || props.selectionMode == "multiple",
-      },
-    ],
-  }),
-  toggler: ({ context }) => ({
-    class: [
-      // Flex and Alignment
-      "inline-flex items-center justify-center",
+            // Shape
+            'border-0 rounded-full',
 
-      // Shape
-      "border-0 rounded-full",
+            // Size
+            'w-7 h-7',
 
-      // Size and Spacing
-      "mr-2",
-      "w-6 h-6",
+            // Colors
+            'bg-transparent',
+            {
+                'text-surface-600 dark:text-white/70': !context.selected,
+                'text-highlight-contrast': context.selected,
+                invisible: context.leaf
+            },
 
-      // Spacing
-      "mr-2",
+            // States
+            'hover:bg-surface-200/20 dark:hover:bg-surface-500/20',
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400',
 
-      // Colors
-      "text-surface-500",
-      "bg-transparent",
-      {
-        invisible: context.leaf,
-      },
+            // Transition
+            'transition duration-200',
 
-      // States
-      "hover:text-surface-700 dark:hover:text-surface-100/80",
-      "hover:bg-surface-100 dark:hover:bg-surface-800/80",
-      "focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-inset",
-      "focus:ring-primary-500 dark:focus:ring-primary-400",
+            // Misc
+            'cursor-pointer select-none'
+        ]
+    }),
+    nodeIcon: ({ context }) => ({
+        class: [
+            // Space
+            'mr-2',
 
-      // Transition
-      "transition duration-200",
-
-      // Misc
-      "cursor-pointer select-none",
-    ],
-  }),
-  togglericon: {
-    class: [
-      // Size
-      "w-4 h-4",
-
-      // Color
-      "text-surface-500 dark:text-surface-100/70",
-    ],
-  },
-  checkboxcontainer: {
-    class: "mr-2",
-  },
-  checkbox: ({ context, props }) => ({
-    class: [
-      "relative",
-      // Alignment
-      "flex",
-      "items-center",
-      "justify-center",
-
-      // Size
-      "w-4",
-      "h-4",
-
-      // Shape
-      "rounded",
-      "border",
-
-      // Colors
-      "text-surface-600",
-      {
-        "border-surface-300 bg-surface-0 dark:border-surface-700 dark:bg-surface-900":
-          !context.checked,
-        "border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400":
-          context.checked,
-      },
-
-      // States
-      "focus:outline-none focus:outline-offset-0",
-      {
-        "ring-2 ring-primary-500 dark:ring-primary-400":
-          !props.disabled && context.focused,
-        "cursor-default opacity-60": props.disabled,
-      },
-
-      // Transitions
-      "transition-colors",
-      "duration-200",
-    ],
-  }),
-  checkboxicon: {
-    class: [
-      // Font
-      "text-normal",
-
-      // Size
-      "w-3",
-      "h-3",
-
-      // Colors
-      "text-surface-100 dark:text-surface-900",
-
-      // Transitions
-      "transition-all",
-      "duration-200",
-    ],
-  },
-  nodeicon: {
-    class: [
-      // Space
-      "mr-2",
-
-      // Color
-      "text-surface-600 dark:text-surface-100/70",
-    ],
-  },
-  subgroup: {
-    class: ["m-0 list-none p-0 pl-2 mt-1"],
-  },
-  filtercontainer: {
-    class: [
-      "relative block",
-
-      // Space
-      "mb-2",
-
-      // Size
-      "w-full",
-    ],
-  },
-  input: {
-    class: [
-      "relative",
-
-      // Font
-      "font-sans leading-6",
-      "sm:text-sm",
-
-      // Spacing
-      "m-0",
-      "py-1.5 px-3 pr-10",
-
-      // Size
-      "w-full",
-
-      // Shape
-      "rounded-md",
-
-      // Colors
-      "text-surface-900 dark:text-surface-0",
-      "placeholder:text-surface-400 dark:placeholder:text-surface-500",
-      "bg-surface-0 dark:bg-surface-900",
-      "ring-1 ring-inset ring-surface-300 dark:ring-surface-700 ring-offset-0",
-
-      // States
-      "hover:border-primary-500 dark:hover:border-primary-400",
-      "focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:focus:ring-primary-400",
-
-      // Transition & Misc
-      "appearance-none",
-      "transition-colors duration-200",
-    ],
-  },
-  loadingicon: {
-    class: [
-      "text-surface-500 dark:text-surface-0/70",
-      "absolute top-[50%] right-[50%] -mt-2 -mr-2 animate-spin",
-    ],
-  },
-  searchicon: {
-    class: [
-      // Position
-      "absolute top-1/2 -mt-2 right-3",
-
-      // Color
-      "text-surface-600 dark:hover:text-surface-100/70",
-    ],
-  },
+            // Color
+            {
+                'text-surface-600 dark:text-white/70': !context.selected,
+                'text-highlight-contrast': context.selected
+            }
+        ]
+    }),
+    nodeLabel: ({ context }) => ({
+        class: [
+            {
+                'text-surface-600 dark:text-white/70': !context.selected,
+                'text-highlight-contrast': context.selected
+            }
+        ]
+    }),
+    nodeChildren: {
+        class: ['m-0 list-none p-0 pl-4 [&:not(ul)]:pl-0 [&:not(ul)]:my-[2px]']
+    },
+    loadingIcon: {
+        class: ['text-surface-500 dark:text-surface-0/70', 'absolute top-[50%] right-[50%] -mt-2 -mr-2 animate-spin']
+    }
 };

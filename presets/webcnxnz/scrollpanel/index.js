@@ -1,5 +1,8 @@
 export default {
-    wrapper: {
+    root: {
+        class: ['group']
+    },
+    contentContainer: {
         class: [
             // Size & Position
             'h-full w-full',
@@ -17,7 +20,7 @@ export default {
     content: {
         class: [
             // Size & Spacing
-            'h-[calc(100%+12px)] w-[calc(100%+12px)] pr-[12px] pb-[12px] pl-0 pt-0',
+            'h-[calc(100%+18px)] w-[calc(100%+18px)] pr-[18px] pb-[18px] pl-0 pt-0',
 
             // Overflow & Scrollbar
             'overflow-scroll scrollbar-none',
@@ -35,13 +38,15 @@ export default {
     barX: {
         class: [
             // Size & Position
-            'h-[6px] bottom-0',
+            'h-[9px] bottom-0',
 
             // Appearance
-            'bg-surface-100 dark:bg-surface-700 rounded',
+            'bg-surface-100 dark:bg-surface-800 rounded',
+            'opacity-0',
 
             // Interactivity
             'cursor-pointer',
+            'focus:outline-none',
 
             // Visibility & Layering
             'invisible z-20',
@@ -50,19 +55,23 @@ export default {
             'transition duration-[250ms] ease-linear',
 
             // Misc
-            'relative'
+            'relative',
+
+            'group-hover:opacity-100'
         ]
     },
     barY: {
         class: [
             // Size & Position
-            'w-[6px] top-0',
+            'w-[9px] top-0',
 
             // Appearance
-            'bg-surface-100 dark:bg-surface-700 rounded',
+            'bg-surface-100 dark:bg-surface-800 rounded',
+            'opacity-0',
 
             // Interactivity
             'cursor-pointer',
+            'focus:outline-none',
 
             // Visibility & Layering
             'z-20',
@@ -71,7 +80,9 @@ export default {
             'transition duration-[250ms] ease-linear',
 
             // Misc
-            'relative'
+            'relative',
+
+            'group-hover:opacity-100'
         ]
     }
 };

@@ -1,219 +1,198 @@
 export default {
-  root: ({ props, state }) => ({
-    class: [
-      // Display and Position
-      "inline-flex",
-      "relative",
+    root: ({ props, state }) => ({
+        class: [
+            'relative',
 
-      // Shape
-      "w-full md:w-56",
-      "rounded-md",
-      "shadow-sm",
+            // Flex
+            {
+                flex: props.fluid,
+                'inline-flex': !props.fluid
+            },
 
-      // Color and Background
-      "bg-surface-0 dark:bg-surface-900",
+            // Shape
+            'rounded-md',
 
-      // States
-      {
-        "ring-1 ring-inset ring-surface-300 dark:ring-surface-700":
-          !state.focused,
-        "ring-2 ring-inset ring-primary-500 dark:ring-primary-400":
-          state.focused,
-      },
+            // Color and Background
+            { 'bg-surface-0 dark:bg-surface-950': !props.disabled },
+            'border',
+            { 'border-surface-300 dark:border-surface-600': !props.invalid },
 
-      // Misc
-      "cursor-default",
-      "select-none",
-      { "opacity-60": props.disabled, "pointer-events-none": props.disabled },
-    ],
-  }),
-  label: ({ props }) => ({
-    class: [
-      //Font
-      "font-sans",
-      "leading-6",
-      "sm:text-sm",
+            // Invalid State
+            'invalid:focus:ring-red-200',
+            'invalid:hover:border-red-500',
+            { 'border-red-500 dark:border-red-400': props.invalid },
 
-      // Flex & Alignment
-      " flex flex-auto",
+            // Transitions
+            'transition-all',
+            'duration-200',
 
-      // Sizing and Spacing
-      "w-[1%]",
-      "py-1.5 px-3",
+            // States
+            { 'hover:border-surface-400 dark:hover:border-surface-600': !props.invalid },
+            { 'outline-none outline-offset-0 ring-1 ring-primary-500 dark:ring-primary-400': state.focused },
 
-      //Shape
-      "rounded-none",
+            // Misc
+            'cursor-pointer',
+            'select-none',
+            { 'bg-surface-200 dark:bg-surface-700 select-none pointer-events-none cursor-default': props.disabled }
+        ]
+    }),
+    label: ({ props, parent }) => ({
+        class: [
+            //Font
+            'leading-[normal]',
 
-      // Color and Background
-      "bg-transparent",
-      "border-0",
-      {
-        "text-surface-800 dark:text-surface-100/80": props.modelValue,
-        "text-surface-400 dark:text-surface-500": !props.modelValue,
-      },
-      "placeholder:text-surface-400 dark:placeholder:text-surface-500",
+            // Display
+            'block',
+            'flex-auto',
 
-      // Transitions
-      "transition",
-      "duration-200",
+            // Color and Background
+            'bg-transparent',
+            'border-0',
+            { 'text-surface-800 dark:text-white/80': props.modelValue != undefined, 'text-surface-400 dark:text-surface-500': props.modelValue == undefined },
+            {
+                'placeholder:text-transparent dark:placeholder:text-transparent': parent.instance?.$name == 'FloatLabel',
+                '!text-transparent dark:!text-transparent': (parent.instance?.$name == 'FloatLabel' && props.modelValue == null) || props.modelValue?.length == 0
+            },
 
-      // States
-      "focus:outline-none focus:shadow-none",
+            // Sizing and Spacing
+            'w-[1%]',
+            'py-2 px-3',
+            { 'pr-7': props.showClear },
 
-      // Misc
-      "relative",
-      "cursor-pointer",
-      "overflow-hidden overflow-ellipsis",
-      "whitespace-nowrap",
-      "appearance-none",
-    ],
-  }),
-  dropdownbutton: {
-    class: [
-      //Font
-      "sm:text-sm",
+            //Shape
+            'rounded-none',
 
-      // Flexbox
-      "flex items-center justify-center",
-      "shrink-0",
+            // Transitions
+            'transition',
+            'duration-200',
 
-      // Color and Background
-      "bg-transparent",
-      "text-surface-500",
+            // States
+            'focus:outline-none focus:shadow-none',
 
-      // Size
-      "w-12",
+            // Filled State *for FloatLabel
+            { filled: parent.instance?.$name == 'FloatLabel' && props.modelValue !== null },
 
-      // Shape
-      "rounded-tr-md",
-      "rounded-br-md",
-    ],
-  },
-  panel: {
-    class: [
-      // Position
-      "absolute top-0 left-0",
-      "mt-2",
+            // Misc
+            'relative',
+            'cursor-pointer',
+            'overflow-hidden overflow-ellipsis',
+            'whitespace-nowrap',
+            'appearance-none'
+        ]
+    }),
+    dropdown: {
+        class: [
+            // Flexbox
+            'flex items-center justify-center',
+            'shrink-0',
 
-      // Shape
-      "border-0",
-      "rounded-md",
-      "shadow-md",
+            // Color and Background
+            'bg-transparent',
+            'text-surface-500',
 
-      // Color
-      "bg-surface-0 dark:bg-surface-700",
-      "text-surface-800 dark:text-surface-100/80",
-      "ring-1 ring-inset ring-surface-300 dark:ring-surface-700",
-    ],
-  },
-  wrapper: {
-    class: [
-      // Sizing
-      "max-h-[200px]",
+            // Size
+            'w-12',
 
-      // Misc
-      "overflow-auto",
-    ],
-  },
-  list: {
-    class: "py-1 list-none mx-1.5",
-  },
-  item: ({ context }) => ({
-    class: [
-      // Font
-      "sm:text-sm",
-      "leading-none",
+            // Shape
+            'rounded-r-md'
+        ]
+    },
+    overlay: {
+        class: [
+            // Colors
+            'bg-surface-0 dark:bg-surface-900',
+            'text-surface-700 dark:text-white/80',
 
-      // Shape
-      "border-0",
-      "rounded-md",
+            // Shape
+            'border border-surface-300 dark:border-surface-700',
+            'rounded-md',
+            'shadow-md'
+        ]
+    },
+    list: {
+        class: 'flex flex-col list-none p-0 m-0 gap-[2px] min-w-full'
+    },
+    option: ({ context }) => ({
+        class: [
+            //Shape
+            'rounded-[4px]',
 
-      // Spacing
-      "m-0",
+            // Spacing
+            'first:mt-0 mt-[2px]',
 
-      //  Colors
-      {
-        "text-surface-500 dark:text-surface-100/70":
-          !context.focused && !context.active,
-        "text-surface-500 dark:text-surface-100/70 bg-surface-200 dark:bg-black/70":
-          context.focused && !context.active,
-        "text-surface-900 dark:text-surface-0/80 bg-surface-50 dark:bg-black/70":
-          context.focused && context.active,
-        "text-surface-900 dark:text-surface-0/80 bg-surface-50 dark:bg-black/70":
-          !context.focused && context.active,
-      },
+            // Colors
+            {
+                'text-surface-500 dark:text-white/70': !context.focused && !context.active,
+                'text-surface-500 dark:text-white/70 bg-surface-200 dark:bg-surface-600/90': context.focused && !context.active,
+                'bg-highlight text-highlight-contrast': (context.focused && context.active) || context.active || (!context.focused && context.active)
+            },
 
-      // Hover States
-      {
-        "hover:bg-surface-50 dark:hover:bg-surface-800": !context.active,
-        "hover:bg-surface-100 dark:hover:bg-black/40 text-surface-900 dark:text-surface-0/80":
-          context.active,
-      },
+            // Transitions
+            'transition-shadow',
+            'duration-200',
 
-      // Transitions
-      "transition-shadow",
-      "duration-200",
+            // States
+            {
+                'hover:bg-surface-100 dark:hover:bg-[rgba(255,255,255,0.03)]': !context.active,
+                'hover:bg-highlight-emphasis': context.active
+            },
 
-      // Misc
-      "cursor-pointer",
-      "overflow-hidden",
-      "whitespace-nowrap",
-    ],
-  }),
-  content: {
-    class: [
-      "relative",
+            // Disabled
+            { 'opacity-60 pointer-events-none cursor-default': context.disabled }
+        ]
+    }),
+    optionContent: {
+        class: [
+            'relative',
+            'leading-[normal]',
 
-      // Flexbox
-      "flex",
-      "items-center",
+            // Flexbox
+            'flex',
+            'items-center',
 
-      // Spacing
-      "py-2 px-4",
+            // Spacing
+            'py-2',
+            'px-3',
 
-      // Misc
-      "no-underline",
-      "overflow-hidden",
-      "cursor-pointer",
-      "select-none",
-    ],
-  },
-  groupicon: {
-    class: [
-      // Alignment
-      "ml-auto",
-    ],
-  },
-  sublist: {
-    class: [
-      // Size
-      "w-full sm:w-48",
+            // Misc
+            'no-underline',
+            'overflow-hidden',
+            'cursor-pointer',
+            'select-none'
+        ]
+    },
+    groupIcon: {
+        class: [
+            // Alignment
+            'ml-auto'
+        ]
+    },
+    optionList: {
+        class: [
+            'min-w-full',
 
-      // Spacing
-      "p-1.5",
-      "m-0",
-      "list-none",
+            // Spacing
+            'p-1',
+            'm-0',
+            'list-none',
 
-      // Shape
-      "shadow-none sm:shadow-md",
-      "border-0",
+            // Shape
+            'shadow-none sm:shadow-md',
+            'rounded-md',
+            'border border-surface-200 dark:border-surface-700',
 
-      // Position
-      "static sm:absolute",
-      "z-10",
+            // Position
+            'static sm:absolute',
+            'z-10',
 
-      // Color
-      "bg-surface-0 dark:bg-surface-700",
-    ],
-  },
-  separator: {
-    class: "border-t border-surface-200 dark:border-surface-600 my-1",
-  },
-  transition: {
-    enterFromClass: "opacity-0 scale-y-[0.8]",
-    enterActiveClass:
-      "transition-[transform,opacity] duration-[120ms] ease-[cubic-bezier(0,0,0.2,1)]",
-    leaveActiveClass: "transition-opacity duration-100 ease-linear",
-    leaveToClass: "opacity-0",
-  },
+            // Color
+            'bg-surface-0 dark:bg-surface-900'
+        ]
+    },
+    transition: {
+        enterFromClass: 'opacity-0 scale-y-[0.8]',
+        enterActiveClass: 'transition-[transform,opacity] duration-[120ms] ease-[cubic-bezier(0,0,0.2,1)]',
+        leaveActiveClass: 'transition-opacity duration-100 ease-linear',
+        leaveToClass: 'opacity-0'
+    }
 };

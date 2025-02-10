@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
     "nuxt-mail",
     "@nuxtjs/tailwindcss",
-    "nuxt-primevue",
+    "@primevue/nuxt-module",
     "@vueuse/nuxt",
     "@nuxt/fonts",
     "nuxt3-meta-pixel",
@@ -309,7 +309,7 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ["~/assets/css/base.css"],
+  css: ["~/assets/css/base.css", "primeicons/primeicons.css"],
 
   sanity: {
     projectId: process.env.SANITY_STUDIO_PROJECT_ID,

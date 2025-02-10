@@ -19,7 +19,11 @@ const toggleNav = () => {
   isToggled.value = !isToggled.value;
 };
 
-// const visible = ref(false);
+const menuStates = ref({});
+
+const toggleMenu = (collectionId) => {
+  menuStates.value[collectionId] = !menuStates.value[collectionId];
+};
 </script>
 <template>
   <div id="mobile-toolbar"
@@ -40,9 +44,9 @@ const toggleNav = () => {
     </div>
   </div>
 
-  <Sidebar v-model:visible="isToggled" position="bottom">
+  <Drawer v-model:visible="isToggled" position="mobile-menu">
     <template #container>
-      <div class="flex h-full flex-col pb-[56px] gap-8">
+      <div class="flex h-full flex-col gap-8">
         <div
           class="flex flex-shrink-0 items-center justify-between border-b-[1px] px-6 py-4  bg-surface-800 dark:bg-surface-300 text-surface-200 dark:text-surface-700">
           <div class="mx-auto max-w-[75%] text-center">
@@ -54,10 +58,71 @@ const toggleNav = () => {
             <icons-fa-duotone-angles-up />
           </div>
         </div>
-        <div class="overflow-y-auto mx-10">
+        <div class="flex flex-col h-[calc(100% - 50px)] overflow-y-auto mx-10">
           <template v-for="item in mobileNavigation.navigationLinks" :key="item._id">
+            <div id="printify-collection-list"
+              v-if="item.linkType === 'int' && item.internalLink.id === 'printifyCollectionNavigation'">
+              <ul class="m-0 list-none">
+                <li>
+                  <ul class="mx-0 my-5 list-none overflow-hidden p-0">
+                    <li class="mb-4">
+                      <NuxtLink to="/products" @click="toggleNav()"
+                        class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit text-sm font-semibold">
+                        <h3
+                          class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">
+                          {{ productNavigation.title }}
+                        </h3>
+                      </NuxtLink>
+                    </li>
+                    <li v-for="collection in productNavigation.printifyCollectionNavGroup" :key="collection._id">
+                      <template v-if="collection.childCollections">
+                        <div @click="toggleMenu(collection._id)"
+                          class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative flex w-fit cursor-pointer items-center px-4 py-2 text-lg font-semibold">
+                          <icons-fa-duotone-angle-down :class="{ 'rotate-180': menuStates[collection._id] }" />
+                          <div class="text-nowrap">
+                            <span class="font-medium">{{ collection.title }}</span>
+                          </div>
+                        </div>
+                        <Transition name="fade">
+                          <ul v-show="menuStates[collection._id]" class="ml-4 list-none overflow-hidden">
+                            <li>
+                              <NuxtLink :to="`/products/collections/${collection.slug}`" @click="toggleNav()"
+                                class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 pl-8 font-semibold">
+                                <span
+                                  class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">
+                                  All {{ collection.title }}
+                                </span>
+                              </NuxtLink>
+                            </li>
+                            <li v-for="child in collection.childCollections" :key="child._id">
+                              <NuxtLink :to="`/products/collections/${collection.slug}/${child.slug}`"
+                                @click="toggleNav()"
+                                class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 pl-8 font-semibold">
+                                <span
+                                  class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">
+                                  {{ child.title }}
+                                </span>
+                              </NuxtLink>
+                            </li>
+                          </ul>
+                        </Transition>
+                      </template>
+                      <template v-else>
+                        <NuxtLink :to="`/products/collections/${collection.slug}`" @click="toggleNav()"
+                          class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 pl-8 font-semibold">
+                          <span
+                            class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">
+                            {{ collection.title }}
+                          </span>
+                        </NuxtLink>
+                      </template>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
             <div id="article-collection-list"
-              v-if="item.linkType === 'int' && item.internalLink.id === 'articleCollectionNavigation'">
+              v-else-if="item.linkType === 'int' && item.internalLink.id === 'articleCollectionNavigation'">
               <ul class="mx-0 my-5 list-none">
                 <li>
                   <ul class="m-0 list-none overflow-hidden p-0">
@@ -119,69 +184,6 @@ const toggleNav = () => {
                 </li>
               </ul>
             </div>
-            <div id="printify-collection-list"
-              v-else-if="item.linkType === 'int' && item.internalLink.id === 'printifyCollectionNavigation'">
-              <ul class="m-0 list-none">
-                <li>
-                  <ul class="mx-0 my-5 list-none overflow-hidden p-0">
-                    <li class="mb-4">
-                      <NuxtLink to="/products" @click="toggleNav()"
-                        class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit text-sm font-semibold">
-                        <h3
-                          class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">
-                          {{ productNavigation.title }}
-                        </h3>
-                      </NuxtLink>
-                    </li>
-                    <li v-for="collection in productNavigation.printifyCollectionNavGroup" :key="collection._id">
-                      <template v-if="collection.childCollections">
-                        <div v-styleclass="{
-                          selector: '@next',
-                          enterClass: 'hidden',
-                          enterActiveClass: 'fadein',
-                          leaveToClass: 'hidden',
-                          leaveActiveClass: 'fadeout',
-                        }"
-                          class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative flex w-fit cursor-pointer items-center px-4 py-2 text-lg font-semibold">
-                          <icons-fa-duotone-angle-down />
-                          <div class="text-nowrap">
-                            <span class="font-medium">{{ collection.title }}</span>
-                          </div>
-                        </div>
-                        <ul class="ml-4 hidden list-none overflow-hidden">
-                          <li>
-                            <NuxtLink :to="`/products/collections/${collection.slug}`" @click="toggleNav()"
-                              class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 pl-8 font-semibold">
-                              <span
-                                class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">
-                                All {{ collection.title }}
-                              </span>
-                            </NuxtLink>
-                          </li>
-                          <li v-for="child in collection.childCollections" :key="child._id">
-                            <NuxtLink :to="`/products/collections/${collection.slug}/${child.slug}`"
-                              @click="toggleNav()"
-                              class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 pl-8 font-semibold">
-                              <span
-                                class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">{{
-                                  child.title }}</span>
-                            </NuxtLink>
-                          </li>
-                        </ul>
-                      </template>
-                      <template v-else>
-                        <NuxtLink :to="`/products/collections/${collection.slug}`" @click="toggleNav()"
-                          class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 pl-8 font-semibold">
-                          <span
-                            class="after:bg-primary-700 dark:after:bg-primary-500 relative after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:duration-300 after:content-[''] hover:after:w-[100%]">{{
-                              collection.title }}</span>
-                        </NuxtLink>
-                      </template>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
             <div v-else-if="item.linkType === 'int'">
               <NuxtLink
                 class="text-surface-700 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative block w-fit py-1 font-semibold"
@@ -192,15 +194,9 @@ const toggleNav = () => {
             </div>
           </template>
         </div>
-        <!-- <div
-          class="mt-auto flex place-content-center border-t-[1px] px-4 py-2 bg-surface-800 dark:bg-surface-300 text-surface-200 dark:text-surface-700">
-          <NuxtLink to="/products" class="cursor-pointer" @click="toggleNav()">
-            <span class="font-brand font-xl">25% off all products in Store</span>
-          </NuxtLink>
-        </div> -->
       </div>
     </template>
-  </Sidebar>
+  </Drawer>
 </template>
 <style scoped>
 .toggle-icon {

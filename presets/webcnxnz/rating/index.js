@@ -13,37 +13,14 @@ export default {
             }
         ]
     }),
-    cancelitem: ({ context }) => ({
-        class: [
-            // Flex & Alignment
-            'inline-flex items-center',
-
-            //State
-            {
-                'outline-none ring-2 ring-primary-500 dark:ring-primary-400': context.focused
-            },
-
-            // Misc
-            'cursor-pointer'
-        ]
-    }),
-    cancelicon: {
-        class: [
-            // Size
-            'w-5 h-5',
-
-            // Color
-            'text-red-500 dark:text-red-400'
-        ]
-    },
-    item: ({ props, context }) => ({
+    option: ({ props, context }) => ({
         class: [
             // Flex & Alignment
             'inline-flex items-center',
 
             // State
             {
-                'outline-none ring-2 ring-primary-500 dark:ring-primary-400': context.focused
+                'outline-none ring-1 ring-primary-500/50 dark:ring-primary-500': context.focused
             },
 
             // Misc
@@ -53,13 +30,13 @@ export default {
             }
         ]
     }),
-    officon: ({ props }) => ({
+    offIcon: ({ props }) => ({
         class: [
             // Size
-            'w-5 h-5',
+            'w-4 h-4',
 
             // Color
-            'text-surface-700 dark:text-surface-0/70',
+            'text-surface-700 dark:text-surface-0/80',
 
             // State
             { 'hover:text-primary-500 dark:hover:text-primary-400': !props.readonly },
@@ -68,13 +45,16 @@ export default {
             'transition duration-200 ease-in'
         ]
     }),
-    onicon: ({ props }) => ({
+    onIcon: ({ props }) => ({
         class: [
             // Size
-            'w-5 h-5',
+            'w-4 h-4',
 
             // Color
-            'text-primary-500 dark:text-primary-400',
+            'text-primary',
+
+            // State
+            { 'hover:text-primary-600 dark:hover:text-primary-300': !props.readonly },
 
             // Transition
             'transition duration-200 ease-in'

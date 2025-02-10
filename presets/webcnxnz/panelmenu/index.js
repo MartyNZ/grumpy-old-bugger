@@ -1,136 +1,126 @@
 export default {
-  panel: {
-    class: "mb-1",
-  },
-  header: {
-    class: [
-      "rounded-md",
-      "outline-none",
-      "focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring focus-visible:ring-primary-400/50 dark:focus-visible:ring-primary-300/50",
-    ],
-  },
-  headercontent: ({ context, instance }) => ({
-    class: [
-      // Shape
-      "rounded-t-md",
-      {
-        "rounded-br-md rounded-bl-md":
-          !context.active || instance.activeItem?.items === undefined,
-        "rounded-br-0 rounded-bl-0":
-          context.active && instance.activeItem?.items !== undefined,
-      },
+    panel: {
+        class: 'p-1 overflow-hidden mb-3 border border-surface-200 dark:border-surface-700 rounded-md'
+    },
+    header: {
+        class: ['rounded-[4px]', 'outline-none']
+    },
+    headerContent: ({ context }) => ({
+        class: [
+            // Shape
+            'rounded-[4px]',
 
-      // Color
-      "border border-surface-200 dark:border-surface-700",
-      "bg-surface-0 dark:bg-surface-800",
-      "text-surface-600 dark:text-surface-0/80",
-      { "text-surface-900 ark:text-surface-0": context.active },
+            // Color
+            'bg-surface-0 dark:bg-surface-900',
+            'text-surface-600 dark:text-surface-0/80',
+            { 'text-surface-900': context.active },
 
-      // Transition
-      "transition duration-200 ease-in-out",
-      "transition-shadow duration-200",
-    ],
-  }),
-  headeraction: {
-    class: [
-      "relative",
+            // States
+            'hover:bg-surface-100 dark:hover:bg-[rgba(255,255,255,0.03)]',
+            'hover:text-surface-900',
 
-      // Font
-      "font-semibold",
-      "text-sm",
-      "leading-none",
+            // Transition
+            'transition duration-200 ease-in-out',
+            'transition-shadow duration-200'
+        ]
+    }),
+    headerLink: {
+        class: [
+            'relative',
 
-      // Flex & Alignments
-      "flex items-center",
+            // Font
+            'font-semibold',
+            'leading-none',
 
-      // Spacing
-      "px-3 py-2",
+            // Flex & Alignments
+            'flex items-center',
 
-      // Misc
-      "select-none cursor-pointer no-underline",
-    ],
-  },
-  headerlabel: {
-    class: "leading-none",
-  },
-  headerIcon: {
-    class: "mr-2 text-sm",
-  },
-  submenuicon: {
-    class: "ml-auto order-last text-sm",
-  },
-  menucontent: {
-    class: [
-      // Spacing
-      "py-1",
+            // Spacing
+            'py-2 px-3',
 
-      // Shape
-      "border border-t-0",
-      "rounded-t-none rounded-br-md rounded-bl-md",
+            // Misc
+            'select-none cursor-pointer no-underline'
+        ]
+    },
+    headerLabel: {
+        class: 'leading-none'
+    },
+    headerIcon: {
+        class: 'mr-2'
+    },
+    submenuIcon: {
+        class: 'mr-2'
+    },
+    content: {
+        class: [
+            // Spacing
+            'pl-4',
 
-      // Color
-      "text-surface-700 dark:text-surface-100/80",
-      "bg-surface-0 dark:bg-surface-800",
-      "border-surface-200 dark:border-surface-700",
-    ],
-  },
-  menu: {
-    class: ["outline-none", "m-0 p-0 list-none"],
-  },
-  content: {
-    class: [
-      // Shape
-      "border-none rounded-none",
+            // Color
+            'text-surface-700 dark:text-white/80',
+            'bg-surface-0 dark:bg-surface-900'
+        ]
+    },
+    rootList: {
+        class: ['outline-none', 'm-0 p-0 list-none']
+    },
+    menuitem: {
+        class: 'relative my-[2px]'
+    },
+    itemContent: {
+        class: [
+            // Shape
+            'border-none rounded-[4px]',
 
-      // Color
-      "text-surface-700 dark:text-surface-100/80",
+            // Color
+            'text-surface-700 dark:text-white/80',
 
-      // Transition
-      "transition-shadow duration-200",
-    ],
-  },
-  action: ({ context }) => ({
-    class: [
-      "relative",
+            // Transition
+            'transition-shadow duration-200'
+        ]
+    },
+    itemLink: ({ context }) => ({
+        class: [
+            'relative',
 
-      // Font
-      "text-sm leading-none",
+            // Font
+            'leading-none',
 
-      // Flex & Alignments
-      "flex items-center",
+            // Flex & Alignments
+            'flex items-center',
 
-      // Spacing
-      "py-2 px-3",
+            // Spacing
+            'py-2 px-3',
 
-      // Color
-      "text-surface-700 dark:text-surface-100/80",
+            // Shape
+            'rounded-[4px]',
 
-      // States
-      "hover:bg-surface-100 dark:hover:bg-surface-700/80 hover:text-surface-700 dark:hover:text-surface-100/80",
-      {
-        "bg-surface-200 text-surface-700 dark:text-surface-100/80 dark:bg-surface-600/90":
-          context.focused,
-      },
+            // Color
+            'text-surface-700 dark:text-white/80',
 
-      // Misc
-      "cursor-pointer no-underline",
-      "select-none overflow-hidden",
-    ],
-  }),
-  icon: {
-    class: "mr-2",
-  },
-  submenu: {
-    class: "p-0 pl-4 m-0 list-none",
-  },
-  transition: {
-    enterFromClass: "max-h-0",
-    enterActiveClass:
-      "overflow-hidden transition-[max-height] duration-1000 ease-[cubic-bezier(0.42,0,0.58,1)]",
-    enterToClass: "max-h-[1000px]",
-    leaveFromClass: "max-h-[1000px]",
-    leaveActiveClass:
-      "overflow-hidden transition-[max-height] duration-[450ms] ease-[cubic-bezier(0,1,0,1)]",
-    leaveToClass: "max-h-0",
-  },
+            // States
+            'hover:bg-surface-100 dark:hover:bg-[rgba(255,255,255,0.03)] hover:text-surface-700 dark:hover:text-white/80',
+            {
+                'bg-surface-200 text-surface-700 dark:text-white/80 dark:bg-surface-0/10': context.focused
+            },
+
+            // Misc
+            'cursor-pointer no-underline',
+            'select-none overflow-hidden'
+        ]
+    }),
+    itemIcon: {
+        class: 'mr-2'
+    },
+    submenu: {
+        class: 'p-0 pl-4 m-0 list-none'
+    },
+    transition: {
+        enterFromClass: 'max-h-0',
+        enterActiveClass: 'overflow-hidden transition-[max-height] duration-1000 ease-[cubic-bezier(0.42,0,0.58,1)]',
+        enterToClass: 'max-h-[1000px]',
+        leaveFromClass: 'max-h-[1000px]',
+        leaveActiveClass: 'overflow-hidden transition-[max-height] duration-[450ms] ease-[cubic-bezier(0,1,0,1)]',
+        leaveToClass: 'max-h-0'
+    }
 };

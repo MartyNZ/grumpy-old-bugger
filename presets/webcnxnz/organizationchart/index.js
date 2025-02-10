@@ -1,143 +1,137 @@
 export default {
-  table: {
-    class: [
-      // Spacing & Position
-      "mx-auto my-0",
+    table: {
+        class: [
+            // Spacing & Position
+            'mx-auto my-0',
 
-      // Table Style
-      "border-spacing-0 border-separate",
-    ],
-  },
-  cell: {
-    class: [
-      // Alignment
-      "text-center align-top",
+            // Table Style
+            'border-spacing-0 border-separate'
+        ]
+    },
+    cell: {
+        class: [
+            // Alignment
+            'text-center align-top',
 
-      // Spacing
-      "py-0 px-3",
-    ],
-  },
-  node: ({ context }) => ({
-    class: [
-      "relative inline-block",
+            // Spacing
+            'py-0 px-3'
+        ]
+    },
+    node: ({ context }) => ({
+        class: [
+            'relative inline-block',
 
-      // Font
-      "text-sm leading-none",
+            // Spacing
+            'py-3 px-4',
 
-      // Spacing
-      "px-5 py-3",
+            // Shape
+            'border',
+            'rounded-md',
+            'border-surface-200 dark:border-surface-700',
+            // Color
+            {
+                'text-surface-600 dark:text-white/80': !context?.selected,
+                'bg-surface-0 dark:bg-surface-900': !context?.selected,
+                'bg-highlight': context?.selected
+            },
 
-      // Shape
-      "border",
-      "rounded",
+            // States
+            {
+                'hover:bg-surface-100 dark:hover:bg-surface-800': context?.selectable && !context?.selected,
+                'hover:bg-highlight-emphasis': context?.selectable && context?.selected
+            },
 
-      // Color
-      "border-surface-200 dark:border-surface-700",
-      {
-        "text-surface-600 dark:text-surface-100/80": !context?.selected,
-        "bg-surface-0 dark:bg-surface-800": !context?.selected,
-        "text-surface-700 dark:text-surface-0": context?.selected,
-        "bg-surface-50 dark:bg-surface-700": context?.selected,
-      },
+            { 'cursor-pointer': context?.selectable }
+        ]
+    }),
+    lineCell: {
+        class: [
+            // Alignment
+            'text-center align-top',
 
-      // States
-      {
-        "hover:bg-surface-100 dark:hover:bg-surface-600/40":
-          context?.selectable,
-      },
+            // Spacing
+            'py-0 px-3'
+        ]
+    },
+    connectorDown: {
+        class: [
+            // Spacing
+            'mx-auto my-0',
 
-      { "cursor-pointer": context?.selectable },
-    ],
-  }),
-  linecell: {
-    class: [
-      // Alignment
-      "text-center align-top",
+            // Size
+            'w-px h-[20px]',
 
-      // Spacing
-      "py-0 px-3",
-    ],
-  },
-  linedown: {
-    class: [
-      // Spacing
-      "mx-auto my-0",
+            // Color
+            'bg-surface-200 dark:bg-surface-700'
+        ]
+    },
+    connectorLeft: ({ context }) => ({
+        class: [
+            // Alignment
+            'text-center align-top',
 
-      // Size
-      "w-px h-[20px]",
+            // Spacing
+            'py-0 px-3',
 
-      // Color
-      "bg-surface-200 dark:bg-surface-700",
-    ],
-  },
-  lineleft: ({ context }) => ({
-    class: [
-      // Alignment
-      "text-center align-top",
+            // Shape
+            'rounded-none border-r',
+            { 'border-t': context.lineTop },
 
-      // Spacing
-      "py-0 px-3",
+            // Color
+            'border-surface-200 dark:border-surface-700'
+        ]
+    }),
+    connectorRight: ({ context }) => ({
+        class: [
+            // Alignment
+            'text-center align-top',
 
-      // Shape
-      "rounded-none border-r",
-      { "border-t": context.lineTop },
+            // Spacing
+            'py-0 px-3',
 
-      // Color
-      "border-surface-200 dark:border-surface-700",
-    ],
-  }),
-  lineright: ({ context }) => ({
-    class: [
-      // Alignment
-      "text-center align-top",
+            // Shape
+            'rounded-none',
 
-      // Spacing
-      "py-0 px-3",
+            // Color
+            { 'border-t border-surface-200 dark:border-surface-700': context.lineTop }
+        ]
+    }),
+    nodeCell: {
+        class: 'text-center align-top py-0 px-3'
+    },
+    nodeToggleButton: {
+        class: [
+            // Position
+            'absolute bottom-[-0.75rem] left-2/4 -ml-3',
+            'z-20',
 
-      // Shape
-      "rounded-none",
+            // Flexbox
+            'flex items-center justify-center',
 
-      // Color
-      {
-        "border-t border-surface-200 dark:border-surface-700": context.lineTop,
-      },
-    ],
-  }),
-  nodecell: {
-    class: "text-center align-top py-0 px-3",
-  },
-  nodetoggler: {
-    class: [
-      // Position
-      "absolute bottom-[-0.75rem] left-2/4 -ml-3",
-      "z-20",
+            // Size
+            'w-6 h-6',
 
-      // Flexbox
-      "flex items-center justify-center",
+            // Shape
+            'rounded-full',
+            'border border-surface-200 dark:border-surface-700',
 
-      // Size
-      "w-6 h-6",
+            // Color
+            'bg-inherit text-inherit',
 
-      // Shape
-      "rounded-full",
+            // Focus
+            'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400',
 
-      // Color
-      "bg-inherit text-inherit",
+            // Misc
+            'cursor-pointer no-underline select-none'
+        ]
+    },
+    nodeToggleButtonIcon: {
+        class: [
+            // Position
+            'static inline-block',
 
-      // Focus
-      "focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400",
-
-      // Misc
-      "cursor-pointer no-underline select-none",
-    ],
-  },
-  nodetogglericon: {
-    class: [
-      // Position
-      "relative inline-block",
-
-      // Size
-      "w-4 h-4",
-    ],
-  },
+            // Size
+            'w-4 h-4'
+        ]
+    }
 };

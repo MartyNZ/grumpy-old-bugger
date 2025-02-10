@@ -367,7 +367,7 @@ const formattedPrices = computed(() => {
                     {{
                       prices.totalPrice
                     }}</span>
-                  <Dropdown v-model="selectedCurrency" :options="currencySelect" optionLabel="code"
+                  <Select v-model="selectedCurrency" :options="currencySelect" optionLabel="code"
                     @change="handleCurrencyChange($event)" />
                 </div>
               </div>
@@ -399,11 +399,17 @@ const formattedPrices = computed(() => {
       </div>
     </div>
     <div id="product-details-features" v-if="product.details">
-      <TabView>
-        <TabPanel v-for="item in product.details.productFeatures" :header="item.title" :key="item._key">
-          <WebcnxnzPortableText :blocks="item.body" />
-        </TabPanel>
-      </TabView>
+      <Tabs :value="product.details.productFeatures[0].title">
+        <TabList>
+          <Tab v-for="item in product.details.productFeatures" :key="item.title" :value="item.title">{{ item.title }}
+          </Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel v-for="item in product.details.productFeatures" :key="item.body" :value="item.title">
+            <WebcnxnzPortableText :blocks="item.body" />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </div>
     <div id="product-details-store-description" v-else="product.store.description">
       <div v-html="product.store.description"></div>

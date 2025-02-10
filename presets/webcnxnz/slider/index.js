@@ -2,16 +2,16 @@ export default {
     root: ({ props }) => ({
         class: [
             'relative',
-            'flex items-center',
 
             // Size
-            { 'h-2 w-full min-w-[15rem]': props.orientation == 'horizontal', 'w-2 h-full min-h-[15rem]': props.orientation == 'vertical' },
+            { 'h-[3px]': props.orientation == 'horizontal', 'w-[3px]': props.orientation == 'vertical' },
 
             // Shape
-            'border-0 rounded-lg',
+            'border-0',
+            'rounded-md',
 
             // Colors
-            'bg-surface-100 dark:bg-surface-700',
+            'bg-surface-200 dark:bg-surface-800',
 
             // States
             { 'opacity-60 select-none pointer-events-none cursor-default': props.disabled }
@@ -32,31 +32,35 @@ export default {
                 'w-full': props.orientation == 'vertical'
             },
 
-            //Shape
-            'rounded-lg',
+            // Shape
+            'rounded-md',
 
             // Colors
-            'bg-primary-500 dark:bg-primary-400'
+            'bg-primary'
         ]
     }),
     handle: ({ props }) => ({
         class: [
-            'block',
+            'flex items-center justify-center',
 
             // Size
-            'h-4',
-            'w-4',
+            'h-[20px]',
+            'w-[20px]',
             {
-                'top-[50%] mt-[-0.5rem] ml-[-0.5rem]': props.orientation == 'horizontal',
-                'left-[50%] mb-[-0.5rem] ml-[-0.5rem]': props.orientation == 'vertical'
+                'top-[50%] -mt-[10px] -ml-[10px]': props.orientation == 'horizontal',
+                'left-[50%] -mb-[10px] -ml-[10px]': props.orientation == 'vertical'
             },
 
             // Shape
             'rounded-full',
-            'ring-2',
+
+            'before:block before:w-[16px] before:h-[16px] before:rounded-full before:bg-surface-0 dark:before:bg-surface-950 before:shadow-md',
 
             // Colors
-            'bg-surface-0 dark:bg-surface-900',
+            'bg-surface-200 dark:bg-surface-800',
+
+            // States
+            'focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring-1',
             'ring-primary-500 dark:ring-primary-400',
 
             // Transitions
@@ -67,24 +71,28 @@ export default {
             'touch-action-none'
         ]
     }),
-    starthandler: ({ props }) => ({
+    startHandler: ({ props }) => ({
         class: [
-            'block',
+            'flex items-center justify-center',
 
             // Size
-            'h-4',
-            'w-4',
+            'h-[20px]',
+            'w-[20px]',
             {
-                'top-[50%] mt-[-0.5rem] ml-[-0.5rem]': props.orientation == 'horizontal',
-                'left-[50%] mb-[-0.5rem] ml-[-0.5rem]': props.orientation == 'vertical'
+                'top-[50%] -mt-[10px] -ml-[10px]': props.orientation == 'horizontal',
+                'left-[50%] -mb-[10px] -ml-[10px]': props.orientation == 'vertical'
             },
 
             // Shape
             'rounded-full',
-            'ring-2',
+
+            'before:block before:w-[16px] before:h-[16px] before:rounded-full before:bg-surface-0 dark:before:bg-surface-950 before:shadow-md',
 
             // Colors
-            'bg-surface-0 dark:bg-surface-900',
+            'bg-surface-200 dark:bg-surface-800',
+
+            // States
+            'focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring-1',
             'ring-primary-500 dark:ring-primary-400',
 
             // Transitions
@@ -95,24 +103,28 @@ export default {
             'touch-action-none'
         ]
     }),
-    endhandler: ({ props }) => ({
+    endHandler: ({ props }) => ({
         class: [
-            'block',
+            'flex items-center justify-center',
 
             // Size
-            'h-4',
-            'w-4',
+            'h-[20px]',
+            'w-[20px]',
             {
-                'top-[50%] mt-[-0.5rem] ml-[-0.5rem]': props.orientation == 'horizontal',
-                'left-[50%] mb-[-0.5rem] ml-[-0.5rem]': props.orientation == 'vertical'
+                'top-[50%] -mt-[10px] -ml-[10px]': props.orientation == 'horizontal',
+                'left-[50%] -mb-[10px] -ml-[10px]': props.orientation == 'vertical'
             },
 
             // Shape
             'rounded-full',
-            'ring-2',
+
+            'before:block before:w-[16px] before:h-[16px] before:rounded-full before:bg-surface-0 dark:before:bg-surface-950 before:shadow-md',
 
             // Colors
-            'bg-surface-0 dark:bg-surface-900',
+            'bg-surface-200 dark:bg-surface-800',
+
+            // States
+            'focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring-1',
             'ring-primary-500 dark:ring-primary-400',
 
             // Transitions

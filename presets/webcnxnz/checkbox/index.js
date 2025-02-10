@@ -1,73 +1,106 @@
 export default {
-  root: {
-    class: [
-      "relative",
+    root: {
+        class: [
+            'relative',
 
-      // Alignment
-      "inline-flex",
-      "align-bottom",
+            // Alignment
+            'inline-flex',
+            'align-bottom',
 
-      // Size
-      "w-4",
-      "h-4",
+            // Size
+            'w-5',
+            'h-5',
 
-      // Misc
-      "cursor-default",
-      "select-none",
-    ],
-  },
-  input: ({ props, context }) => ({
-    class: [
-      // Alignment
-      "flex",
-      "items-center",
-      "justify-center",
+            // Misc
+            'cursor-pointer',
+            'select-none'
+        ]
+    },
+    box: ({ props, context }) => ({
+        class: [
+            // Alignment
+            'flex',
+            'items-center',
+            'justify-center',
 
-      // Size
-      "w-4",
-      "h-4",
+            // Size
+            'w-5',
+            'h-5',
 
-      // Shape
-      "rounded",
-      "border",
+            // Shape
+            'rounded',
+            'border',
 
-      // Colors
-      "text-surface-600",
-      {
-        "border-surface-300 bg-surface-0 dark:border-surface-700 dark:bg-surface-900":
-          !context.checked,
-        "border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400":
-          context.checked,
-      },
+            // Colors
+            {
+                'border-surface-300 dark:border-surface-700': !context.checked && !props.invalid,
+                'bg-surface-0 dark:bg-surface-950': !context.checked && !props.invalid && !props.disabled,
+                'border-primary bg-primary': context.checked
+            },
 
-      // States
-      "focus:outline-none focus:outline-offset-0",
-      {
-        "ring-2 ring-primary-500 dark:ring-primary-400":
-          !props.disabled && context.focused,
-        "cursor-default opacity-60": props.disabled,
-      },
+            // Invalid State
+            'invalid:focus:ring-red-200',
+            'invalid:hover:border-red-500',
+            { 'border-red-500 dark:border-red-400': props.invalid },
 
-      // Transitions
-      "transition-colors",
-      "duration-200",
-    ],
-  }),
-  icon: {
-    class: [
-      // Font
-      "text-normal",
+            // States
+            {
+                'peer-hover:border-surface-400 dark:peer-hover:border-surface-600': !props.disabled && !context.checked && !props.invalid,
+                'peer-hover:bg-primary-emphasis peer-hover:border-primary-emphasis': !props.disabled && context.checked,
+                'peer-focus-visible:z-10 peer-focus-visible:outline-none peer-focus-visible:outline-offset-0 peer-focus-visible:ring-1 peer-focus-visible:ring-primary-500 dark:peer-focus-visible:ring-primary-400': !props.disabled,
+                'bg-surface-200 dark:bg-surface-700 select-none pointer-events-none cursor-default': props.disabled
+            },
 
-      // Size
-      "w-3",
-      "h-3",
+            { '[&>svg]:text-primary-contrast [&>svg]:w-[0.875rem] [&>svg]:h-[0.875rem]': context.checked },
 
-      // Colors
-      "text-surface-100 dark:text-surface-900",
+            // Transitions
+            'transition-colors',
+            'duration-200'
+        ]
+    }),
+    input: {
+        class: [
+            'peer',
 
-      // Transitions
-      "transition-all",
-      "duration-200",
-    ],
-  },
+            // Size
+            'w-full ',
+            'h-full',
+
+            // Position
+            'absolute',
+            'top-0 left-0',
+            'z-10',
+
+            // Spacing
+            'p-0',
+            'm-0',
+
+            // Shape
+            'opacity-0',
+            'rounded',
+            'outline-none',
+            'border border-surface-300 dark:border-surface-700',
+
+            // Misc
+            'appearance-none',
+            'cursor-pointer'
+        ]
+    },
+    icon: ({ context, state }) => ({
+        class: [
+            // Size
+            'w-[0.875rem]',
+            'h-[0.875rem]',
+
+            // Colors
+            {
+                'text-primary-contrast': context.checked,
+                'text-primary': state.d_indeterminate
+            },
+
+            // Transitions
+            'transition-all',
+            'duration-200'
+        ]
+    })
 };

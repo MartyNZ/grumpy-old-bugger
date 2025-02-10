@@ -1,82 +1,85 @@
 export default {
     root: {
-        class: 'shadow-md rounded-lg'
+        class: [
+            //Shape
+            'rounded-md',
+
+            //Colors
+            'border border-surface-200 dark:border-surface-700',
+            'bg-surface-0 dark:bg-surface-900'
+        ]
     },
     header: ({ props }) => ({
         class: [
-            // Alignments
+            // Flex
             'flex items-center justify-between',
 
             // Colors
             'text-surface-700 dark:text-surface-0/80',
-            'bg-surface-0 dark:bg-surface-900',
-            'border-b border-surface-200 dark:border-surface-800',
+            'bg-transparent',
 
             //Shape
-            'rounded-tl-lg rounded-tr-lg',
+            'rounded-tl-md rounded-tr-md',
+            'border-0',
 
             // Conditional Spacing
-            { 'px-5 md:px-6 py-5': !props.toggleable, 'py-3 px-5 md:px-6': props.toggleable }
+            { 'p-[1.125rem]': !props.toggleable, 'py-3 px-[1.125rem]': props.toggleable }
         ]
     }),
     title: {
-        class: 'leading-none font-medium'
+        class: 'leading-none font-semibold'
     },
-    toggler: {
-        class: [
-            // Alignments
-            'inline-flex items-center justify-center',
-
-            // Sized
-            'w-8 h-8',
-
-            //Shape
-            'border-0 rounded-full',
-
-            //Color
-            'bg-transparent',
-            'text-surface-600 dark:text-surface-100/80',
-
-            // States
-            'hover:text-surface-900 dark:hover:text-surface-0/80',
-            'hover:bg-surface-50 dark:hover:bg-surface-800/50',
-            'focus:outline-none focus:outline-offset-0 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-inset dark:focus-visible:ring-primary-500',
-
-            // Transitions
-            'transition duration-200 ease-in-out',
-
-            // Misc
-            'overflow-hidden relative no-underline'
-        ]
+    pctogglebutton: {
+        root: {
+            class: [
+                // Positioning
+                'relative',
+                // Flexbox alignment
+                'inline-flex items-center justify-center text-center',
+                // Line height
+                'leading-[normal]',
+                // Size
+                'w-10 h-10 px-0 py-2',
+                // Shape
+                'rounded-[50%] rounded-full',
+                // Background and border
+                'bg-transparent border-transparent',
+                // Text color
+                'text-surface-500 dark:text-surface-300',
+                // Focus states
+                'focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-surface-500 dark:focus:ring-surface-400',
+                // Hover effect
+                'hover:bg-surface-300/10',
+                // Transition effects
+                'transition duration-200 ease-in-out',
+                // Cursor and overflow
+                'cursor-pointer overflow-hidden select-none'
+            ]
+        }
     },
-    togglerIcon: {
-        class: 'inline-block'
-    },
+
     content: {
         class: [
             // Spacing
-            'py-6 px-5 md:px-6',
+            'p-[1.125rem] pt-0',
 
             // Shape
-            'last:rounded-br-lg last:rounded-bl-lg',
+            'border-0 border-t-0 last:rounded-br-md last:rounded-bl-md',
 
             //Color
-            'bg-surface-0 dark:bg-surface-900',
             'text-surface-700 dark:text-surface-0/80'
         ]
     },
     footer: {
         class: [
             // Spacing
-            'py-6 px-5 md:px-6',
+            'p-[1.125rem] pt-0',
 
-            //Shape
-            'rounded-bl-lg rounded-br-lg',
+            // Shape
+            'border-0 border-t-0 rounded-br-lg rounded-bl-lg',
 
-            // Color
-            'bg-surface-0 dark:bg-surface-900',
-            'text-surface-600 dark:text-surface-0/70',
-            'border-t border-surface-200 dark:border-surface-800'
+            //Color
+            'text-surface-700 dark:text-surface-0/80'
         ]
     },
     transition: {
