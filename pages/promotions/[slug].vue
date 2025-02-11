@@ -7,9 +7,12 @@ const route = useRoute();
 const slug = route.params.slug;
 // console.log(slug)
 
+const isLoading = ref(true);
 const promo = ref();
 try {
-  const { data } = await useSanityQuery(qryPromotionBySlug, { slug: slug });
+  const { data } = await useSanityQuery(qryPromotionBySlug, { slug: slug }).finally(() => {
+    isLoading.value = false
+  });
   if (promo) {
     promo.value = data.value
   };
@@ -23,40 +26,27 @@ const settings = data.settings;
 // console.log("Settings: ", JSON.stringify(settings, null, 2));
 
 useSeoMeta({
-  title: () => promo.value.title,
-  description: () => promo.value.description,
-  ogTitle: () => promo.value.title,
-  ogDescription: () => promo.value.description,
-  // ogImage: () => promo.value.image.url,
-  twitterTitle: () => promo.value.title,
-  twitterDescription: () => promo.value.description,
-  // twitterImage: () => promo.value.image.url,
+  title: computed(() => promo.value?.title || ''),
+  description: computed(() => promo.value?.description || ''),
+  ogTitle: computed(() => promo.value?.title || ''),
+  ogDescription: computed(() => promo.value?.description || ''),
+  // ogImage: computed(() => promo.value?.image.url || ''),
+  twitterTitle: computed(() => promo.value?.title || ''),
+  twitterDescription: computed(() => promo.value?.description || ''),
+  // twitterImage: computed(() => promo.value?.image.url || ''),
   twitterCard: "summary_large_image",
 });
 
-
-// const ogImageComponent = ref();
-// const ogImage = ref();
-// if (promo.value.useSocialImage) {
-//   ogImageComponent.value = 'social-image';
-//   ogImage.value = promo.value.socialImage.url;
-// } else {
-//   ogImageComponent.value = 'promotion';
-//   ogImage.value = promo.value.image.url;
-// }
-// console.log("Use Social Image: ", promo.value.useSocialImage);
-
+const promotionSettings = computed(() => ({
+  title: promo.value?.title,
+  description: promo.value?.description,
+  image: promo.value?.image.url,
+  siteName: promo.value?.title,
+  icon: promo.value?.image.url,
+  twitterCard: "summary_large_image",
+}));
 defineOgImageComponent(
-  'promotion',
-  {
-    title: promo.value.title,
-    description: promo.value.byline,
-    siteName: settings.title,
-    siteLogo: settings.logoUrl,
-    image: promo.value.image.url,
-    cta: promo.value.cta,
-  },
-);
+  'promotion', promotionSettings.value);
 
 definePageMeta({
   layout: false,
@@ -68,7 +58,23 @@ definePageMeta({
     <NuxtLayout name="internal">
       <template #main>
         <section>
-          <div v-if="promo">
+          <div v-if="isLoading">
+            <div class="flex flex-col gap-4">
+              <!-- Title skeleton -->
+              <Skeleton height="3rem" class="mb-2" />
+              <!-- Description skeleton -->
+              <Skeleton height="2rem" width="70%" class="mb-4" />
+              <!-- Content skeleton -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div v-for="n in 6" :key="n" class="flex flex-col gap-2">
+                  <Skeleton height="200px" />
+                  <Skeleton width="85%" height="2rem" />
+                  <Skeleton width="60%" height="1.5rem" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else-if="promo">
             <promotion-collections v-if="promo.scope === 'collections'" :promo="promo" />
             <promotion-products v-else-if="promo.scope === 'products'" :promo="promo" />
             <promotion-subscribe-save v-else-if="promo.scope === 'subscribe-save'" :promo="promo" />
