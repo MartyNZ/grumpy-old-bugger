@@ -2,26 +2,32 @@
 import { qryPage } from "~/queries/siteSettings";
 const route = useRoute();
 const slug = route.params.slug;
+const isValidSlug = computed(() => slug && typeof slug === 'string')
+if (!isValidSlug.value) {
+  throw createError({ statusCode: 404 })
+}
+
 const isLoading = ref(true)
 const { data: page } = await useSanityQuery(qryPage, { slug: slug }).finally(() => {
   isLoading.value = false
 });
 const data = useSiteSettingsStore();
 const settings = data.settings;
+
 // console.log('Page: ', JSON.stringify(page.value, null, 2));
 // console.log('Page slug: ', slug,);
 // console.log("Number of sections: ", JSON.stringify(page.value.sections.length, null, 2));
 
 useSeoMeta({
-  icon: computed(() => settings.logoUrl || ''),
-  title: computed(() => page.value.title || ''),
-  description: computed(() => page.value.description || ''),
-  ogTitle: computed(() => page.value.title || ''),
-  ogDescription: computed(() => page.value.description || ''),
-  // ogImage: computed(() => settings.image || ''),
-  twitterTitle: computed(() => page.value.title || ''),
-  twitterDescription: computed(() => page.value.description || ''),
-  // twitterImage: computed(() => settings.image || ''),
+  icon: computed(() => settings?.logoUrl || ''),
+  title: computed(() => page?.value?.title || ''),
+  description: computed(() => page?.value?.description || ''),
+  ogTitle: computed(() => page?.value?.title || ''),
+  ogDescription: computed(() => page?.value?.description || ''),
+  // ogImage: computed(() => settings?.image || ''),
+  twitterTitle: computed(() => page?.value?.title || ''),
+  twitterDescription: computed(() => page?.value?.description || ''),
+  // twitterImage: computed(() => settings?.image || ''),
   twitterCard: "summary_large_image",
 });
 

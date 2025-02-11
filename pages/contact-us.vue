@@ -54,26 +54,26 @@ const onSubmit = handleSubmit(values => {
 const debug = ref(false);
 
 useSeoMeta({
-  title: () => settings.title,
-  ogTitle: () => settings.title,
-  description: () => settings.description,
-  ogDescription: () => settings.description,
-  ogImage: () => settings.image,
-  twitterTitle: () => settings.title,
-  twitterDescription: () => settings.description,
-  twitterImage: () => settings.image,
+  title: computed(() => settings?.title || ''),
+  ogTitle: computed(() => settings?.title || ''),
+  description: computed(() => settings?.description || ''),
+  ogDescription: computed(() => settings?.description || ''),
+  ogImage: computed(() => settings?.image || ''),
+  twitterTitle: computed(() => settings?.title || ''),
+  twitterDescription: computed(() => settings?.description || ''),
+  twitterImage: computed(() => settings?.image || ''),
   twitterCard: "summary_large_image",
 });
 
-defineOgImageComponent(
-  'default',
-  {
-    title: settings.title,
-    description: settings.description,
-    image: settings.image,
-    siteName: settings.title,
-    icon: settings.logoUrl,
-  });
+const siteSettings = computed(() => ({
+  title: data.settings?.title || '',
+  description: data.settings?.description || '',
+  image: data.settings?.image || '',
+  siteName: data.settings?.title || '',
+  icon: data.settings?.logoUrl || ''
+}))
+
+defineOgImageComponent('default', siteSettings.value)
 
 definePageMeta({
   layout: "false",

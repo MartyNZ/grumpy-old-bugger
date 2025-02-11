@@ -13,35 +13,36 @@ const routeParams = route.params;
 
 const { data: collectionNav } = await useSanityQuery(qryArticleCollectionNavigation);
 
+const isLoading = ref(true)
 const { data: collection } = await useSanityQuery(qryArticlesByCategory, {
   slug: routeParams.slug,
+}).finally(() => {
+  isLoading.value = false
 });
 // console.log("Collection: ", JSON.stringify(collection.value, null, 2));
 
 const articles = collection.value.articles;
 
 useSeoMeta({
-  title: () => collection.value.title,
-  description: () => collection.value.excerpt,
-  ogTitle: () => collection.value.title,
-  ogDescription: () => collection.value.excerpt,
-  // ogImage: () => collection.value.image.url,
-  twitterTitle: () => collection.value.title,
-  twitterDescription: () => collection.value.excerpt,
-  // twitterImage: () => collection.value.image.url,
+  title: computed(() => collection.value?.title || ''),
+  description: computed(() => collection.value?.excerpt || ''),
+  ogTitle: computed(() => collection.value?.title || ''),
+  ogDescription: computed(() => collection.value?.excerpt || ''),
+  // ogImage: computed(() => collection.value?.image.url || ''),
+  twitterTitle: computed(() => collection.value?.title || ''),
+  twitterDescription: computed(() => collection.value?.excerpt || ''),
+  // twitterImage: computed(() => collection.value?.image.url || ''),
   twitterCard: "summary_large_image",
 });
 
-defineOgImageComponent(
-  'article',
-  {
-    title: collection.value.title,
-    description: collection.value.excerpt,
-    siteName: settings.title,
-    image: collection.value.image.url,
-    siteLogo: settings.logoUrl,
-  }
-);
+const articleSettings = computed(() => ({
+  title: collection.value?.title,
+  description: collection.value?.excerpt,
+  image: collection.value?.image.url,
+  siteName: settings?.title,
+  siteLogo: settings?.logoUrl,
+}));
+defineOgImageComponent('article', articleSettings.value);
 
 definePageMeta({
   layout: false,
@@ -52,13 +53,21 @@ definePageMeta({
     <template #main>
       <section id="collection">
         <div class="pb-5">
-          <h1>
+          <Skeleton v-if="isLoading" width="50%" height="3rem" />
+          <h1 v-else>
             {{ collection.title }}
           </h1>
-          <SanityContent v-if="collection.description" :blocks="collection.description" />
+
+          <Skeleton v-if="isLoading" width="100%" height="6rem" class="mb-4" />
+          <SanityContent v-else-if="collection.description" :blocks="collection.description" />
         </div>
-        <!-- <pre>{{ articles }}</pre> -->
-        <article-list :articles="articles" />
+
+        <div v-if="isLoading">
+          <div v-for="n in 3" :key="n" class="mb-4">
+            <Skeleton width="100%" height="12rem" />
+          </div>
+        </div>
+        <article-list v-else :articles="articles" />
       </section>
     </template>
     <template #sidebar>
@@ -66,3 +75,9 @@ definePageMeta({
     </template>
   </NuxtLayout>
 </template>
+
+<style scoped>
+.p-skeleton {
+  background-color: var(--surface-ground);
+}
+</style>
