@@ -72,24 +72,14 @@ const items = computed(() => {
 <template>
   <Breadcrumb :home="home" :model="items" :key="items">
     <template #item="{ item, props }">
-      <NuxtLink
-        v-if="item.route"
-        v-slot="{ href, navigate }"
-        :to="item.route"
-        custom
-      >
+      <NuxtLink v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
         <NuxtLink :to="href" v-bind="props.action" @click="navigate">
           <span :class="[item.icon]" />
-          <span class="font-semibold uppercase text-sm">{{ item.label }}</span>
+          <span class="font-semibold uppercase text-sm whitespace-nowrap">{{ item.label }}</span>
         </NuxtLink>
       </NuxtLink>
-      <NuxtLink
-        v-else
-        :to="item.url"
-        :target="item.target"
-        v-bind="props.action"
-      >
-        <span class="font-semibold uppercase text-sm">{{ item.label }}</span>
+      <NuxtLink v-else :to="item.url" :target="item.target" v-bind="props.action">
+        <span class="font-semibold uppercase text-sm whitespace-nowrap">{{ item.label }}</span>
       </NuxtLink>
     </template>
   </Breadcrumb>

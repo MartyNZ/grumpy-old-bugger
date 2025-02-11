@@ -43,8 +43,7 @@ const toggleMenu = (collectionId) => {
       <span class="text-xs justify-center">Menu</span>
     </div>
   </div>
-
-  <Drawer v-model:visible="isToggled" position="mobile-menu">
+  <Drawer v-model:visible="isToggled" position="mobile-menu" class="h-screen">
     <template #container>
       <div class="flex h-full flex-col gap-8">
         <div
@@ -58,7 +57,8 @@ const toggleMenu = (collectionId) => {
             <icons-fa-duotone-angles-up />
           </div>
         </div>
-        <div class="flex flex-col h-[calc(100% - 50px)] overflow-y-auto mx-10">
+        <div class="flex flex-col overflow-y-auto mx-10 pb-16" style="height: calc(100vh - 250px)">
+
           <template v-for="item in mobileNavigation.navigationLinks" :key="item._id">
             <div id="printify-collection-list"
               v-if="item.linkType === 'int' && item.internalLink.id === 'printifyCollectionNavigation'">
@@ -144,7 +144,7 @@ const toggleMenu = (collectionId) => {
                           leaveToClass: 'hidden',
                           leaveActiveClass: 'fadeout',
                         }"
-                          class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative relative block flex w-fit cursor-pointer items-center px-3 py-4 text-lg font-semibold">
+                          class="text-surface-700 dark:after:bg-primary-500 hover:text-surface-900 dark:text-surface-300 hover:dark:text-surface-100 relative w-fit cursor-pointer items-center px-3 py-4 text-lg font-semibold">
                           <icons-fa-duotone-angle-down />
                           <div class="text-nowrap">
                             <span class="font-medium">{{ collection.title }}</span>
@@ -224,10 +224,10 @@ const toggleMenu = (collectionId) => {
 }
 
 .fadein {
-  animation: fadein 150ms ease-in-out;
+  animation: fadein 250ms ease-in-out;
 }
 
 .fadeout {
-  animation: fadeout 150ms ease-in-out;
+  animation: fadeout 250ms ease-in-out;
 }
 </style>

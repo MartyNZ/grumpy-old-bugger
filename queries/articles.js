@@ -102,13 +102,13 @@ export const qryArticleLatest = groq`
     'url': asset->url,
     "assetId":asset->_id
     },
-    'excerpt': array::join(string::split(pt::text(body), "")[0...75], "") + "...",
+    'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
     publishedDate,
-    category->{
+    'category':category->{
       title,
-      'slug':slug.current,
-    },
-  } | order(publishedDate desc)[0]
+      'slug':slug.current
+    }
+  } | order(publishedDate desc)[0...3]
 `;
 
 export const qryArticlesLatest = groq`
