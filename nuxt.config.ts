@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2024-07-09",
+  compatibilityDate: "2025-02-10",
   devtools: {
     enabled: true,
     timeline: {
@@ -28,7 +28,10 @@ export default defineNuxtConfig({
   ],
   vite: {
     server: {
-      allowedHosts: ["2tzg9a9usl2l.share.zrok.io"],
+      allowedHosts: [
+        "2tzg9a9usl2l.share.zrok.io",
+        "https://grumpyoldbugger.store",
+      ],
     },
   },
   veeValidate: {
