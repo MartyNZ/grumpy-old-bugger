@@ -65,37 +65,11 @@ definePageMeta({
   <NuxtLayout name="internal">
     <template #main>
       <section id="article">
-        <template v-if="isLoading">
-          <div class="flex flex-column gap-4">
-            <!-- Title skeleton -->
-            <Skeleton height="3rem" class="mb-4" />
-
-            <!-- Meta info skeleton -->
-            <div class="flex gap-3 mb-4">
-              <Skeleton width="8rem" height="1.5rem" />
-              <Skeleton width="8rem" height="1.5rem" />
-            </div>
-
-            <!-- Content skeleton -->
-            <Skeleton height="200px" class="mb-4" />
-            <Skeleton height="100px" class="mb-2" />
-            <Skeleton height="100px" class="mb-2" />
-            <Skeleton width="75%" height="100px" />
-          </div>
-        </template>
-        <article-content v-else :article="article" />
+        <article-content :loading="isLoading" :article="article" />
       </section>
     </template>
     <template #sidebar>
-      <template v-if="isLoading">
-        <div class="flex flex-column gap-3">
-          <Skeleton height="150px" />
-          <Skeleton height="2rem" />
-          <Skeleton height="2rem" />
-          <Skeleton height="2rem" />
-        </div>
-      </template>
-      <article-sidebar v-else />
+      <article-sidebar />
     </template>
   </NuxtLayout>
 </template>

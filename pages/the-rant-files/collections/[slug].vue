@@ -1,7 +1,6 @@
 <script setup>
 import {
   qryArticlesByCategory,
-  qryArticleCollectionNavigation,
 } from "~/queries/articles";
 
 const data = useSiteSettingsStore();
@@ -11,7 +10,6 @@ const route = useRoute();
 const routeParams = route.params;
 // console.log(routeParams.slug);
 
-const { data: collectionNav } = await useSanityQuery(qryArticleCollectionNavigation);
 
 const isLoading = ref(true)
 const { data: collection } = await useSanityQuery(qryArticlesByCategory, {
@@ -53,21 +51,19 @@ definePageMeta({
     <template #main>
       <section id="collection">
         <div class="pb-5">
-          <Skeleton v-if="isLoading" width="50%" height="3rem" />
+          <template v-if="isLoading">
+            <Skeleton width="40%" height="2rem" class="mb-2" />
+          </template>
           <h1 v-else>
             {{ collection.title }}
           </h1>
 
-          <Skeleton v-if="isLoading" width="100%" height="6rem" class="mb-4" />
+          <template v-if="isLoading">
+            <Skeleton width="100%" height="20rem" class="mb-2" />
+          </template>
           <SanityContent v-else-if="collection.description" :blocks="collection.description" />
         </div>
-
-        <div v-if="isLoading">
-          <div v-for="n in 3" :key="n" class="mb-4">
-            <Skeleton width="100%" height="12rem" />
-          </div>
-        </div>
-        <article-list v-else :articles="articles" />
+        <article-list :articles="articles" :loading="isLoading" />
       </section>
     </template>
     <template #sidebar>

@@ -9,15 +9,22 @@ const props = defineProps({
   enableZoom: {
     type: Boolean,
     default: false
-  }
+  },
+  loading: {
+    type: Boolean,
+    default: true
+  },
 });
 </script>
 
 <template>
   <div :class="{ 'zoom': enableZoom }"
     class="promo-container dark:shadow-surface-600 relative overflow-hidden shadow @md:shadow-med @lg:shadow-lg mx-auto w-full">
-    <SanityImage auto="format" :assetId="promo.image.assetId" height="auto" width="100%"
-      class="w-full object-cover align-middle transition duration-300 ease-linear" :alt="promo.title" />
+    <Skeleton v-if="loading" height="auto" width="100%" />
+    <template v-else>
+      <SanityImage auto="format" :assetId="promo.image.assetId" height="auto" width="100%"
+        class="w-full object-cover align-middle transition duration-300 ease-linear" :alt="promo.title" />
+    </template>
     <div class="z-1 absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden">
       <div class="flex flex-col items-center justify-around relative h-full">
         <div class="promo-banner">

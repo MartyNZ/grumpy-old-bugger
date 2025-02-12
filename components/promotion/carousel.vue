@@ -4,6 +4,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  loading: {
+    type: Boolean,
+    default: true
+  }
 });
 // console.log("Promotions: ", JSON.stringify(props.promotions));
 </script>
@@ -11,7 +15,7 @@ const props = defineProps({
   <div id="carousel" class="mb-4 w-full ">
     <v3cnCarousel :items-to-show="1" :wrapAround="true" :transition="1000" :autoplay="8000">
       <v3cnSlide v-for="(promotion, index) in promotions" :key="promotion._id">
-        <promotion-hero :promo="promotion" />
+        <promotion-hero :promo="promotion" :loading="loading" />
         <!-- {{ promotion }} -->
         <!-- <div class="flex flex-col flex-wrap md:flex-row">
           <div class="mb-4 grid w-full place-items-center gap-4 pr-3 md:max-w-[50%]">

@@ -20,28 +20,21 @@ const props = defineProps({
 
 <template>
   <section id="article-list">
-    <h2 class="text-lg">
-      <Skeleton v-if="loading" width="200px" height="24px" />
-      <template v-else>{{ sectionTitle }}</template>
+    <template v-if="loading">
+      <Skeleton width="40%" height="2rem" class="mb-2" />
+    </template>
+    <h2 v-else class="text-lg">{{ sectionTitle }}
     </h2>
 
-    <div v-if="description" class="text-balanced mb-4">
-      <Skeleton v-if="loading" width="100%" height="20px" />
-      <template v-else>{{ description }}</template>
+    <template v-if="loading">
+      <Skeleton width="100%" height="6rem" class="mb-2" />
+    </template>
+    <div v-else-if="description" class="text-balanced mb-4">{{ description }}
     </div>
 
     <div id="articles-grid">
-      <template v-if="loading">
-        <div v-for="n in 6" :key="n" class="skeleton-card">
-          <Skeleton height="200px" />
-          <Skeleton width="85%" height="24px" class="mt-2" />
-          <Skeleton width="60%" height="16px" class="mt-2" />
-        </div>
-      </template>
-      <template v-else>
-        <template v-for="article in articles" :key="article._id">
-          <article-summary-card :article="article" />
-        </template>
+      <template v-for="article in articles" :key="article._id">
+        <article-summary-card :article="article" :loading="loading" />
       </template>
     </div>
   </section>
@@ -60,10 +53,6 @@ const props = defineProps({
   justify-items: center;
 }
 
-.skeleton-card {
-  width: 100%;
-  max-width: 300px;
-}
 
 @container (width > 530px) {
   #articles-grid {

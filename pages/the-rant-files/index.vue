@@ -5,9 +5,9 @@ import { qryArticlesSection, qryArticles, qryArticleLatest } from '~/queries/art
 const data = useSiteSettingsStore();
 const settings = data.settings;
 
-const isLoadingSection = ref(true)
+const isLoadingArticlesSection = ref(true)
 const { data: articlesSection } = await useSanityQuery(qryArticlesSection).finally(() => {
-  isLoadingSection.value = false
+  isLoadingArticlesSection.value = false
 });
 
 // console.log("Articles Section: ", JSON.stringify(articlesSection.value, null, 2))
@@ -16,11 +16,6 @@ const { data: articles } = await useSanityQuery(qryArticles).finally(() => {
   isLoadingArticles.value = false
 });
 // console.log("Articles: ", JSON.stringify(articles.value, null, 2))
-const isLoadingLatest = ref(true)
-const { data: latestArticle } = await useSanityQuery(qryArticleLatest).finally(() => {
-  isLoadingLatest.value = false
-});
-// console.log("Latest Article: ", JSON.stringify(latestArticle.value, null, 2))
 
 useSeoMeta({
   title: computed(() => articlesSection.value?.title || ''),
@@ -54,8 +49,16 @@ definePageMeta({
       <div id="article-main" class="container mx-auto p-4 md:p-6">
         <div id="page-layout">
           <section id="articles-list" class="articles">
-            <h2>{{ articlesSection.title }}</h2>
-            <p class="mb-8">{{ articlesSection.description }}</p>
+            <template v-if="isLoadingArticlesSection">
+              <div class="flex flex-col gap-4 pb-16">
+                <Skeleton width="25%" height="30px" />
+                <Skeleton width="100%" height="250px" />
+              </div>
+            </template>
+            <template v-else>
+              <h2>{{ articlesSection.title }}</h2>
+              <p class="mb-8">{{ articlesSection.description }}</p>
+            </template>
             <!-- <pre>{{ articles }}</pre> -->
             <article-list :articles="articles" :loading="isLoadingArticles" />
           </section>

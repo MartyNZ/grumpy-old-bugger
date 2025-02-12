@@ -7,10 +7,7 @@ if (!isValidSlug.value) {
   throw createError({ statusCode: 404 })
 }
 
-const isLoading = ref(true)
-const { data: page } = await useSanityQuery(qryPage, { slug: slug }).finally(() => {
-  isLoading.value = false
-});
+const { data: page } = await useSanityQuery(qryPage, { slug: slug })
 const data = useSiteSettingsStore();
 const settings = data.settings;
 
@@ -50,28 +47,10 @@ definePageMeta({
   <div>
     <NuxtLayout name="default">
       <template #main>
-        <template v-if="isLoading">
-          <div class="flex flex-col gap-4">
-            <!-- Header skeleton -->
-            <Skeleton height="4rem" class="mb-4" animation="wave" />
-
-            <!-- Content sections skeleton -->
-            <div v-for="n in 3" :key="n" class="mb-6">
-              <Skeleton width="75%" height="2rem" class="mb-2" animation="wave" />
-              <Skeleton height="12rem" animation="wave" />
-            </div>
-          </div>
-        </template>
-        <app-page-sections :page="page" v-else />
+        <app-page-sections :page="page" />
       </template>
       <template #sidebar>
-        <template v-if="isLoading">
-          <div class="flex flex-col gap-3">
-            <Skeleton width="100%" height="10rem" animation="wave" />
-            <Skeleton width="100%" height="8rem" animation="wave" />
-          </div>
-        </template>
-        <product-sidebar v-else />
+        <product-sidebar />
       </template>
     </NuxtLayout>
   </div>

@@ -10,8 +10,9 @@ const props = defineProps({
   description: {
     type: String,
   },
-  pending: {
+  loading: {
     type: Boolean,
+    default: true
   },
 });
 </script>
@@ -21,7 +22,7 @@ const props = defineProps({
     <div v-if="description" class="text-balanced mb-4">{{ description }}</div>
     <div id="products-grid">
       <template v-for="product in products" :key="product.store._id">
-        <product-summary-card :product="product" />
+        <product-summary-card :loading="loading" :product="product" />
       </template>
     </div>
   </section>

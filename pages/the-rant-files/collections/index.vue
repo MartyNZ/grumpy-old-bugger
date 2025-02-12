@@ -6,6 +6,7 @@ import {
 
 const data = useSiteSettingsStore();
 const settings = data.settings;
+
 const isLoading = ref(true)
 const { data: allArticlesbyCategory } = await useSanityQuery(qryAllArticlesByCategory).finally(() => {
   isLoading.value = false
@@ -48,29 +49,13 @@ definePageMeta({
     <template #main>
       <h1 class="mb-2">All Collections</h1>
 
-      <template v-if="isLoading">
-        <div v-for="n in 3" :key="n" class="mb-6">
-          <Skeleton height="2rem" class="mb-2" />
-          <Skeleton height="4rem" class="mb-2" />
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div v-for="i in 3" :key="i" class="flex flex-col gap-2">
-              <Skeleton height="12rem" />
-              <Skeleton width="85%" height="1.5rem" />
-              <Skeleton width="60%" height="1rem" />
-            </div>
-          </div>
+      <div v-for="category in allArticlesbyCategory" :key="category._id">
+        <div id="header" class="my-2 pb-3">
+          <h2>{{ category.title }}</h2>
+          <SanityContent v-if="category.description" :blocks="category.description" />
         </div>
-      </template>
-
-      <template v-else>
-        <div v-for="category in allArticlesbyCategory" :key="category._id">
-          <div id="header" class="my-2 pb-3">
-            <h2>{{ category.title }}</h2>
-            <SanityContent v-if="category.description" :blocks="category.description" />
-          </div>
-          <article-list :articles="category.articles" />
-        </div>
-      </template>
+        <article-list :articles="category.articles" :loading="isLoading" />
+      </div>
     </template>
 
     <template #sidebar>

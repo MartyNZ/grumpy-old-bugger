@@ -7,7 +7,12 @@ const collectionNav =
 
 const data = useSiteSettingsStore();
 const settings = data.settings;
-const { data: allProducts } = await useSanityQuery(qryAllProducts);
+
+const isLoading = ref(true)
+// Modify the data fetching to handle loading state
+const { data: allProducts } = await useSanityQuery(qryAllProducts).finally(() => {
+  isLoading.value = false
+});
 // console.log("Products: ", JSON.stringify(allProducts.value, null, 2));
 
 const filteredProducts = ref([]);
@@ -118,7 +123,6 @@ const openDialog = () => {
       themeFilters.value = filters.data.themes;
       colourFilters.value = filters.data.colours;
       // console.log("Theme Filters: ", JSON.stringify(themeFilters.value));
-      // console.log("Colours Filters: ", JSON.stringify(colourFilters.value));
     },
   });
   // console.log("From openDialog: ", dialogRef);
@@ -134,26 +138,24 @@ const currentProduct = Math.floor(Math.random() * productCount);
 const product = allProducts.value[currentProduct];
 
 useSeoMeta({
-  title: () => settings.name,
-  ogTitle: () => settings.name,
-  description: () => settings.description,
-  ogDescription: () => settings.description,
-  twitterTitle: () => settings.name,
-  twitterDescription: () => settings.description,
+  title: computed(() => settings?.name || ''),
+  ogTitle: computed(() => settings?.name || ''),
+  description: computed(() => settings?.description || ''),
+  ogDescription: computed(() => settings?.description || ''),
+  twitterTitle: computed(() => settings?.name || ''),
+  twitterDescription: computed(() => settings?.description || ''),
   twitterCard: "summary_large_image",
 });
 
-defineOgImageComponent(
-  'product',
-  {
-    title: settings.title,
-    productTitle: product.store.title,
-    description: settings.description,
-    siteName: settings.title,
-    image: product.featureImage?.url || product.defaultImageUrl,
-    siteLogo: settings.logoUrl,
-  },
-);
+const productSettings = (({
+  title: settings?.title,
+  productTitle: product.store?.title,
+  description: settings?.description,
+  siteName: settings?.title,
+  image: product.featureImage?.url || product?.defaultImageUrl,
+  siteLogo: settings?.logoUrl,
+}))
+defineOgImageComponent('product', productSettings);
 
 definePageMeta({
   layout: false,
@@ -166,34 +168,7 @@ definePageMeta({
       <template #main>
         <product-collection-buttons :collectionNav="collectionNav" />
         <section id="product-list">
-          <div class="align-center flex flex-col justify-between pb-5">
-            <div>
-              <h1>Our Full Product Collection</h1>
-              <!-- <p>Welcome to our products page.</p> -->
-            </div>
-            <div id="filter-control" class="flex flex-wrap gap-4 justify-between w-full">
-              <div class="max-w-48 w-full text-nowrap content-center text-sm italic">
-                You are viewing<br />{{ filteredProducts.length }} of {{ allProducts.length }} products
-              </div>
-              <div class="flex gap-2">
-                <!-- <Button outlined rounded size="small" @click="openDialog" class="w-[12ch] flex-none" label="Filters">
-                  <icons-fa-duotone-filters />
-                  <span>Filters</span>
-                </Button>
-                <Button v-if="themeFilters.length > 0 || colourFilters.length > 0" outlined rounded size="small"
-                  @click="clearFilters" class="flex gap-1" label="Filters">
-                  <icons-fa-duotone-circle-xmark />
-                  <span>Clear Filters</span>
-                </Button>
-                <Divider layout="vertical" /> -->
-                <NuxtLink to="/products/designs"
-                  class="relative items-center justify-center inline-flex text-center align-bottom text-sm px-2 py-1 min-w-[2rem] shadow-sm rounded-full bg-transparent dark:text-primary-300 dark:hover:bg-primary-700 dark:hover:text-primary-100 dark:ring-primary-300 dark:hover:ring-primary-100 text-primary-500 ring-1 ring-primary-500 hover:bg-primary-200 hover:text-primary-950 focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-offset-current focus:ring-primary-500 dark:focus:ring-primary-400 transition duration-200 ease-in-out cursor-pointer overflow-hidden select-none semi-bold">
-                  Explore our designs
-                </NuxtLink>
-              </div>
-            </div>
-          </div>
-          <product-list v-if="filteredProducts.length > 0" :products="filteredProducts" />
+          <product-list :loading="isLoading" v-if="filteredProducts.length > 0" :products="filteredProducts" />
         </section>
       </template>
       <template #sidebar>
@@ -202,3 +177,9 @@ definePageMeta({
     </NuxtLayout>
   </div>
 </template>
+
+<style scoped>
+.p-skeleton {
+  background-color: var(--surface-200);
+}
+</style>

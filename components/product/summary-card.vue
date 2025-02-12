@@ -4,6 +4,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  loading: {
+    type: Boolean,
+    default: true,
+  },
 });
 const userInfo = useCookie('user-info');
 
@@ -49,67 +53,90 @@ const pricedFrom = computed(() => {
   <div id="product-card">
     <div class="dark:bg-surface-950 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg">
       <div class="zoom relative overflow-hidden bg-cover bg-[50%] bg-no-repeat">
-        <template v-if="product.featureImage">
-          <div class="relative">
-            <SanityImage :asset-id="product.featureImage.assetId"
-              class="aspect-square h-full object-cover align-middle transition duration-300 ease-linear"
-              :alt="product.store.title" auto="format" max-w="380" />
-            <template v-if="productPromos.length > 0">
-              <div v-for="productPromo in productPromos" class="absolute aspect-square text-xs p-3 w-14
-               text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
-                Save<br />
-                {{ productPromo.discount }}%
+        <template v-if="loading">
+          <Card class="w-full">
+            <template #header>
+              <Skeleton height="200px" />
+            </template>
+            <template #content>
+              <div class="flex flex-col gap-2">
+                <Skeleton width="85%" height="2rem" />
+                <Skeleton width="100%" height="4rem" />
+                <div class="flex justify-between">
+                  <Skeleton width="30%" height="1.5rem" />
+                  <Skeleton width="20%" height="1.5rem" />
+                </div>
               </div>
             </template>
-            <template v-if="collectionPromos.length > 0">
-              <div v-for="collectionPromo in collectionPromos" class="absolute aspect-square text-xs p-3 w-14
-               text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
-                Save<br />
-                {{ collectionPromo.discount }}%
-              </div>
-            </template>
-          </div>
+          </Card>
         </template>
         <template v-else>
-          <div class="relative">
-            <img :src="product.defaultImageUrl"
-              class="aspect-square w-full object-cover align-middle transition duration-300 ease-linear"
-              :alt="product.store.title" loading="lazy" placeholder />
-            <template v-if="productPromos.length > 0">
-              <div v-for="promo in productPromos" class="absolute aspect-square text-xs p-3 w-14
+          <template v-if="product.featureImage">
+            <div class="relative">
+              <SanityImage :asset-id="product.featureImage.assetId"
+                class="aspect-square h-full object-cover align-middle transition duration-300 ease-linear"
+                :alt="product.store.title" auto="format" max-w="380" />
+              <template v-if="productPromos.length > 0">
+                <div v-for="productPromo in productPromos" class="absolute aspect-square text-xs p-3 w-14
                text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
-                Save<br />
-                {{ promo.discount }}%
-              </div>
-            </template>
-            <template v-if="collectionPromos.length > 0">
-              <div v-for="collectionPromo in collectionPromos" class="absolute aspect-square text-xs p-3 w-14
+                  Save<br />
+                  {{ productPromo.discount }}%
+                </div>
+              </template>
+              <template v-if="collectionPromos.length > 0">
+                <div v-for="collectionPromo in collectionPromos" class="absolute aspect-square text-xs p-3 w-14
                text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
-                Save<br />
-                {{ collectionPromo.discount }}%
-              </div>
-            </template>
-          </div>
-        </template>
-        <NuxtLink :to="`/products/${product.slug}`">
-          <div>
-            <div
-              class="mask absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsla(0,0%,99.2%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out">
+                  Save<br />
+                  {{ collectionPromo.discount }}%
+                </div>
+              </template>
             </div>
-          </div>
-        </NuxtLink>
+          </template>
+          <template v-else>
+            <div class="relative">
+              <img :src="product.defaultImageUrl"
+                class="aspect-square w-full object-cover align-middle transition duration-300 ease-linear"
+                :alt="product.store.title" loading="lazy" placeholder />
+              <template v-if="productPromos.length > 0">
+                <div v-for="promo in productPromos" class="absolute aspect-square text-xs p-3 w-14
+               text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
+                  Save<br />
+                  {{ promo.discount }}%
+                </div>
+              </template>
+              <template v-if="collectionPromos.length > 0">
+                <div v-for="collectionPromo in collectionPromos" class="absolute aspect-square text-xs p-3 w-14
+               text-center align-middle rounded-full z-10 top-2 right-2 bg-red-700 text-white shadow-lg">
+                  Save<br />
+                  {{ collectionPromo.discount }}%
+                </div>
+              </template>
+            </div>
+          </template>
+          <NuxtLink :to="`/products/${product.slug}`">
+            <div>
+              <div
+                class="mask absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsla(0,0%,99.2%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out">
+              </div>
+            </div>
+          </NuxtLink>
+        </template>
       </div>
       <div class="mb-auto px-2 py-4">
-        <NuxtLink :to="`/products/${product.slug}`"
-          class=" text-primary-700 hover:text-primary-400 dark:text-primary-400 hover:dark:text-primary-100 mb-2 inline-block text-base font-medium transition duration-500 ease-in-out">
-          {{ product.store.title }}</NuxtLink>
-        <div class="text-primary-700 dark:text-primary-300 text-sm">
-          from:
-          <span v-if="userInfo" class="font-brand text-base">{{ userInfo.currency.symbol }}{{ pricedFrom }}</span>
-          <!-- <span v-if="selectedPromo" class="mr-2">${{ discountedPrice.toFixed(2) }}</span>
-          <span :class="selectedPromo ? 'line-through' : ''">${{ totalPrice.toFixed(2) }}</span> -->
-        </div>
-        <div v-if="product.colours && product.colours.length > 1" class="@container mt-4">
+        <template v-if="loading">
+          <Skeleton width="85%" class="mb-2" />
+          <Skeleton width="40%" height="2rem" />
+        </template>
+        <template v-else>
+          <NuxtLink :to="`/products/${product.slug}`"
+            class=" text-primary-700 hover:text-primary-400 dark:text-primary-400 hover:dark:text-primary-100 mb-2 inline-block text-base font-medium transition duration-500 ease-in-out">
+            {{ product.store.title }}</NuxtLink>
+          <div class="text-primary-700 dark:text-primary-300 text-sm">
+            from:
+            <span v-if="userInfo" class="font-brand text-base">{{ userInfo.currency.symbol }}{{ pricedFrom }}</span>
+          </div>
+        </template>
+        <div v-if="!loading && product.colours && product.colours.length > 1" class="@container mt-4">
           <div class="text-sm semi-bold w-full mb-2">Available in these colors</div>
           <div class="flex flex-wrap gap-1 lg:gap-2">
             <div v-for="colour in product.colours" :v-tooltip="colour.label" :key="colour._id"
@@ -119,10 +146,15 @@ const pricedFrom = computed(() => {
         </div>
       </div>
       <div class="dark:bg-surface-700 bg-surface-50 border-t-10 border-surface-900 px-6 py-3 text-right text-sm">
-        <NuxtLink :to="`/products/${product.slug}`"
-          class="border-surface-500 hover:text-surface-950 hover:bg-surface-300 rounded border-[1px] px-3 py-2">
-          <span>Order now</span>
-        </NuxtLink>
+        <template v-if="loading">
+          <Skeleton width="100px" height="36px" class="ml-auto" />
+        </template>
+        <template v-else>
+          <NuxtLink :to="`/products/${product.slug}`"
+            class="border-surface-500 hover:text-surface-950 hover:bg-surface-300 rounded border-[1px] px-3 py-2">
+            <span>Order now</span>
+          </NuxtLink>
+        </template>
       </div>
     </div>
   </div>
