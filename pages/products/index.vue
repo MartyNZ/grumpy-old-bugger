@@ -11,7 +11,9 @@ const settings = data.settings;
 const isLoading = ref(true)
 // Modify the data fetching to handle loading state
 const { data: allProducts } = await useSanityQuery(qryAllProducts).finally(() => {
-  isLoading.value = false
+  setTimeout(() => {
+    isLoading.value = false
+  }, 500)
 });
 // console.log("Products: ", JSON.stringify(allProducts.value, null, 2));
 

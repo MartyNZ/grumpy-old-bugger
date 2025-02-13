@@ -16,12 +16,16 @@ const collectionNav =
     (col) => col.slug == collection,
   );
 
+const isLoading = ref(true);
 const { data: currentCollection } = await useSanityQuery(
   qryPrintifyCollectionBySlug,
   {
     slug: sub,
   },
-);
+)
+  .finally(() => {
+    isLoading.value = false;
+  });
 
 // console.log("Current Collection: ", JSON.stringify(currentCollection.value, null, 2));
 const { data: allProducts } = await useSanityQuery(qryProductsByTags, {
@@ -214,7 +218,7 @@ definePageMeta({
               </div>
             </div>
           </div>
-          <product-list :products="filteredProducts" />
+          <product-list :products="filteredProducts" :loading="isLoading" />
         </section>
       </template>
       <template #sidebar>

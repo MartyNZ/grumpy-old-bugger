@@ -1,45 +1,40 @@
 <script setup>
 import { qryProductThemes } from '~/queries/printify';
-const { data: themes } = await useSanityQuery(qryProductThemes)
-// console.log("Themes: ", JSON.stringify(themes))
 const data = useSiteSettingsStore();
 const settings = data.settings;
-const printifyColNav = usePrintifyCollectionNavigationStore();
-const collections = printifyColNav.printifyCollectionNavigation;
 
-const collectionCount = collections.printifyCollectionNavGroup.length;
-// console.log("collectionCount: ", collectionCount);
-const currentCollection = Math.floor(Math.random() * collectionCount);
+const isLoading = ref(true);
+const { data: themes } = await useSanityQuery(qryProductThemes)
+  .finally(() => {
+    isLoading.value = false
+  })
+// console.log("Themes: ", JSON.stringify(themes))
 const themeCount = themes.value.length;
 // console.log("Theme Count: ", themeCount);
 const currentTheme = themes.value[Math.floor(Math.random() * themeCount)];
 // console.log("Current Theme: ", JSON.stringify(currentTheme, null, 2));
-// console.log("Current Product index: ", currentProduct);
-const collection = collections.printifyCollectionNavGroup[currentCollection];
-// console.log("Current Collection: ", JSON.stringify(collection, null, 2));
+
 
 useSeoMeta({
-  title: () => currentTheme.title,
-  ogTitle: () => currentTheme.title,
-  description: () => currentTheme.description,
-  ogDescription: () => currentTheme.description,
-  // ogImage: () => currentTheme.image.url,
-  twitterTitle: () => currentTheme.title,
-  twitterDescription: () => currentTheme.description,
-  // twitterImage: () => currentTheme.image.url,
+  title: computed(() => currentTheme?.title || ''),
+  ogTitle: computed(() => currentTheme?.title || ''),
+  description: computed(() => currentTheme?.description || ''),
+  ogDescription: computed(() => currentTheme?.description || ''),
+  // ogImage: computed(() => currentTheme?.image?.url || ''),
+  twitterTitle: computed(() => currentTheme?.title || ''),
+  twitterDescription: computed(() => currentTheme?.description || ''),
+  // twitterImage: computed(() => currentTheme?.image?.url || ''),
   twitterCard: "summary_large_image",
 });
 
-defineOgImageComponent(
-  'theme',
-  {
-    title: currentTheme.title,
-    description: currentTheme.excerpt,
-    image: currentTheme.image.url,
-    siteName: settings.title,
-    siteLogo: settings.logoUrl,
-  }
-);
+const themeSettings = (({
+  title: currentTheme.title,
+  description: currentTheme.excerpt,
+  image: currentTheme.image.url,
+  siteName: settings.title,
+  siteLogo: settings.logoUrl,
+}))
+defineOgImageComponent('theme', themeSettings);
 
 definePageMeta({
   layout: false,
@@ -60,7 +55,7 @@ definePageMeta({
           </div>
           <Divider />
           <div v-for="theme in themes" :key="theme._id">
-            <product-theme-design-list :theme="theme" />
+            <product-theme-design-list :theme="theme" :loading="isLoading" />
           </div>
         </section>
       </template>

@@ -11,28 +11,29 @@ const currentCollection = Math.floor(Math.random() * collectionCount);
 const collection = collections.printifyCollectionNavGroup[currentCollection];
 // console.log("Current Collection: ", JSON.stringify(collection, null, 2));
 
+const isLoading = ref(true);
+setTimeout(() => {
+  isLoading.value = false;
+}, 500)
 useSeoMeta({
-  title: () => settings.name,
-  ogTitle: () => settings.name,
-  // ogImage: () => collection.parentCollection.imageUrl,
-  description: () => collection.parentCollection.description,
-  ogDescription: () => collection.parentCollection.description,
-  twitterTitle: () => collection.parentCollection.name,
-  // twitterImage: () => collection.parentCollection.image.url,
-  twitterDescription: () => collection.parentCollection.description,
+  title: computed(() => settings?.name || ''),
+  ogTitle: computed(() => settings?.name || ''),
+  // ogImage: computed(() => collection.parentCollection?.imageUrl || ''),
+  description: computed(() => collection.parentCollection?.description || ''),
+  ogDescription: computed(() => collection.parentCollection?.description || ''),
+  twitterTitle: computed(() => collection.parentCollection?.name || ''),
+  // twitterImage: computed(() => collection.parentCollection?.image?.url || ''),
+  twitterDescription: computed(() => collection.parentCollection?.description || ''),
   twitterCard: "summary_large_image",
 });
 
-defineOgImageComponent(
-  'collection',
-  {
-    title: collection.parentCollection.title,
-    description: collection.parentCollection.excerpt,
-    siteName: settings.title,
-    image: collection.parentCollection.image.url,
-    siteLogo: settings.logoUrl,
-  }
-);
+const collectionSettings = (({
+  title: collection.parentCollection?.name,
+  description: collection.parentCollection?.description,
+  image: collection.parentCollection?.imageUrl,
+  url: collection.parentCollection?.url,
+}));
+defineOgImageComponent('collection', collectionSettings.value);
 
 definePageMeta({
   layout: false,
@@ -45,7 +46,7 @@ definePageMeta({
         <section id="products-by-collection" class="mb-8">
           <div class="flex flex-col md:col-span-3 md:h-full"
             v-for="collection in collections.printifyCollectionNavGroup" :key="collection._id">
-            <product-collection-card :collection="collection.parentCollection" />
+            <product-collection-card :collection="collection.parentCollection" :loading="isLoading" />
           </div>
         </section>
       </template>

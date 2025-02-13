@@ -4,35 +4,36 @@ const slug = useRoute().params.slug;
 
 const data = useSiteSettingsStore();
 const settings = data.settings;
+const isLoading = ref(true);
 const { data: design } = await useSanityQuery(qryProductsByDesign, {
   slug: slug,
 })
+  .finally(() => {
+    isLoading.value = false
+  })
 // console.log("Products by design: ", JSON.stringify(design.value, null, 2))
 
 useSeoMeta({
-  title: () => design.value.title,
-  description: () => design.value.theme.description,
-  ogTitle: () => design.value.title,
-  ogDescription: () => design.value.theme.description,
-  // ogImage: () =>
-  //   design.value.image.url,
-  twitterTitle: () => design.value.title,
-  twitterDescription: () => design.value.theme.description,
-  // twitterImage: () =>
-  //   design.value.image.url,
+  title: computed(() => design.value?.title || ''),
+  description: computed(() => design.value?.theme?.description || ''),
+  ogTitle: computed(() => design.value?.title || ''),
+  ogDescription: computed(() => design.value?.theme?.description || ''),
+  // ogImage: computed(() => design.value?.image?.url || ''),
+  twitterTitle: computed(() => design.value?.title || ''),
+  twitterDescription: computed(() => design.value?.theme?.description || ''),
+  // twitterImage: computed(() => design.value?.image?.url || ''),
   twitterCard: "summary_large_image",
 });
 
-defineOgImageComponent(
-  'theme',
-  {
-    title: design.value.title,
-    theme: design.value.theme.title,
-    image: design.value.image.url,
-    siteName: settings.title,
-    siteLogo: settings.logoUrl,
-  }
-);
+const themeSettings = (({
+  title: design.value?.title,
+  description: design.value?.theme?.description,
+  image: design.value?.image?.url,
+  siteName: settings.title,
+  siteLogo: settings.logoUrl,
+}))
+
+defineOgImageComponent('theme', themeSettings);
 
 definePageMeta({
   layout: false,
@@ -44,7 +45,7 @@ definePageMeta({
       <template #main>
         <section id="products-by-design" class="mb-8">
           <div class="mb-8 semi-bold italic text-lg">{{ design.theme.description }}</div>
-          <product-list :products="design.products" :sectionTitle="design.title" />
+          <product-list :products="design.products" :sectionTitle="design.title" :loading="isLoading" />
         </section>
       </template>
       <template #sidebar>

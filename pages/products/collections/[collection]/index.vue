@@ -11,24 +11,18 @@ const collectionNav = printifyCollectionNavigationStore.printifyCollectionNaviga
   (col) => col.slug == collection
 );
 
-// collectionData.value = collectionNav.printifyCollectionNavGroup[0];
-// console.log("collection route: ", collection);
-// console.log(
-//   "Collection Navigation: ",
-//   JSON.stringify(
-//     printifyCollectionNavigationStore.printifyCollectionNavigation
-//       .printifyCollectionNavGroup,
-//   ),
-// );
-
 const { data: collectionData } = await useSanityQuery(qryPrintifyCollectionBySlug, {
   slug: collection,
 });
 // console.log("collectionData: ", JSON.stringify(collectionData.value, null, 2));
 
+const isLoading = ref(true)
 const { data: allProducts } = await useSanityQuery(qryProductsByTag, {
   tag: tagsLookup[collection],
-});
+})
+  .finally(() => {
+    isLoading.value = false
+  });
 // console.log("allProducts: ", JSON.stringify(allProducts.value, null, 2));
 
 const filteredProducts = ref([]);
@@ -216,7 +210,7 @@ definePageMeta({
             </div>
           </div>
           <template v-if="filteredProducts">
-            <product-list :products="filteredProducts" />
+            <product-list :products="filteredProducts" :loading="isLoading" />
           </template>
           <template v-else>
             <h2 v-if="collectionData.title">{{ collectionData.title }}</h2>
