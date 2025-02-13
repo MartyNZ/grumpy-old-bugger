@@ -1,5 +1,4 @@
 <script setup>
-
 const props = defineProps({
   product: {
     type: Object,
@@ -9,6 +8,9 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  loading: {
+    type: Boolean,
+  }
 });
 
 const userInfo = useCookie('user-info');
@@ -292,7 +294,7 @@ const formattedPrices = computed(() => {
       <div id="product-images">
         <client-only>
           <product-slideshow :variantImages="variantImages" :currentImage="currentImage"
-            :featureImage="product.featureImage" @update:currentImage="currentImage = $event" />
+            :featureImage="product.featureImage" @update:currentImage="currentImage = $event" :loading="loading" />
         </client-only>
       </div>
       <div id="product-selection-panel" class="mt-auto">

@@ -71,7 +71,7 @@ const pricedFrom = computed(() => {
 
   <!-- Product Card -->
   <template v-else>
-    <div class="dark:bg-surface-950 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg">
+    <div class="dark:bg-surface-900 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg">
       <div class="zoom relative overflow-hidden bg-cover bg-[50%] bg-no-repeat">
         <div class="aspect-square w-full relative">
           <!-- Images -->
