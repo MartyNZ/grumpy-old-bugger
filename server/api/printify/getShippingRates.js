@@ -1,15 +1,15 @@
 export default defineEventHandler(async (event) => {
-  // console.log("\n--- New Shipping Rate Request ---");
-  // console.log("Request path:", event.path);
-  // console.log("Timestamp:", new Date().toISOString());
+  console.log("Request tokens:", {
+    requestToken: event.headers.get("x-snipcart-requesttoken"),
+    publicToken: event.headers.get("x-public-token"),
+    cartToken: event.headers.get("x-cart-token"),
+  });
 
+  const snipcartToken = event.headers.get("x-snipcart-requesttoken");
   const rates = await $fetch("/api/currency/set-rates");
   const body = await readBody(event);
   const cartCurrency = body.content.currency.toUpperCase();
   const currencyRate = rates.data[cartCurrency].value;
-
-  // console.log("Cart currency:", body.content.currency);
-  // console.log("Using rate:", currencyRate);
 
   const shippingCountry = body.content.shippingAddress.country;
   const itemsInfo = body.content.items.map((item) => {
@@ -85,18 +85,17 @@ export default defineEventHandler(async (event) => {
   }
 
   const convertedShippingCost = (totalShippingCost / 100) * currencyRate;
-  // console.log("Base shipping cost:", totalShippingCost / 100);
-  // console.log("Converted shipping cost:", convertedShippingCost);
 
   const response = {
     rates: [
       {
         cost: convertedShippingCost,
         description: `Total shipping (${cartCurrency})`,
-        userDefinedId: "shipping_total",
+        userDefinedId: `${snipcartToken}_${cartCurrency}`,
       },
     ],
+    token: snipcartToken,
   };
-  // console.log("Sending response to Snipcart:", response);
+
   return response;
 });
