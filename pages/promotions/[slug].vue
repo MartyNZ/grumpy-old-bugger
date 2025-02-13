@@ -57,31 +57,13 @@ definePageMeta({
   <div>
     <NuxtLayout name="internal">
       <template #main>
-        <section>
-          <div v-if="isLoading">
-            <div class="flex flex-col gap-4">
-              <!-- Title skeleton -->
-              <Skeleton height="3rem" class="mb-2" />
-              <!-- Description skeleton -->
-              <Skeleton height="2rem" width="70%" class="mb-4" />
-              <!-- Content skeleton -->
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div v-for="n in 6" :key="n" class="flex flex-col gap-2">
-                  <Skeleton height="200px" />
-                  <Skeleton width="85%" height="2rem" />
-                  <Skeleton width="60%" height="1.5rem" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-else-if="promo">
-            <promotion-collections v-if="promo.scope === 'collections'" :promo="promo" />
-            <promotion-products v-else-if="promo.scope === 'products'" :promo="promo" />
-            <promotion-subscribe-save v-else-if="promo.scope === 'subscribe-save'" :promo="promo" />
-          </div>
-          <div class="w-full align-middle text-center" v-else>
-            <h2>This promotion is no longer active</h2>
-          </div>
+        <section id="promo-hero">
+          <promotion-hero :loading="isLoading" :promo="promo" />
+        </section>
+        <section id="promo-content">
+          <promotion-collections v-if="promo.scope === 'collections'" :promo="promo" :loading="isLoading" />
+          <promotion-products v-else-if="promo.scope === 'products'" :promo="promo" :loading="isLoading" />
+          <promotion-subscribe-save v-else-if="promo.scope === 'subscribe-save'" :promo="promo" :loading="isLoading" />
         </section>
       </template>
       <template #sidebar>

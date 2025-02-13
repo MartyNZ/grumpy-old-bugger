@@ -3,16 +3,16 @@ const props = defineProps({
   promo: {
     type: Object,
     required: true
+  },
+  loading: {
+    type: Boolean,
   }
 })
 // console.log("Component props: ", JSON.stringify(props.promo, null, 2))
 </script>
 
 <template>
-  <div class="w-full">
-    <promotion-hero :promo="promo" enableZoom />
-    <div class="max-w-[1200px] mx-auto -mt-4">
-      <app-subscribe :promo="promo" />
-    </div>
+  <div class="max-w-[1200px] mx-auto -mt-4">
+    <app-subscribe :promo="promo" :loading="loading" />
   </div>
 </template>
