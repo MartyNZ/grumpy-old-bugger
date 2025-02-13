@@ -93,6 +93,7 @@ export default defineEventHandler(async (event) => {
       {
         cost: convertedShippingCost,
         description: `Total shipping (${cartCurrency})`,
+        userDefinedId: "shipping_total",
       },
     ],
   };
