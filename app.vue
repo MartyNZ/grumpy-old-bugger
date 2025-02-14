@@ -37,9 +37,7 @@ router.afterEach(() => {
     </NuxtLayout>
     <AppFooter />
     <AppMobileToolbar />
-    <ScrollTop />
     <ConfirmDialog />
-    <DynamicDialog />
   </div>
 </template>
 
