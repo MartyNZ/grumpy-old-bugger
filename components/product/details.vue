@@ -56,7 +56,6 @@ const prices = computed(() => {
 
 onMounted(() => {
   initializeSnipcart(selectedCurrency.value)
-  window.Snipcart.DEBUG = true
 })
 
 watch(selectedCurrency, (newCurrency) => {
@@ -247,28 +246,29 @@ const handleCurrencyChange = (event) => {
   })
 };
 
-const sizeCharts = defineAsyncComponent(
-  () => import("~/components/product/sizeCharts.vue"),
-);
-const showSizeCharts = useDialog();
-const openSizeChart = () => {
-  const dialogRef = showSizeCharts.open(sizeCharts, {
-    data: {
-      productSizes: props.product.details.productSizes,
-    },
-    props: {
-      header: "Size Charts",
-      style: {
-        width: "85vw",
-      },
-      breakpoints: {
-        "960px": "50vw",
-        "640px": "75vw",
-      },
-      modal: true,
-    },
-  });
-};
+const visible = ref(false)
+// const sizeCharts = defineAsyncComponent(
+//   () => import("~/components/product/sizeCharts.vue"),
+// );
+// const showSizeCharts = useDialog();
+// const openSizeChart = () => {
+//   const dialogRef = showSizeCharts.open(sizeCharts, {
+//     data: {
+//       productSizes: props.product.details.productSizes,
+//     },
+//     props: {
+//       header: "Size Charts",
+//       style: {
+//         width: "85vw",
+//       },
+//       breakpoints: {
+//         "960px": "50vw",
+//         "640px": "75vw",
+//       },
+//       modal: true,
+//     },
+//   });
+// };
 
 const formattedPrices = computed(() => {
   const priceObject = Object.values(availableCurrencies).reduce((acc, currency) => {
@@ -330,13 +330,9 @@ const formattedPrices = computed(() => {
               @update:selectedOptionValueId="updateSelectedOptionAndVariant" />
           </template>
         </div>
-        <template v-if="product.details && product.details.productSizes">
-          <div id="product-size-chart" class="align-center flex justify-center pb-4">
-            <NuxtLink @click="openSizeChart()"
-              class="relative cursor-pointer after:absolute after:-bottom-[5px] after:left-0 after:h-[3px] after:w-[0%] after:rounded-xl after:bg-primary-700 after:duration-300 after:content-[''] hover:after:w-[100%] dark:after:bg-primary-500">
-              Size Charts</NuxtLink>
-          </div>
-        </template>
+        <div class="w-full my-2">
+          <product-size-charts v-if="product.details.productSizes" :productSizes="product.details.productSizes" />
+        </div>
         <div id="product-purchase-summary" class="flex flex-col">
           <div class="rounded-md border-black bg-surface-700 p-3 text-surface-200 shadow-md @container lg:p-5">
             <div class="text-sm italic">You have selected:</div>
