@@ -1,4 +1,5 @@
 <script setup>
+import { currenciesData } from "~/assets/data/currencies.json";
 const props = defineProps({
   product: {
     type: Object,
@@ -14,6 +15,24 @@ const props = defineProps({
 });
 
 const userInfo = useCookie('user-info');
+
+// Check if user-info exists and has currency data
+// If not, create it with default values
+onBeforeMount(() => {
+  if (!userInfo.value || !userInfo.value.currency) {
+    // Set default currency (for example, USD)
+    const defaultCurrency = {
+      value: 1,
+      ...currenciesData.USD,
+    };
+
+    userInfo.value = {
+      currency: defaultCurrency,
+    };
+  }
+});
+
+
 const optionIdsArrays = props.product.store.variants.map((variant) =>
   variant.options.split(", "),
 );
@@ -220,33 +239,6 @@ watchEffect(() => {
   currentImage.value = variantImages.value[0];
 });
 
-import { useConfirm } from "primevue/useconfirm";
-const confirm = useConfirm();
-
-const handleCurrencyChange = (event) => {
-  const newCurrency = event.value
-
-  confirm.require({
-    message: 'Changing currency requires emptying your cart first. Would you like to proceed?',
-    header: 'Currency Warning',
-    icon: 'pi pi-exclamation-triangle',
-    accept: async () => {
-      selectedCurrency.value = newCurrency
-      await $fetch('/api/currency/state', {
-        method: 'POST',
-        body: newCurrency
-      })
-      const cartState = snipcart.value?.store.getState().cart
-      updateCartCurrency(newCurrency, cartState, props.product.store.pricedFrom.price)
-      userInfo.value = { ...userInfo.value, currency: newCurrency }
-    },
-    reject: () => {
-      selectedCurrency.value = userInfo.value.currency
-    }
-  })
-};
-
-
 const formattedPrices = computed(() => {
   const priceObject = Object.values(availableCurrencies).reduce((acc, currency) => {
     const convertedPrice = (selectedVariant.value.price / 100 * currency.rate).toFixed(2);
@@ -342,8 +334,7 @@ const formattedPrices = computed(() => {
                     {{
                       prices.totalPrice
                     }}</span>
-                  <Select v-model="selectedCurrency" :options="currencySelect" optionLabel="code"
-                    @change="handleCurrencyChange($event)" />
+                  <Select v-model="selectedCurrency" :options="currencySelect" optionLabel="code" />
                 </div>
               </div>
               <button type="button"
