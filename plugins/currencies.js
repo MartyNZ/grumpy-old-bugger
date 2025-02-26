@@ -7,7 +7,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   // console.log("Currency being stored:", userInfo.value?.currency);
 
   // Update server-side currency state
-  await $fetch("/api/currency/state", {
+  await $fetch("/api/currency/set-rates", {
     method: "POST",
     body: userInfo.value?.currency,
   });
