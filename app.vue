@@ -2,16 +2,6 @@
 const router = useRouter();
 const data = useSiteSettingsStore();
 const settings = data.settings;
-// const userInfo = useCookie('user-info');
-// const snipcart = ref();
-// onMounted(() => {
-//   document.addEventListener('snipcart.ready', () => {
-//     snipcart.value = window.Snipcart;
-//     // console.log("User Currency Code: ", JSON.stringify(userInfo.value.currency.code, null, 2))
-//     snipcart.value.api.session.setCurrency(userInfo.value.currency.code)
-//     console.log("Snipcart: , ", JSON.stringify(snipcart.value, null, 2))
-//   })
-// });
 
 
 useHead({
