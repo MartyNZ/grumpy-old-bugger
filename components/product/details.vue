@@ -246,29 +246,6 @@ const handleCurrencyChange = (event) => {
   })
 };
 
-const visible = ref(false)
-// const sizeCharts = defineAsyncComponent(
-//   () => import("~/components/product/sizeCharts.vue"),
-// );
-// const showSizeCharts = useDialog();
-// const openSizeChart = () => {
-//   const dialogRef = showSizeCharts.open(sizeCharts, {
-//     data: {
-//       productSizes: props.product.details.productSizes,
-//     },
-//     props: {
-//       header: "Size Charts",
-//       style: {
-//         width: "85vw",
-//       },
-//       breakpoints: {
-//         "960px": "50vw",
-//         "640px": "75vw",
-//       },
-//       modal: true,
-//     },
-//   });
-// };
 
 const formattedPrices = computed(() => {
   const priceObject = Object.values(availableCurrencies).reduce((acc, currency) => {

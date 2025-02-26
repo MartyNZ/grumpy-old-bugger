@@ -28,3 +28,4 @@ logs
 # Local Netlify folder
 .netlify
 stores/userStore.js.ignore
+components/product/details-copy.vue

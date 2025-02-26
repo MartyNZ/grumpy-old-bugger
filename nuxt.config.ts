@@ -119,7 +119,7 @@ export default defineNuxtConfig({
       unstyled: true,
     },
     directives: {
-      include: ["Tooltip", "StyleClass", "UseDialog", "Ripple"],
+      include: ["Tooltip", "StyleClass", "UseDialog", "Ripple", "useConfirm"],
     },
     components: {
       include: [
@@ -137,7 +137,7 @@ export default defineNuxtConfig({
         "Carousel",
         "Divider",
         "Dropdown",
-        "ConfirmDialog",
+        "ConfirmPopup",
       ],
     },
     importPT: { as: "webcnxnz", from: "~/presets/webcnxnz" },
