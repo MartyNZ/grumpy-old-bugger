@@ -20,7 +20,7 @@ const visible = ref(false);
             </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel v-for="item in productSizes" :value="item._key" :key="item._key" class="overflow-scroll">
+            <TabPanel v-for="item in productSizes" :value="item._key" :key="item._key" class="overflow-auto">
               <table class="w-full">
                 <thead>
                   <tr>

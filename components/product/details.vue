@@ -299,8 +299,8 @@ const formattedPrices = computed(() => {
               @update:selectedOptionValueId="updateSelectedOptionAndVariant" />
           </template>
         </div>
-        <div class="w-full my-2">
-          <product-size-charts v-if="product.details.productSizes" :productSizes="product.details.productSizes" />
+        <div class="w-full my-2" v-if="product.details?.productSizes">
+          <product-size-charts :productSizes="product.details.productSizes" />
         </div>
         <div id="product-purchase-summary" class="flex flex-col">
           <div class="rounded-md border-black bg-surface-700 p-3 text-surface-200 shadow-md @container lg:p-5">
@@ -334,7 +334,8 @@ const formattedPrices = computed(() => {
                     {{
                       prices.totalPrice
                     }}</span>
-                  <Select v-model="selectedCurrency" :options="currencySelect" optionLabel="code" />
+                  <Select v-tooltip.top="'Changing the currency will remove all items from your cart!'"
+                    v-model="selectedCurrency" :options="currencySelect" optionLabel="code" />
                 </div>
               </div>
               <button type="button"
