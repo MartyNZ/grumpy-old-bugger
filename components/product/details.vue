@@ -16,21 +16,21 @@ const props = defineProps({
 
 const userInfo = useCookie('user-info');
 
-// Check if user-info exists and has currency data
-// If not, create it with default values
-onBeforeMount(() => {
-  if (!userInfo.value || !userInfo.value.currency) {
-    // Set default currency (for example, USD)
-    const defaultCurrency = {
-      value: 1,
-      ...currenciesData.USD,
-    };
+// // Check if user-info exists and has currency data
+// // If not, create it with default values
+// onBeforeMount(() => {
+//   if (!userInfo.value || !userInfo.value.currency) {
+//     // Set default currency (for example, USD)
+//     const defaultCurrency = {
+//       value: 1,
+//       ...currenciesData.USD,
+//     };
 
-    userInfo.value = {
-      currency: defaultCurrency,
-    };
-  }
-});
+//     userInfo.value = {
+//       currency: defaultCurrency,
+//     };
+//   }
+// });
 
 
 const optionIdsArrays = props.product.store.variants.map((variant) =>

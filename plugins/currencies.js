@@ -6,6 +6,13 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   // console.log("Currency being stored:", userInfo.value?.currency);
 
+  // If the cookie doesn't exist, create it using the store's default currency
+  if (!userInfo.value) {
+    userInfo.value = {
+      currency: currenciesStore.selectedCurrency,
+    };
+  }
+
   // Update server-side currency state
   await $fetch("/api/currency/set-rates", {
     method: "POST",

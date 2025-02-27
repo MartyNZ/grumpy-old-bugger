@@ -39,6 +39,16 @@ const productPromos = props.product.promotedBy.filter((promo) => {
 // selectedPromo.value = productPromos[0] || collectionPromos[0];
 
 const pricedFrom = computed(() => {
+  // // Log the exact values being used in the calculation
+  // console.log('Price data:', props.product?.store?.pricedFrom?.price);
+  // console.log('Currency rate:', userInfo.value?.currency?.rate);
+
+  // Guard against missing values
+  if (!props.product?.store?.pricedFrom?.price || !userInfo.value?.currency?.rate) {
+    console.warn('Missing price data or currency rate');
+    return '0.00';
+  }
+
   let priceData = props.product.store.pricedFrom.price / 100;
   let rateAdjustedPrice = priceData * userInfo.value.currency.rate;
   return rateAdjustedPrice.toFixed(2);
