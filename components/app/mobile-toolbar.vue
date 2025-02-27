@@ -47,8 +47,8 @@ const toggleMenu = (collectionId) => {
     <template #container>
       <div class="flex h-full flex-col gap-8">
         <div
-          class="flex flex-shrink-0 items-center justify-between border-b-[1px] px-6 py-4  bg-surface-800 dark:bg-surface-300 text-surface-200 dark:text-surface-700">
-          <div class="mx-auto max-w-[75%] text-center">
+          class="flex items-center justify-between border-b-[1px] px-6 py-4  bg-surface-800 dark:bg-surface-300 text-surface-200 dark:text-surface-700">
+          <div class="w-full text-center">
             <promotion-menu-slide @closeMenu="toggleNav()" />
           </div>
           <div aria-controls="mobileNavigation" @click="toggleNav()"
