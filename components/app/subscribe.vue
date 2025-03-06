@@ -47,9 +47,9 @@ const onSubmit = (values) => {
               </h3>
               <span class="text-semibold text-md sm:text-lg">When you subscribe to our newsletter</span>
             </div>
-            <div v-if="!messageSent">
+            <div class="@container" v-if="!messageSent">
               <vForm :validation-schema="validationSchema" @submit="onSubmit">
-                <div class="flex gap-2 md:grid-flow-col content-center md:mb-5">
+                <div class="grid gap-2 content-center md:mb-5">
                   <vField name="email" v-slot="{ field, errors }">
                     <div class="grid-flow-rows grid pr-5 place-self-center">
                       <InputText v-bind="field" type="email" :class="{ 'p-invalid': errors }"
@@ -59,7 +59,7 @@ const onSubmit = (values) => {
                   </vField>
                   <div class="w-full">
                     <button
-                      class="relative w-full flex items-center justify-center text-center align-bottom gap-2 text-sm py-1 shadow-sm rounded-md text-surface-100 dark:text-surface-900 bg-primary-500 dark:bg-primary-400 ring-1 ring-primary-500 dark:ring-primary-400 focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-offset-current focus:ring-offset-2 hover:bg-primary-600 dark:hover:bg-primary-300 hover:ring-primary-600 dark:hover:ring-primary-300 focus:ring-primary-500 dark:focus:ring-primary-400 transition duration-200 ease-in-out cursor-pointer overflow-hidden select-none">
+                      class="relative mx-auto px-4 flex items-center justify-center text-center align-bottom gap-2 text-sm py-1 shadow-sm rounded-md text-surface-100 dark:text-surface-900 bg-primary-500 dark:bg-primary-400 ring-1 ring-primary-500 dark:ring-primary-400 focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-offset-current focus:ring-offset-2 hover:bg-primary-600 dark:hover:bg-primary-300 hover:ring-primary-600 dark:hover:ring-primary-300 focus:ring-primary-500 dark:focus:ring-primary-400 transition duration-200 ease-in-out cursor-pointer overflow-hidden select-none">
                       <div class="flex align-center gap-4">
                         <IconsFaDuotonePaperPlane />
                         <span class="w-[50%]">{{ isSubmitting ? "Sending..." : "Send" }}</span>
