@@ -29,7 +29,7 @@ export default defineNuxtConfig({
   vite: {
     server: {
       allowedHosts: [
-        "2tzg9a9usl2l.share.zrok.io",
+        "b5phpis0cqns.share.zrok.io",
         "https://grumpyoldbugger.store",
       ],
     },
