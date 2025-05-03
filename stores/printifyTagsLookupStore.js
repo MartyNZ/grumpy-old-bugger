@@ -1,5 +1,5 @@
 import { qryProductTags } from "~/queries/printify";
-import createTagsLookup from "~/utilities/createTagsLookup";
+import createTagsLookup from "~/utils/createTagsLookup";
 
 export const usePrintifyTagsLookupStore = defineStore("printify-tags-lookup", {
   state: () => {
@@ -20,6 +20,6 @@ export const usePrintifyTagsLookupStore = defineStore("printify-tags-lookup", {
 
 if (import.meta.hot) {
   import.meta.hot.accept(
-    acceptHMRUpdate(usePrintifyTagsLookupStore, import.meta.hot),
+    acceptHMRUpdate(usePrintifyTagsLookupStore, import.meta.hot)
   );
 }

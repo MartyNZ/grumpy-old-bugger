@@ -1,4 +1,4 @@
-import generateSlug from "~/utilities/generateSlug";
+import generateSlug from "~/utils/generateSlug";
 
 export function createTagsLookup(productTags) {
   // Initialize tagsLookup as an empty object

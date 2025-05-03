@@ -1,5 +1,5 @@
 import { qryProductById } from "~/queries/printify";
-import generateSlug from "~/utilities/generateSlug";
+import generateSlug from "~/utils/generateSlug";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
