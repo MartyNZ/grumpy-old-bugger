@@ -13,7 +13,7 @@ const { data: product } = await useSanityQuery(qryProductBySlug, {
   }, 2500)
 })
 
-// console.log(JSON.stringify(product.value.store.options, null, 2));
+console.log(JSON.stringify(product.value.store.options, null, 2));
 const defaultVariant = product?.value?.store?.variants?.find((variant) => {
   return variant.isDefault;
 });
@@ -48,15 +48,17 @@ const productSettings = (({
 defineOgImageComponent(
   'product', productSettings);
 
-useSchemaOrg([
-  defineProduct({
-    name: product.value?.title,
-    brand: settings?.title,
-    description: product.value?.description,
-    image: product.value?.featureImage?.url || product.value?.defaultImageUrl,
-    offers: [{ price: defaultPrice.toFixed(2) }],
-  }),
-]);
+if (product.value && defaultPrice) {
+  useSchemaOrg([
+    defineProduct({
+      name: product.value.title || '',
+      brand: settings?.title || '',
+      description: product.value.description || '',
+      image: product.value?.featureImage?.url || product.value?.defaultImageUrl || '',
+      offers: [{ price: defaultPrice.toFixed(2) }],
+    }),
+  ]);
+}
 
 definePageMeta({
   layout: false,
