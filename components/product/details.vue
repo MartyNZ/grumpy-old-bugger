@@ -85,33 +85,46 @@ watch(selectedCurrency, (newCurrency) => {
 });
 
 const updateSelectedOptionAndVariant = (newOptionValueId) => {
-  // console.log("Option Value ID received:", newOptionValueId);
-
+  // Find which option type this value belongs to
   const relevantOption = activeOptions.find(opt =>
     opt.values.some(val => val.id === newOptionValueId)
   );
-  // console.log("Found matching option:", JSON.stringify(relevantOption, null, 2));
 
-  const selectedValue = getSelectedOptionValue(relevantOption, [newOptionValueId]);
-  // console.log("Selected value:", selectedValue);
+  if (!relevantOption) return;
 
-  if (selectedValue) {
-    const currentOptionsIds = [...selectedOptionsValuesIds.value];
-    const optionIndex = activeOptions.findIndex(opt =>
-      opt.values.some(val => val.id === newOptionValueId)
+  // Create a map of option types to their selected values
+  const optionTypeToValueMap = {};
+
+  // Initialize with current selections
+  activeOptions.forEach(option => {
+    // Find the current selected value for this option type
+    const currentValue = option.values.find(val =>
+      selectedOptionsValuesIds.value.includes(val.id)
     );
 
-    if (optionIndex !== -1) {
-      currentOptionsIds[optionIndex] = newOptionValueId;
-      const newVariant = props.product.store.variants.find(
-        variant => variant.options === currentOptionsIds.join(", ")
-      );
-
-      if (newVariant) {
-        selectedOptionsValuesIds.value = currentOptionsIds;
-        selectedVariant.value = newVariant;
-      }
+    if (currentValue) {
+      optionTypeToValueMap[option.type] = currentValue.id;
     }
+  });
+
+  // Update with the new selection
+  optionTypeToValueMap[relevantOption.type] = newOptionValueId;
+
+  // Find a variant that matches all our selected options
+  const newVariant = props.product.store.variants.find(variant => {
+    const variantOptionIds = variant.options.split(", ");
+
+    // Check if this variant has all our selected options
+    return Object.entries(optionTypeToValueMap).every(([optionType, valueId]) => {
+      // Find if this option value is in the variant
+      return variantOptionIds.includes(valueId);
+    });
+  });
+
+  if (newVariant) {
+    // Update the selectedOptionsValuesIds to match the exact order in the variant
+    selectedOptionsValuesIds.value = newVariant.options.split(", ");
+    selectedVariant.value = newVariant;
   }
 };
 
@@ -166,7 +179,7 @@ const validationUrl = ref("");
 validationUrl.value = `${config.public.publicUrl.replace(/\/$/, '')}/api/printify/validate-sanity-product?id=${props.product._id}&vId=${selectedVariant.value.id}`;
 watch(selectedVariant, () => {
   validationUrl.value = `${config.public.publicUrl.replace(/\/$/, '')}/api/printify/validate-sanity-product?id=${props.product._id}&vId=${selectedVariant.value.id}`;
-  console.log("Validation URL: ", validationUrl.value);
+  // console.log("Validation URL: ", validationUrl.value);
 });
 const selectedOptionsValues = ref([]);
 selectedOptionsValues.value = activeOptions.map((option) => {
