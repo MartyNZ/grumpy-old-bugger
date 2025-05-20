@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
 
   // console.log("Default Image: ", defaultImage);
 
-  // console.log("sanityProduct:", sanityProduct);
+  console.log("sanityProduct:", sanityProduct);
   // console.log("sanityProduct.featureImage:", sanityProduct.featureImage);
   // console.log("sanityProduct.coloursArray:", sanityProduct.coloursArray);
   // console.log("sanityProduct.design:", sanityProduct.design);
