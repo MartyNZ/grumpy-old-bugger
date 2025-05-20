@@ -132,7 +132,7 @@ export default defineEventHandler(async (event) => {
               order: image.order,
             })),
         })),
-      tags: updatePayload?.productTags || printifyProduct.tags.toString(),
+      tags: updatePayload?.productTags || printifyProduct.tags.join(", "),
       description: printifyProduct.description,
     },
   });
