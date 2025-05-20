@@ -48,7 +48,7 @@ export default defineEventHandler(async (event) => {
       slug: {
         current: sanityProduct.slug?.current || sanityProduct.slug,
       },
-      ...(sanityProduct?.store?.tags && {
+      ...(sanityProduct?.store && {
         productTags: sanityProduct.store.tags,
       }),
       ...(sanityProduct?.colours && {
@@ -132,7 +132,7 @@ export default defineEventHandler(async (event) => {
               order: image.order,
             })),
         })),
-      tags: updatePayload?.productTags,
+      tags: updatePayload?.productTags || printifyProduct.store.tags,
       description: printifyProduct.description,
     },
   });
