@@ -48,8 +48,8 @@ export default defineEventHandler(async (event) => {
       slug: {
         current: sanityProduct.slug?.current || sanityProduct.slug,
       },
-      ...(sanityProduct?.featureImage && {
-        featureImage: sanityProduct.featureImage,
+      ...(sanityProduct?.store?.tags && {
+        productTags: sanityProduct.store.tags,
       }),
       ...(sanityProduct?.colours && {
         colours: sanityProduct.coloursArray,
@@ -73,13 +73,6 @@ export default defineEventHandler(async (event) => {
     _createdAt: !sanityProduct
       ? new Date().toISOString()
       : sanityProduct.createdAt,
-    featureImage: updatePayload.featureImage
-      ? {
-          asset: {
-            _ref: updatePayload.featureImage.assetId,
-          },
-        }
-      : { assetId: "Null" },
     defaultImageUrl: defaultImage.src,
     slug: updatePayload.slug,
     details: updatePayload?.details,
@@ -139,7 +132,7 @@ export default defineEventHandler(async (event) => {
               order: image.order,
             })),
         })),
-      tags: printifyProduct.tags.join(", "),
+      tags: updatePayload.store.tags,
       description: printifyProduct.description,
     },
   });
