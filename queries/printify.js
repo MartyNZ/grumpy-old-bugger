@@ -516,21 +516,9 @@ export const qryProductById = groq`
       'url':asset->url,
     },
     'slug':slug.current,
-    details->{
-      productFeatures[]{
-        title,
-        body
-      },
-      productSizes,
-    },
-      design,
-    colours[]->{
-      _id,
-      'label':title,
-      'slug':slug.current,
-      'colour':"#" + colour,
-      'value':slug.current
-    },
+    details,
+    design,
+    colours[],
     store{
       blueprintId,
       shopId,

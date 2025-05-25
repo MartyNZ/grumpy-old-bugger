@@ -52,7 +52,11 @@ export default defineEventHandler(async (event) => {
         productTags: sanityProduct.store.tags,
       }),
       ...(sanityProduct?.colours && {
-        colours: sanityProduct.coloursArray,
+        colours: sanityProduct.colours.map((colour, index) => ({
+          _type: "reference",
+          _ref: colour._ref,
+          _key: colour._key,
+        })),
       }),
       ...(sanityProduct?.design && { design: sanityProduct.design }),
       ...(sanityProduct?.details && { details: sanityProduct.details }),
