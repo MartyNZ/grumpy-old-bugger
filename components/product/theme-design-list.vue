@@ -9,7 +9,7 @@ const props = defineProps({
   }
 })
 
-// console.log("Collections: ", JSON.stringify(collections, null, 2))
+// console.log("Theme: ", JSON.stringify(props.theme.title, null, 2))
 </script>
 <template>
   <section class="designs-list mt-10" :id="`designs-list-${theme.slug}`">
@@ -22,7 +22,7 @@ const props = defineProps({
         </div>
       </div>
       <template v-else>
-        <SanityImage :assetId="theme.image.assetId"
+        <SanityImage v-if="theme?.image" :assetId="theme.image.assetId"
           class="align-center rounded-full aspect-square max-w-16 max-h-16 w-full" />
 
         <div class="h-full mb-2">
@@ -34,7 +34,7 @@ const props = defineProps({
     <div class="designs-grid" :id="`designs-grid-${theme.slug}`">
       <template v-if="theme.designs.length > 0">
         <div v-for="design in theme.designs" :key="design._id">
-          <product-theme-design-list-item :design="design" :loading="loading" />
+          <product-theme-design-list-item v-if="design.productCount > 0" :design="design" :loading="loading" />
         </div>
       </template>
       <template v-else>
@@ -42,7 +42,6 @@ const props = defineProps({
       </template>
     </div>
   </section>
-  <Divider />
 </template>
 
 <style scoped>

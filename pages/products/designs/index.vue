@@ -8,7 +8,7 @@ const { data: themes } = await useSanityQuery(qryProductThemes)
   .finally(() => {
     isLoading.value = false
   })
-// console.log("Themes: ", JSON.stringify(themes))
+// console.log("Themes: ", JSON.stringify(themes.value, null, 2))
 const themeCount = themes.value.length;
 // console.log("Theme Count: ", themeCount);
 const currentTheme = themes.value[Math.floor(Math.random() * themeCount)];
@@ -56,6 +56,7 @@ definePageMeta({
           <Divider />
           <div v-for="theme in themes" :key="theme._id">
             <product-theme-design-list :theme="theme" :loading="isLoading" />
+            <Divider v-if="theme !== themes[themes.length - 1]" />
           </div>
         </section>
       </template>

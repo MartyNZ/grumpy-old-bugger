@@ -3,6 +3,9 @@
     <div class="hidden sm:pb-8 md:block">
       <article-collection-navigation />
     </div>
+    <div class="pb-8 justify-self-center">
+      <product-designs-link />
+    </div>
     <div class="pb-8 place-content-center">
       <promotion-gallery />
     </div>

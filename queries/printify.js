@@ -578,6 +578,7 @@ export const qryProductThemes = groq`
     'designs':*[_type=='productDesign' && references(^._id)]{
       _id,
       title,
+      'productCount': count(*[_type=='printify.product' && references(^._id)]),
       'slug':slug.current,
       image{
         'assetId': asset->_id,
