@@ -23,7 +23,7 @@ const props = defineProps({
       </div>
       <template v-else>
         <SanityImage v-if="theme?.image" :assetId="theme.image.assetId"
-          class="align-center rounded-full aspect-square max-w-16 max-h-16 w-full" />
+          class="align-center rounded-full aspect-square max-w-16 max-h-16 w-full object-cover" />
 
         <div class="h-full mb-2">
           <h2>{{ theme.title }}</h2>

@@ -15,7 +15,8 @@ const props = defineProps({
   </template>
   <div v-else class="zoom dark:shadow-surface-600 relative overflow-hidden bg-cover bg-[50%] bg-no-repeat shadow-md">
     <img :src="design.image.url" auto="format"
-      class="w-full object-cover align-middle transition duration-300 ease-linear" :alt="design.title" loading="lazy" />
+      class="w-full aspect-square object-cover align-middle transition duration-300 ease-linear" :alt="design.title"
+      loading="lazy" />
     <NuxtLink :to="`/products/designs/${design.slug}`">
       <div class="z-1 absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden">
         <div class="flex h-full items-end justify-start">
