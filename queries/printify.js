@@ -58,8 +58,10 @@ export const qryPrintifyCollectionNavigation = groq`
         'url':asset->url,
         'assetId':asset->_id,
         rules
-        }
+        },
+        'productCount': count(*[_type == "printify.product" && store.isVisible && !store.isDeleted && store.tags match ^.title])
       },
+      'productCount': count(*[_type == "printify.product" && store.isVisible && !store.isDeleted && store.tags match ^.title])
     }
   }
 `;
