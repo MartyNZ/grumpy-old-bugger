@@ -8,13 +8,11 @@ export const useProductPromotions = (product) => {
 
     product.promotedBy.forEach((promotion) => {
       if (promotion.scope === "products") {
-        // Direct product promotions always match
         matchingPromotions.push(promotion);
       } else if (
         promotion.scope === "collections" &&
         promotion.collections?.length
       ) {
-        // Check if this product matches any of the promotion's collection rules
         const productMatchesCollection = promotion.collections.some(
           (collection) => {
             return checkProductMatchesCollection(
@@ -40,16 +38,29 @@ export const useProductPromotions = (product) => {
       return checkAgainstCollectionRules(product, collection);
     }
 
-    // Fallback: check if product tags match collection title (legacy behavior)
+    // Enhanced matching: check both tags and title
+    const collectionTitle = collection.title?.toLowerCase();
+
+    // Check tags (existing logic)
+    let tagMatch = false;
     if (product.store?.tags) {
       const productTags = product.store.tags
         .split(",")
         .map((tag) => tag.trim().toLowerCase());
-      const collectionTitle = collection.title?.toLowerCase();
-      return productTags.includes(collectionTitle);
+      tagMatch = productTags.includes(collectionTitle);
     }
 
-    return false;
+    // Also check product title for brand matching
+    let titleMatch = false;
+    if (product.store?.title) {
+      const productTitle = product.store.title.toLowerCase();
+      // Remove special characters for better matching
+      const cleanProductTitle = productTitle.replace(/[®™©]/g, "");
+      titleMatch = cleanProductTitle.includes(collectionTitle);
+    }
+
+    // Return true if either tags or title match
+    return tagMatch || titleMatch;
   };
 
   const checkAgainstCollectionRules = (product, collection) => {
@@ -57,31 +68,12 @@ export const useProductPromotions = (product) => {
 
     const disjunctive = collection.disjunctive || false;
     const ruleResults = collection.rules.map((rule) => {
-      const result = checkSingleRule(product, rule);
-      // Only log if we're in development and want to debug
-      if (process.env.NODE_ENV === "development") {
-        console.log(
-          `Rule check: ${rule.relation} ${rule.condition} "${
-            rule.selectedTag || rule.selectedValue
-          }" = ${result}`
-        );
-      }
-      return result;
+      return checkSingleRule(product, rule);
     });
 
-    const finalResult = disjunctive
+    return disjunctive
       ? ruleResults.some((result) => result)
       : ruleResults.every((result) => result);
-
-    if (process.env.NODE_ENV === "development") {
-      console.log(
-        `Collection "${collection.title}" match result: ${finalResult} (${
-          disjunctive ? "OR" : "AND"
-        } logic)`
-      );
-    }
-
-    return finalResult;
   };
 
   const checkSingleRule = (product, rule) => {

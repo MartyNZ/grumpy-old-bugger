@@ -39,13 +39,21 @@ const props = defineProps({
 #products-grid {
   display: grid;
   gap: 1em;
-  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  grid-template-columns: 1fr;
   justify-items: center;
 }
 
-/* @media (width > 768px) {
+/* 2 items per row for screens 350px and above */
+@media (width >=350px) {
   #products-grid {
-    grid-template-columns: 0.33fr, .034fr, 0.33fr;
+    grid-template-columns: repeat(2, 1fr);
   }
-} */
+}
+
+/* For larger screens, use auto-fit for more flexible layout */
+@media (width > 768px) {
+  #products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  }
+}
 </style>

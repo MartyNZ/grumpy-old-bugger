@@ -17,7 +17,6 @@ const { productPromotions, collectionPromotions, allPromotions } = useProductPro
 
 const pricedFrom = computed(() => {
   if (!props.product?.store?.pricedFrom?.price || !userInfo.value?.currency?.rate) {
-    console.warn('Missing price data or currency rate');
     return '0.00';
   }
 
