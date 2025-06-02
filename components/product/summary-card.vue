@@ -9,41 +9,13 @@ const props = defineProps({
     default: true,
   },
 });
+
 const userInfo = useCookie('user-info');
 
-// onMounted(() => {
-//   document.addEventListener('snipcart.ready', () => {
-
-//   });
-// })
-const collectionPromotions = props.product.promotedBy.filter((promo) => {
-  return promo.scope === 'collections';
-});
-
-const collectionPromos = props.product.store.tags.split(",").reduce((acc, tag) => {
-  const matchingPromos = collectionPromotions.filter((promo) => {
-    return promo.collections.some((collection) => {
-      return collection.title.toLowerCase() === tag.trim().toLowerCase();
-    });
-  });
-  return acc.concat(matchingPromos);
-}, []);
-
-const productPromos = props.product.promotedBy.filter((promo) => {
-  return promo.scope === 'products';
-});
-// if (productPromos.length > 0) {
-//   console.log(JSON.stringify(props.product.store.title, null, 2), ": ", JSON.stringify(productPromos, null, 2))
-// }
-// const selectedPromo = ref({});
-// selectedPromo.value = productPromos[0] || collectionPromos[0];
+// Use the new composable for promotion logic
+const { productPromotions, collectionPromotions, allPromotions } = useProductPromotions(props.product);
 
 const pricedFrom = computed(() => {
-  // // Log the exact values being used in the calculation
-  // console.log('Price data:', props.product?.store?.pricedFrom?.price);
-  // console.log('Currency rate:', userInfo.value?.currency?.rate);
-
-  // Guard against missing values
   if (!props.product?.store?.pricedFrom?.price || !userInfo.value?.currency?.rate) {
     console.warn('Missing price data or currency rate');
     return '0.00';
@@ -53,11 +25,6 @@ const pricedFrom = computed(() => {
   let rateAdjustedPrice = priceData * userInfo.value.currency.rate;
   return rateAdjustedPrice.toFixed(2);
 });
-
-// const discountedPrice = computed(() => pricedFrom.value * ((100 - selectedPromo.value.discount) / 100));
-// console.log("selected Promo discount: ", JSON.stringify(selectedPromo.value.discount, null, 2));
-// console.log("Discounted Price: ", discountedPrice.value);
-// console.log("Computed pricedFrom: ", pricedFrom.value);
 </script>
 <template>
   <!-- Loading State -->
@@ -97,8 +64,8 @@ const pricedFrom = computed(() => {
 
           <!-- Promotion Badges -->
           <div class="absolute top-2 right-2 z-10">
-            <div v-for="promo in [...productPromos, ...collectionPromos]" :key="promo.id"
-              class="aspect-square text-xs p-3 w-14 text-center rounded-full bg-red-700 text-white shadow-lg">
+            <div v-for="promo in allPromotions" :key="promo.slug"
+              class="aspect-square text-xs p-3 w-14 text-center rounded-full bg-red-700 text-white shadow-lg mb-1">
               Save<br />
               {{ promo.discount }}%
             </div>

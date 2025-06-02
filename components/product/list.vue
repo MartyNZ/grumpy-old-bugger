@@ -18,9 +18,12 @@ const props = defineProps({
 <template>
   <section id="products-list">
     <h2 class="text-lg" v-if="sectionTitle">{{ sectionTitle }}</h2>
-    <div v-if="description" class="text-balanced mb-4">{{ description }}</div>
+    <div v-if="description" class="text-balanced mb-4">
+      {{ description }}
+    </div>
     <div id="products-grid">
       <template v-for="product in products" :key="product.store._id">
+        <!-- <pre>{{ product }}</pre> -->
         <product-summary-card :loading="loading" :product="product" />
       </template>
     </div>

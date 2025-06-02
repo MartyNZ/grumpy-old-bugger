@@ -137,7 +137,6 @@ export const qryLatestProducts = groq`
     _id,
     _createdAt,
     defaultImageUrl,
-    featureImage,
     'slug':slug.current,
     featureImage{
       'assetId': asset->_id,
@@ -190,123 +189,6 @@ export const qryLatestProducts = groq`
     }
   } | order(_createdAt desc) [0...4]
   `;
-export const qryAllProductsByCollection = groq`
-  *[_type == "printify.product" && store.$relation $condition "$selectedTag" && store.isVisible && !store.isDeleted]{
-    _id,
-    _createdAt,
-    defaultImageUrl,
-    featureImage{
-      'assetId': asset->_id,
-      'url':asset->url
-    },
-    'slug':slug.current,
-    'featureImageUrl':featureImage.asset->url,
-      design,
-    colours[]->{
-      _id,
-      'label':title,
-      'slug':slug.current,
-      'colour':"#" + colour,
-      'value':slug.current
-    },
-    store{
-      title,
-      productId,
-      tags,
-      description,
-      variants,
-      'pricedFrom':variants[]{
-        price
-      }|order(price asc)[0]
-    },
-    'promotedBy': *[_type=='promotion'
-      && scope == 'products' && references(^._id)
-      || scope == 'collections' && isActive
-    ][]{
-      image{
-        'assetId': asset->_id,
-        'url': asset->url,
-      },
-      useSocialImage,
-      socialImage{
-        'assetId': asset->_id,
-        'url': asset->url
-      },
-      cta,
-      discount,
-      promoStart,
-      promoEnd,
-      byline,
-      summary,
-      'slug': slug.current,
-      title,
-      scope,
-      collections[]->{
-        title,
-        'slug':slug.current
-      }
-    }
-  } | order(_createdAt desc)
-`;
-
-export const qryProductsByCollections = groq`
-  *[_type == "printify.product" && store.$relation $condition "$selectedTag" && store.isVisible && !store.isDeleted]{
-    _id,
-    _createdAt,
-    defaultImageUrl,
-    featureImage,
-    'slug':slug.current,
-    featureImage{
-      'assetId': asset->_id,
-      'url':asset->url
-    },
-      design,
-    colours[]->{
-      _id,
-      'label':title,
-      'slug':slug.current,
-      'colour':"#" + colour,
-      'value':slug.current
-    },
-    store{
-      title,
-      productId,
-      tags,
-      description,
-      variants,
-      'pricedFrom':variants[]{
-        price
-      }|order(price asc)[0]
-    },
-    'promotedBy': *[_type=='promotion'
-      && scope == 'products' && references(^._id)
-      || scope == 'collections' && isActive
-    ][]{
-      image{
-        'assetId': asset->_id,
-        'url': asset->url,
-      },
-      useSocialImage,
-      socialImage{
-        'assetId': asset->_id,
-        'url': asset->url
-      },
-      cta,
-      discount,
-      promoStart,
-      promoEnd,
-      byline,
-      summary,
-      'slug': slug.current,
-      title,
-      scope,
-      collections[]->{
-        title,
-        'slug':slug.current
-      }
-    }
-  } | order(_createdAt desc)
-`;
 export const qryProductBySlug = groq`
   *[_type == "printify.product" && store.isVisible && !store.isDeleted && slug.current == $slug][0]{
     _id,
