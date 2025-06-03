@@ -44,7 +44,7 @@ const props = defineProps({
 }
 
 /* 2 items per row for screens 350px and above */
-@media (width >=350px) {
+@media (width >=300px) {
   #products-grid {
     grid-template-columns: repeat(2, 1fr);
   }
