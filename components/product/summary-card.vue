@@ -101,19 +101,21 @@ const pricedFrom = computed(() => {
         </div>
 
         <!-- Footer -->
-        <div
-          class="dark:bg-surface-700 bg-surface-50 border-t border-surface-900 p-4 mt-auto flex justify-between items-center">
-          <div class="text-primary-700 dark:text-primary-200 text-sm">
-            from:
-            <span v-if="userInfo" class="font-brand text-base">
-              {{ userInfo.currency.symbol }}{{ pricedFrom }}
-            </span>
+        <section id="card-footer" class="@container">
+          <div
+            class="dark:bg-surface-700 bg-surface-50 border-t border-surface-900 p-4 mt-auto flex flex-col gap-2 items-start @[165px]:flex-row @[165px]:justify-between @[165px]:items-center @[165px]:gap-0">
+            <div class="text-primary-700 dark:text-primary-200 text-sm">
+              from:
+              <span v-if="userInfo" class="font-brand text-base">
+                {{ userInfo.currency.symbol }}{{ pricedFrom }}
+              </span>
+            </div>
+            <NuxtLink :to="`/products/${product.slug}`"
+              class="border-surface-500 hover:text-surface-950 hover:bg-surface-300 rounded border py-1.5 px-2 self-end @[165px]:self-auto">
+              <span style="white-space: nowrap;">Order now</span>
+            </NuxtLink>
           </div>
-          <NuxtLink :to="`/products/${product.slug}`"
-            class="border-surface-500 hover:text-surface-950 hover:bg-surface-300 rounded border py-1.5 px-2">
-            <span style="white-space: nowrap;">Order now</span>
-          </NuxtLink>
-        </div>
+        </section>
       </div>
     </div>
   </template>
