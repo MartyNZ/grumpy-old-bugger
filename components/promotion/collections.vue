@@ -170,6 +170,7 @@ const { data: products, pending, error } = query.value
       No products found for this promotion.
     </div>
     <div v-else>
+      <product-list :products="products" :sectionTitle="promo.title" :description="promo.summary" :loading="loading" />
       <h2 class="text-2xl font-bold mb-6">{{ promo?.title }}</h2>
       <p v-if="promo?.summary" class="text-gray-600 mb-8">{{ promo.summary }}</p>
 
