@@ -34,8 +34,6 @@ const filteredCollections = computed(() => {
                 <icons-fa-duotone-angle-down :class="{ 'rotate-180': menuStates[collection._id] }" />
                 <div class="text-nowrap">
                   <span class="font-medium">{{ collection.title }}</span>
-                  <span v-if="collection.totalProductCount" class="ml-2 text-xs opacity-70">({{
-                    collection.totalProductCount }})</span>
                 </div>
               </div>
               <Transition name="fade">
