@@ -13,52 +13,69 @@ const { data: product } = await useSanityQuery(qryProductBySlug, {
   }, 2500)
 })
 
-// console.log(JSON.stringify(product.value.store.options, null, 2));
-const defaultVariant = product?.value?.store?.variants?.find((variant) => {
-  return variant.isDefault;
+// Add null checks for product data
+if (!product.value) {
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Product not found'
+  })
+}
+
+// Safe access to default variant
+const defaultVariant = computed(() => {
+  return product?.value?.store?.variants?.find((variant) => {
+    return variant.isDefault;
+  });
 });
-// console.log("Default Variant: ", JSON.stringify(defaultVariant));
 
-// const defaultPriceUnformatted = defaultVariant.price;
-// const defaultPrice = defaultPriceUnformatted / 100;
-const defaultPrice = product.value.store.pricedFrom.price / 100;
-// console.log("Default Price: ", defaultPrice);
+// Safe access to default price
+const defaultPrice = computed(() => {
+  return product?.value?.store?.pricedFrom?.price ?
+    product.value.store.pricedFrom.price / 100 :
+    null;
+});
 
-
+// Safe SEO meta setup
 useSeoMeta({
   title: computed(() => product.value?.title || ''),
   description: computed(() => product.value?.description || ''),
   ogTitle: computed(() => product.value?.title || ''),
   ogDescription: computed(() => settings?.description || ''),
-  // ogImage: computed(() => product.value?.featureImage?.url || product.value?.defaultImageUrl || ''),
   twitterTitle: computed(() => product.value?.title || ''),
   twitterDescription: computed(() => settings?.description || ''),
-  // twitterImage: computed(() => product.value?.featureImage?.url || product.value?.defaultImageUrl || ''),
   twitterCard: "summary_large_image",
 });
 
-const productSettings = (({
-  title: product.value?.store.title,
-  description: settings?.description,
-  siteName: settings?.title,
-  image: product.value?.featureImage?.url || product.value?.defaultImageUrl,
-  siteLogo: settings?.logoUrl,
-}))
+// Safe product settings
+const productSettings = computed(() => ({
+  title: product.value?.store?.title || '',
+  description: settings?.description || '',
+  siteName: settings?.title || '',
+  image: product.value?.featureImage?.url || product.value?.defaultImageUrl || '',
+  siteLogo: settings?.logoUrl || '',
+}));
 
-defineOgImageComponent(
-  'product', productSettings);
+// Safe OG image component definition
+watchEffect(() => {
+  if (product.value) {
+    defineOgImageComponent('product', productSettings.value);
+  }
+});
 
-if (product.value && defaultPrice) {
-  useSchemaOrg([
-    defineProduct({
-      name: product.value.title || '',
-      brand: settings?.title || '',
-      description: product.value.description || '',
-      image: product.value?.featureImage?.url || product.value?.defaultImageUrl || '',
-      offers: [{ price: defaultPrice.toFixed(2) }],
-    }),
-  ]);
-}
+// Safe schema.org setup
+watchEffect(() => {
+  if (product.value && defaultPrice.value) {
+    useSchemaOrg([
+      defineProduct({
+        name: product.value.title || '',
+        brand: settings?.title || '',
+        description: product.value.description || '',
+        image: product.value?.featureImage?.url || product.value?.defaultImageUrl || '',
+        offers: [{ price: defaultPrice.value.toFixed(2) }],
+      }),
+    ]);
+  }
+});
 
 definePageMeta({
   layout: false,
