@@ -26,6 +26,9 @@ export default defineNuxtConfig({
     "@vee-validate/nuxt",
     "@nuxt/icon",
   ],
+  socialShare: {
+    baseUrl: process.env.NUXT_SITE_PUBLISHED_URL,
+  },
   vite: {
     server: {
       allowedHosts: [
@@ -46,7 +49,6 @@ export default defineNuxtConfig({
   carousel: {
     prefix: "v3cn",
   },
-
   posthog: {
     disabled: true,
   },
@@ -86,7 +88,6 @@ export default defineNuxtConfig({
     //     html: true,
     //   },
   },
-
   routeRules: {
     "/promotions/": {
       redirect: "/",
@@ -99,7 +100,6 @@ export default defineNuxtConfig({
     disabled: true,
     debug: false,
   },
-
   mail: {
     message: {
       to: process.env.EMAIL_TO,
@@ -113,7 +113,6 @@ export default defineNuxtConfig({
       },
     },
   },
-
   primevue: {
     options: {
       unstyled: true,
@@ -142,11 +141,9 @@ export default defineNuxtConfig({
     importPT: { as: "webcnxnz", from: "~/presets/webcnxnz" },
     cssLayerOrder: "tailwind-base, primevue, tailwind-utilities",
   },
-
   colorMode: {
     classSuffix: "",
   },
-
   pwa: {
     registerType: "autoUpdate",
     manifest: {
@@ -262,7 +259,6 @@ export default defineNuxtConfig({
     //   type: "module",
     // },
   },
-
   site: {
     site: {
       identity: {
@@ -278,7 +274,6 @@ export default defineNuxtConfig({
     description: process.env.NUXT_SITE_DESCRIPTION,
     defaultLocale: process.env.NUXT_SITE_DEFAULT_LOCALE,
   },
-
   app: {
     head: {
       titleTemplate: "%s %separator %siteName",
@@ -310,9 +305,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-
   css: ["~/assets/css/base.css", "primeicons/primeicons.css"],
-
   sanity: {
     projectId: process.env.SANITY_STUDIO_PROJECT_ID,
     dataset: process.env.SANITY_STUDIO_DATASET,
@@ -335,11 +328,9 @@ export default defineNuxtConfig({
     printifyStoreId: process.env.PRINTIFY_STORE_ID,
     printifyBearerToken: process.env.PRINTIFY_BEARER_TOKEN,
   },
-
   imports: {
     dirs: ["stores"],
   },
-
   nitro: {
     routeRules: {
       "/api/**": {

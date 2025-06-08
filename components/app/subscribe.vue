@@ -48,7 +48,7 @@ const onSubmit = (values) => {
               <span class="text-semibold text-md sm:text-lg">When you subscribe to our newsletter</span>
             </div>
             <div class="@container w-full" v-if="!messageSent">
-              <vForm :validation-schema="validationSchema" @submit="onSubmit">
+              <vForm :validation-schema="validationSchema" @submit="onSubmit" v-slot="{ isSubmitting }">
                 <div class="grid gap-2 place-content-center">
                   <vField name="email" v-slot="{ field, errors }">
                     <div class="grid-flow-rows grid pr-5 place-self-center">
