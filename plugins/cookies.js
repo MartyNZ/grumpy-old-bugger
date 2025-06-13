@@ -12,15 +12,15 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     maxAge: 60 * 60 * 24 * 30, // 30 days
   });
 
-  // Initialize cookie if it doesn't exist
-  if (!userInfo.value) {
-    userInfo.value = {
-      currency: {
-        value: 1,
-        ...currenciesData.USD,
-      },
-    };
-  }
+  // // Initialize cookie if it doesn't exist
+  // if (!userInfo.value) {
+  //   userInfo.value = {
+  //     currency: {
+  //       value: 1,
+  //       ...currenciesData.USD,
+  //     },
+  //   };
+  // }
 
   // Make userInfo available globally
   nuxtApp.provide("userInfo", userInfo);
