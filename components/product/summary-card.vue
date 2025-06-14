@@ -15,14 +15,23 @@ const userInfo = useCookie('user-info');
 // Use the new composable for promotion logic
 const { productPromotions, collectionPromotions, allPromotions } = useProductPromotions(props.product);
 
+// Use the price calculations composable
+const { calculatePrices } = usePriceCalculations();
+
 const pricedFrom = computed(() => {
-  if (!props.product?.store?.pricedFrom?.price || !userInfo.value?.currency?.rate) {
+  if (!props.product?.store?.variants || !userInfo.value?.currency?.rate) {
     return '0.00';
   }
 
-  let priceData = props.product.store.pricedFrom.price / 100;
-  let rateAdjustedPrice = priceData * userInfo.value.currency.rate;
-  return rateAdjustedPrice.toFixed(2);
+  // Get all variants and calculate their prices
+  const prices = props.product.store.variants.map(variant => {
+    const { itemPrice } = calculatePrices(variant, userInfo.value.currency, 1, null);
+    return parseFloat(itemPrice);
+  });
+
+  // Return the lowest price
+  const lowestPrice = Math.min(...prices);
+  return lowestPrice.toFixed(2);
 });
 </script>
 <template>
