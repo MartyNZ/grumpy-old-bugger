@@ -5,6 +5,8 @@ import * as yup from "yup";
 const data = useSiteSettingsStore();
 const settings = data.settings;
 
+// console.log("Page: ", JSON.stringify(page.value,null,2))
+
 const formSchema = toTypedSchema(
   yup.object(
     {
@@ -54,26 +56,26 @@ const onSubmit = handleSubmit(values => {
 const debug = ref(false);
 
 useSeoMeta({
-  title: computed(() => settings?.title || ''),
-  ogTitle: computed(() => settings?.title || ''),
+  title: computed(() => page?.title || ''),
+  ogTitle: computed(() => page?.title || ''),
   description: computed(() => settings?.description || ''),
   ogDescription: computed(() => settings?.description || ''),
-  ogImage: computed(() => settings?.image || ''),
-  twitterTitle: computed(() => settings?.title || ''),
+  ogImage: computed(() => settings?.image?.asset.url || ''),
+  twitterTitle: computed(() => page?.title || ''),
   twitterDescription: computed(() => settings?.description || ''),
-  twitterImage: computed(() => settings?.image || ''),
+  twitterImage: computed(() => settings?.image?.asset.url || ''),
   twitterCard: "summary_large_image",
 });
 
-const siteSettings = computed(() => ({
-  title: data.settings?.title || '',
-  description: data.settings?.description || '',
-  image: data.settings?.image || '',
-  siteName: data.settings?.title || '',
-  icon: data.settings?.logoUrl || ''
-}))
+// const siteSettings = computed(() => ({
+//   title: data.settings?.title || '',
+//   description: data.settings?.description || '',
+//   image: data.settings?.image || '',
+//   siteName: data.settings?.title || '',
+//   icon: data.settings?.logoUrl || ''
+// }))
 
-defineOgImageComponent('default', siteSettings.value)
+// defineOgImageComponent('default', siteSettings.value)
 
 definePageMeta({
   layout: "false",
@@ -144,9 +146,9 @@ definePageMeta({
           </div>
         </div>
       </section>
-      <section class="mb-16">
+      <!-- <section class="mb-16">
         <app-page-sections :page="page" />
-      </section>
+      </section> -->
     </template>
     <template #sidebar>
       <div class="@md:grid-cols-2 sticky top-[95px] mx-3 grid grid-cols-1 gap-4">

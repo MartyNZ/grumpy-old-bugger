@@ -3,18 +3,20 @@ const props = defineProps({
   design: {
     type: Object,
     required: true,
-  },
-  loading: {
-    type: Boolean,
   }
 });
+const loading = ref(true);
+onMounted(() => {
+  loading.value = false;
+})
+// console.log("Design", props.design.title, ": ", JSON.stringify(props.design, null, 2))
 </script>
 <template>
   <template v-if="loading">
     <Skeleton width="175px" height="175px" />
   </template>
   <div v-else class="zoom dark:shadow-surface-600 relative overflow-hidden bg-cover bg-[50%] bg-no-repeat shadow-md">
-    <img :src="design.image.url" auto="format"
+    <img :src="design.image.asset.url" auto="format"
       class="w-full aspect-square object-cover align-middle transition duration-300 ease-linear" :alt="design.title"
       loading="lazy" />
     <NuxtLink :to="`/products/designs/${design.slug}`">

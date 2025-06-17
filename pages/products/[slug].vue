@@ -35,31 +35,27 @@ const defaultPrice = computed(() => {
     null;
 });
 
+// Create the title as a computed property
+const pageTitle = computed(() => `${product.value?.store.title}`);
+useHead({
+  title: pageTitle.value,
+});
 // Safe SEO meta setup
 useSeoMeta({
-  title: computed(() => product.value?.title || ''),
-  description: computed(() => product.value?.description || ''),
-  ogTitle: computed(() => product.value?.title || ''),
-  ogDescription: computed(() => settings?.description || ''),
-  twitterTitle: computed(() => product.value?.title || ''),
-  twitterDescription: computed(() => settings?.description || ''),
+  title: computed(() => pageTitle.value || ''),
+  description: computed(() => product.value?.store?.title || ''),
+  ogTitle: computed(() => pageTitle.value || ''),
+  ogDescription: computed(() => product.value?.store?.title || ''),
+  ogImage: computed(() => product.value?.featureImage?.url || product.value?.defaultImageUrl || ''),
+  twitterTitle: computed(() => pageTitle.value || ''),
+  twitterDescription: computed(() => product.value?.store?.title || ''),
+  twitterImage: computed(() => product.value?.featureImage?.url || product.value?.defaultImageUrl || ''),
   twitterCard: "summary_large_image",
 });
 
-// Safe product settings
-const productSettings = computed(() => ({
-  title: product.value?.store?.title || '',
-  description: settings?.description || '',
-  siteName: settings?.title || '',
-  image: product.value?.featureImage?.url || product.value?.defaultImageUrl || '',
-  siteLogo: settings?.logoUrl || '',
-}));
 
-// Safe OG image component definition
-watchEffect(() => {
-  if (product.value) {
-    defineOgImageComponent('product', productSettings.value);
-  }
+definePageMeta({
+  layout: false,
 });
 
 // Safe schema.org setup
@@ -77,9 +73,21 @@ watchEffect(() => {
   }
 });
 
-definePageMeta({
-  layout: false,
-});
+// // Safe product settings
+// const productSettings = computed(() => ({
+//   title: product.value?.store?.title || '',
+//   description: settings?.description || '',
+//   siteName: settings?.title || '',
+//   image: product.value?.featureImage?.url || product.value?.defaultImageUrl || '',
+//   siteLogo: settings?.logoUrl || '',
+// }));
+
+// // Safe OG image component definition
+// watchEffect(() => {
+//   if (product.value) {
+//     defineOgImageComponent('product', productSettings.value);
+//   }
+// });
 </script>
 
 <template>

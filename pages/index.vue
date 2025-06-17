@@ -34,21 +34,21 @@ useSeoMeta({
   ogTitle: computed(() => settings?.title || ''),
   description: computed(() => settings?.description || ''),
   ogDescription: computed(() => settings?.description || ''),
-  ogImage: computed(() => settings?.image || ''),
+  ogImage: computed(() => settings?.image?.asset.url || ''),
   twitterTitle: computed(() => settings?.title || ''),
   twitterDescription: computed(() => settings?.description || ''),
-  twitterImage: computed(() => settings?.image || ''),
+  twitterImage: computed(() => settings?.image?.asset.url || ''),
   twitterCard: "summary_large_image",
 });
-const pageSettings = computed(() => ({
-  title: settings?.title,
-  description: settings?.description,
-  image: settings?.image,
-  siteName: settings?.title,
-  icon: settings?.logoUrl,
-  twitterCard: "summary_large_image",
-}))
-defineOgImageComponent('default', pageSettings.value);
+// const pageSettings = computed(() => ({
+//   title: settings?.title,
+//   description: settings?.description,
+//   image: settings?.image,
+//   siteName: settings?.title,
+//   icon: settings?.logoUrl,
+//   twitterCard: "summary_large_image",
+// }))
+// defineOgImageComponent('default', pageSettings.value);
 
 definePageMeta({
   layout: "false",

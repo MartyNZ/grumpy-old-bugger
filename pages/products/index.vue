@@ -8,127 +8,45 @@ const collectionNav =
 const data = useSiteSettingsStore();
 const settings = data.settings;
 
-const isLoading = ref(true)
 // Modify the data fetching to handle loading state
-const { data: allProducts } = await useSanityQuery(qryAllProducts).finally(() => {
-  setTimeout(() => {
-    isLoading.value = false
-  }, 500)
-});
+const { data: allProducts } = await useSanityQuery(qryAllProducts)
 // console.log("Products: ", JSON.stringify(allProducts.value, null, 2));
 
 const filteredProducts = ref([]);
 filteredProducts.value = allProducts.value;
 // console.log("Filtered Product Count: ", filteredProducts.value.length);
 
-const productThemes = [
-  ...new Set(
-    allProducts.value
-      .flatMap((product) =>
-        product.theme ? product.theme : [],
-      )
-      .map((theme) => theme._id),
-  ),
-].map((id) =>
-  allProducts.value
-    .flatMap((product) =>
-      product.theme ? product.theme : [],
-    )
-    .find((theme) => theme._id === id),
-);
-// console.log("Product Themes: ", JSON.stringify(productThemes, null, 2));
+const productThemes = computed(() => {
+  const uniqueThemes = new Map()
 
-// Create an array of unique colour objects
-const productColours = [
-  ...new Set(
-    allProducts.value
-      .flatMap((product) =>
-        product.colours &&
-          product.colours !== null &&
-          product.colours.length > 0
-          ? product.colours
-          : [],
-      )
-      .map((colour) => colour._id),
-  ),
-].map((id) =>
-  allProducts.value
-    .flatMap((product) =>
-      product.colours && product.colours.length > 0 ? product.colours : [],
-    )
-    .find((colour) => colour._id === id),
-);
+  allProducts.value?.forEach(product => {
+    product.theme?.forEach?.(theme => {
+      if (theme?._id && !uniqueThemes.has(theme._id)) {
+        uniqueThemes.set(theme._id, theme)
+      }
+    })
+  })
+
+  return Array.from(uniqueThemes.values())
+})
+
+const productColours = computed(() => {
+  const uniqueColours = new Map()
+
+  allProducts.value?.forEach(product => {
+    product.colours?.forEach?.(colour => {
+      if (colour?._id && !uniqueColours.has(colour._id)) {
+        uniqueColours.set(colour._id, colour)
+      }
+    })
+  })
+
+  return Array.from(uniqueColours.values())
+})
 
 // Log the productColours array to the console
 // console.log("Product Colours: ", JSON.stringify(productColours, null, 2));
 
-const productFilters = defineAsyncComponent(
-  () => import("~/components/product/filters.vue"),
-);
-
-const themeFilters = ref([]);
-const colourFilters = ref([]);
-
-function clearFilters() {
-  themeFilters.value = [];
-  colourFilters.value = [];
-}
-watch(
-  [themeFilters, colourFilters],
-  () => {
-    // console.log("Theme Filters: ", JSON.stringify(themeFilters.value, null, 2));
-    const filteredByColour = allProducts.value.filter((product) =>
-      colourFilters.value.length === 0
-        ? true
-        : product.colours &&
-        colourFilters.value.some((colour) =>
-          product.colours.some(
-            (productColour) => productColour.slug === colour,
-          ),
-        )
-    );
-
-    filteredProducts.value = filteredByColour.filter((product) =>
-      themeFilters.value.length === 0
-        ? true
-        : product.theme &&
-        themeFilters.value.some((theme) =>
-          product.theme.slug === theme),
-
-      // console.log("Theme ", JSON.stringify(product.theme, null, 2))
-    );
-    return false;
-  },
-  // console.log("FiltedProduct Count: ", filteredProducts.value.length),
-  { deep: true, immediate: true },
-);
-
-const showFilters = useDialog();
-const openDialog = () => {
-  const dialogRef = showFilters.open(productFilters, {
-    data: {
-      themes: productThemes,
-      colours: productColours,
-    },
-    props: {
-      header: "Filter products",
-      style: {
-        width: "85vw",
-      },
-      breakpoints: {
-        "960px": "50vw",
-        "640px": "75vw",
-      },
-      modal: true,
-    },
-    onClose: (filters) => {
-      themeFilters.value = filters.data.themes;
-      colourFilters.value = filters.data.colours;
-      // console.log("Theme Filters: ", JSON.stringify(themeFilters.value));
-    },
-  });
-  // console.log("From openDialog: ", dialogRef);
-};
 
 // console.log("All Products: ", JSON.stringify(allProducts.value));
 
@@ -139,29 +57,37 @@ const currentProduct = Math.floor(Math.random() * productCount);
 // console.log("Current Product index: ", currentProduct);
 const product = allProducts.value[currentProduct];
 
-useSeoMeta({
-  title: computed(() => settings?.name || ''),
-  ogTitle: computed(() => settings?.name || ''),
-  description: computed(() => settings?.description || ''),
-  ogDescription: computed(() => settings?.description || ''),
-  twitterTitle: computed(() => settings?.name || ''),
-  twitterDescription: computed(() => settings?.description || ''),
-  twitterCard: "summary_large_image",
+// Create the title as a computed property
+const pageTitle = computed(() => `Products`);
+useHead({
+  title: pageTitle.value,
 });
 
-const productSettings = (({
-  title: settings?.title,
-  productTitle: product.store?.title,
-  description: settings?.description,
-  siteName: settings?.title,
-  image: product.featureImage?.url || product?.defaultImageUrl,
-  siteLogo: settings?.logoUrl,
-}))
-defineOgImageComponent('product', productSettings);
+useSeoMeta({
+  title: computed(() => pageTitle.value || ''),
+  description: computed(() => product?.store?.title || ''),
+  ogTitle: computed(() => pageTitle.value || ''),
+  ogDescription: computed(() => product?.store?.title || ''),
+  ogImage: computed(() => product?.featureImage?.asset?.url || product?.defaultImageUrl || ''),
+  twitterTitle: computed(() => pageTitle.value || ''),
+  twitterDescription: computed(() => product?.store?.title || ''),
+  twitterImage: computed(() => product?.featureImage?.asset?.url || product?.defaultImageUrl || ''),
+  twitterCard: "summary_large_image",
+});
 
 definePageMeta({
   layout: false,
 });
+
+// const productSettings = (({
+//   title: settings?.title,
+//   productTitle: product.store?.title,
+//   description: settings?.description,
+//   siteName: settings?.title,
+//   image: product.featureImage?.url || product?.defaultImageUrl,
+//   siteLogo: settings?.logoUrl,
+// }))
+// defineOgImageComponent('product', productSettings);
 </script>
 
 <template>
@@ -170,7 +96,7 @@ definePageMeta({
       <template #main>
         <product-collection-buttons :collectionNav="collectionNav" />
         <section id="product-list">
-          <product-list :loading="isLoading" v-if="filteredProducts.length > 0" :products="filteredProducts" />
+          <product-list v-if="filteredProducts.length > 0" :products="filteredProducts" />
         </section>
       </template>
       <template #sidebar>

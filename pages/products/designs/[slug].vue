@@ -13,31 +13,36 @@ const { data: design } = await useSanityQuery(qryProductsByDesign, {
   })
 // console.log("Products by design: ", JSON.stringify(design.value, null, 2))
 
+// Create the title as a computed property
+const pageTitle = computed(() => design.value?.title);
+useHead({
+  title: pageTitle.value,
+});
 useSeoMeta({
   title: computed(() => design.value?.title || ''),
   description: computed(() => design.value?.theme?.description || ''),
   ogTitle: computed(() => design.value?.title || ''),
   ogDescription: computed(() => design.value?.theme?.description || ''),
-  // ogImage: computed(() => design.value?.image?.url || ''),
+  ogImage: computed(() => design.value?.image?.asset.url || ''),
   twitterTitle: computed(() => design.value?.title || ''),
   twitterDescription: computed(() => design.value?.theme?.description || ''),
-  // twitterImage: computed(() => design.value?.image?.url || ''),
+  twitterImage: computed(() => design.value?.image?.asset.url || ''),
   twitterCard: "summary_large_image",
 });
-
-const themeSettings = (({
-  title: design.value?.title,
-  description: design.value?.theme?.description,
-  image: design.value?.image?.url,
-  siteName: settings.title,
-  siteLogo: settings.logoUrl,
-}))
-
-defineOgImageComponent('theme', themeSettings);
 
 definePageMeta({
   layout: false,
 });
+
+// const themeSettings = (({
+//   title: design.value?.title,
+//   description: design.value?.theme?.description,
+//   image: design.value?.image?.url,
+//   siteName: settings.title,
+//   siteLogo: settings.logoUrl,
+// }))
+
+// defineOgImageComponent('theme', themeSettings);
 </script>
 <template>
   <div>

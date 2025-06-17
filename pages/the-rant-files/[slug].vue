@@ -32,25 +32,17 @@ useSeoMeta({
   description: computed(() => article.value?.excerpt || ''),
   ogTitle: computed(() => article.value?.title || ''),
   ogDescription: computed(() => article.value?.excerpt || ''),
-  // ogImage: computed(() => article.value?.image.url || ''),
+  ogImage: computed(() => article.value?.image.asset.url || ''),
   twitterTitle: computed(() => article.value?.title || ''),
   twitterDescription: computed(() => article.value?.excerpt || ''),
-  // twitterImage: computed(() => article.value?.image.url || ''),
+  twitterImage: computed(() => article.value?.image.asset.url || ''),
   twitterCard: "summary_large_image",
 });
 
-const articleSettings = computed(() => ({
-  title: article.value?.title || '',
-  description: article.value?.excerpt || '',
-  image: article.value?.image.url || '',
-  siteName: settings?.title || '',
-  siteLogo: settings?.logoUrl || '',
-}))
-defineOgImageComponent("article", articleSettings.value);
 useSchemaOrg([
   defineArticle({
     // name and description can usually be inferred
-    image: article.value.image.url,
+    image: article.value.image.asset.url,
     datePublished: article.value._createdAt,
     dateModified: article.value.publishedDate,
   })
@@ -59,6 +51,15 @@ useSchemaOrg([
 definePageMeta({
   layout: false,
 });
+
+// const articleSettings = computed(() => ({
+//   title: article.value?.title || '',
+//   description: article.value?.excerpt || '',
+//   image: article.value?.image.url || '',
+//   siteName: settings?.title || '',
+//   siteLogo: settings?.logoUrl || '',
+// }))
+// defineOgImageComponent("article", articleSettings.value);
 </script>
 
 <template>

@@ -22,27 +22,26 @@ useSeoMeta({
   description: computed(() => currentCollection.parentCollection?.excerpt || ''),
   ogTitle: computed(() => currentCollection?.title || ''),
   ogDescription: computed(() => currentCollection.parentCollection?.excerpt || ''),
-  // ogImage: computed(() => currentCollection.parentCollection?.image.url || ''),
+  ogImage: computed(() => currentCollection.parentCollection?.image.asset.url || ''),
   twitterTitle: computed(() => currentCollection?.title || ''),
   twitterDescription: computed(() => currentCollection.parentCollection?.excerpt || ''),
-  // twitterImage: computed(() => currentCollection.parentCollection?.image.url || ''),
+  twitterImage: computed(() => currentCollection.parentCollection?.image.asset.url || ''),
   twitterCard: "summary_large_image",
 });
-
-const articleSettings = computed(() => ({
-  title: currentCollection.title,
-  description: currentCollection.parentCollection.excerpt,
-  image: currentCollection.parentCollection.image.url,
-  siteName: settings.title,
-  siteLogo: settings.logoUrl,
-}))
-
-
-defineOgImageComponent('article', articleSettings.value);
 
 definePageMeta({
   layout: false,
 });
+
+// const articleSettings = computed(() => ({
+//   title: currentCollection.title,
+//   description: currentCollection.parentCollection.excerpt,
+//   image: currentCollection.parentCollection.image.url,
+//   siteName: settings.title,
+//   siteLogo: settings.logoUrl,
+// }))
+// defineOgImageComponent('article', articleSettings.value);
+
 </script>
 <template>
   <NuxtLayout name="internal">

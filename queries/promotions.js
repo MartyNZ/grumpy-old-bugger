@@ -12,12 +12,27 @@ export const qryAllLivePromotions = groq`
     promoEnd,
     image{
       'assetId': asset->_id,
-      'url': asset->url
+      'url':asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
-    useSocialImage,
     socialImage{
       'assetId': asset->_id,
-      'url': asset->url
+      'url':asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     collections,
     products,
@@ -55,12 +70,27 @@ export const qryPromotionBySlug = groq`
     promoEnd,
     image{
       'assetId': asset->_id,
-      'url': asset->url
+      'url':asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
-    useSocialImage,
     socialImage{
       'assetId': asset->_id,
-      'url': asset->url
+      'url':asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     collections[]->,
     products[]->{
@@ -69,7 +99,15 @@ export const qryPromotionBySlug = groq`
     defaultImageUrl,
     featureImage{
       'assetId': asset->_id,
-      'url':asset->url
+      'url':asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     'slug':slug.current,
     'featureImageUrl':featureImage.asset->url,
@@ -96,7 +134,15 @@ export const qryPromotionBySlug = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url': asset->url,
+        'url':asset->url,
+        caption,
+        altText,
+        hotspot,
+        asset->{
+          _id,
+          url,
+          metadata
+        },
       },
       cta,
       discount,
@@ -130,7 +176,15 @@ export const qryPromotedProducts = groq`
     promoEnd,
     image{
       'assetId': asset->_id,
-      'url': asset->url
+      'url':asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     collections,
     products,

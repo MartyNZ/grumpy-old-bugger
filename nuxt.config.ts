@@ -52,21 +52,21 @@ export default defineNuxtConfig({
   posthog: {
     disabled: true,
   },
-  // ogImage: {
-  //   enabled: false,
-  // },
+  ogImage: {
+    enabled: false,
+  },
   sitemap: {
     enabled: false,
   },
   robots: {
     // enabled: false,
-    // disallow: ['/secret', '/admin'],
-    // allow: "/admin/login",
+    disallow: ["/secret", "/admin"],
+    allow: "/admin/login",
   },
-  // seo: {
-  //   // seo utils
-  //   enabled: false,
-  // },
+  seo: {
+    // seo utils
+    //   enabled: false,
+  },
   schemaOrg: {
     // enabled: false,
     identity: {
@@ -81,12 +81,12 @@ export default defineNuxtConfig({
     },
   },
   linkChecker: {
-    enabled: false,
-    //   excludeLinks: ["/"],
-    //   report: {
-    //     // generate both a html and markdown report
-    //     html: true,
-    //   },
+    // enabled: false,
+    excludeLinks: ["/"],
+    report: {
+      // generate both a html and markdown report
+      html: true,
+    },
   },
   routeRules: {
     "/promotions/": {
@@ -281,12 +281,7 @@ export default defineNuxtConfig({
         { name: "generator", content: "Nuxt 3" },
         { name: "viewport", content: "width=device-width, initial-scale=1.0" },
       ],
-      script: [
-        {
-          src: "https://kit.fontawesome.com/ec0be17e84.js",
-          crossorigin: "anonymous",
-        },
-      ],
+      script: [],
       link: [
         {
           rel: "icon",

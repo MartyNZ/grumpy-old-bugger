@@ -26,25 +26,26 @@ useSeoMeta({
   description: computed(() => collection.value?.excerpt || ''),
   ogTitle: computed(() => collection.value?.title || ''),
   ogDescription: computed(() => collection.value?.excerpt || ''),
-  // ogImage: computed(() => collection.value?.image.url || ''),
+  ogImage: computed(() => collection.value?.image.asset.url || ''),
   twitterTitle: computed(() => collection.value?.title || ''),
   twitterDescription: computed(() => collection.value?.excerpt || ''),
-  // twitterImage: computed(() => collection.value?.image.url || ''),
+  twitterImage: computed(() => collection.value?.image.asset.url || ''),
   twitterCard: "summary_large_image",
 });
-
-const articleSettings = computed(() => ({
-  title: collection.value?.title,
-  description: collection.value?.excerpt,
-  image: collection.value?.image.url,
-  siteName: settings?.title,
-  siteLogo: settings?.logoUrl,
-}));
-defineOgImageComponent('article', articleSettings.value);
 
 definePageMeta({
   layout: false,
 });
+
+// const articleSettings = computed(() => ({
+//   title: collection.value?.title,
+//   description: collection.value?.excerpt,
+//   image: collection.value?.image.url,
+//   siteName: settings?.title,
+//   siteLogo: settings?.logoUrl,
+// }));
+// defineOgImageComponent('article', articleSettings.value);
+
 </script>
 <template>
   <NuxtLayout name="internal">

@@ -19,7 +19,15 @@ export const qryArticlesSection = groq`
     title,
     image{
       'url':asset->url,
-      'assetId':asset->_id
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     description,
     latestArticles->{
@@ -36,8 +44,16 @@ export const qryAllArticles = groq`
     title,
     'slug': slug.current,
     image{
-    'url': asset->url,
-    "assetId":asset->_id
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
     publishedDate,
@@ -49,7 +65,17 @@ export const qryAllArticles = groq`
       _id,
       'slug':slug.current,
       'name':firstName + ' ' + lastName,
-      image{'assetId':asset->_id,'url':asset->url},
+      image{
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },},
     },
   } | order(publishedDate desc)
 `;
@@ -60,8 +86,16 @@ export const qryArticles = groq`
     title,
     'slug': slug.current,
     image{
-    'url': asset->url,
-    "assetId":asset->_id
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     body,
     'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
@@ -83,8 +117,16 @@ export const qryArticles = groq`
       defaultImageUrl,
       'slug':slug.current,
       featureImage{
-        'assetId': asset->_id,
-        'url':asset->url
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
       },
       store{
         title
@@ -99,8 +141,16 @@ export const qryArticleLatest = groq`
     title,
     'slug': slug.current,
     image{
-    'url': asset->url,
-    "assetId":asset->_id
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
     publishedDate,
@@ -117,8 +167,16 @@ export const qryArticlesLatest = groq`
     title,
     'slug': slug.current,
     image{
-    'url': asset->url,
-    "assetId":asset->_id
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
     publishedDate,
@@ -135,8 +193,16 @@ export const qryArticleBySlug = groq`
     title,
     'slug': slug.current,
     image{
-    'url': asset->url,
-    "assetId":asset->_id
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     body,
     'excerpt': array::join(string::split(pt::text(body), "")[0...100], "") + "...",
@@ -158,8 +224,16 @@ export const qryArticleBySlug = groq`
       defaultImageUrl,
       'slug':slug.current,
       featureImage{
-        'assetId': asset->_id,
-        'url':asset->url
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
       },
       store{
         title
@@ -183,8 +257,16 @@ export const qryAllArticlesByCategory = groq`
       title,
       'slug': slug.current,
       image{
-        'url': asset->url,
-        "assetId":asset->_id
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
       },
       'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
       publishedDate,
@@ -208,7 +290,15 @@ export const qryArticlesByCategory = groq`
     title,
     image{
       'url':asset->url,
-      'assetId':asset->_id
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     'slug':slug.current,
     description,
@@ -218,8 +308,16 @@ export const qryArticlesByCategory = groq`
       title,
       'slug': slug.current,
       image{
-        'url': asset->url,
-        "assetId":asset->_id
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
       },
       'excerpt': array::join(string::split(pt::text(body), "")[0...175], "") + "...",
       publishedDate,
@@ -260,9 +358,16 @@ export const qryArticleCollectionNavigation = groq`
         'excerpt': array::join(string::split(pt::text(description), "")[0...125], "") + "...",
         'slug':slug.current,
         image{
-        'url':asset->url,
-        'assetId':asset->_id,
-        rules
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
         }
       },
       childCollections[]->{
@@ -272,9 +377,16 @@ export const qryArticleCollectionNavigation = groq`
         'excerpt': array::join(string::split(pt::text(description), "")[0...125], "") + "...",
         'slug':slug.current,
         image{
-        'url':asset->url,
-        'assetId':asset->_id,
-        rules
+      'url':asset->url,
+      'assetId':asset->_id,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
         }
       },
     }

@@ -3,11 +3,7 @@ const props = defineProps({
   product: {
     type: Object,
     required: true,
-  },
-  loading: {
-    type: Boolean,
-    default: true,
-  },
+  }
 });
 
 const userInfo = useCookie('user-info');
@@ -33,6 +29,10 @@ const pricedFrom = computed(() => {
   const lowestPrice = Math.min(...prices);
   return lowestPrice.toFixed(2);
 });
+const loading = ref(true)
+onMounted(() => {
+  loading.value = false
+})
 </script>
 <template>
   <!-- Loading State -->
@@ -61,7 +61,7 @@ const pricedFrom = computed(() => {
         <div class="aspect-square w-full relative">
           <!-- Images -->
           <template v-if="product.featureImage">
-            <SanityImage :asset-id="product.featureImage.assetId"
+            <SanityImage :asset-id="product.featureImage.asset._id"
               class="h-full w-full object-cover transition duration-300" :alt="product.store.title" auto="format"
               max-w="380" />
           </template>

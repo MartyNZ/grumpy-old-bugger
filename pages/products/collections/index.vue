@@ -15,29 +15,36 @@ const isLoading = ref(true);
 setTimeout(() => {
   isLoading.value = false;
 }, 500)
+
+// Create the title as a computed property
+const pageTitle = computed(() => `Our Product collections`);
+useHead({
+  title: pageTitle.value,
+});
 useSeoMeta({
-  title: computed(() => settings?.name || ''),
-  ogTitle: computed(() => settings?.name || ''),
-  // ogImage: computed(() => collection.parentCollection?.imageUrl || ''),
-  description: computed(() => collection.parentCollection?.description || ''),
-  ogDescription: computed(() => collection.parentCollection?.description || ''),
-  twitterTitle: computed(() => collection.parentCollection?.name || ''),
-  // twitterImage: computed(() => collection.parentCollection?.image?.url || ''),
-  twitterDescription: computed(() => collection.parentCollection?.description || ''),
+  title: computed(() => pageTitle.value || ''),
+  ogTitle: computed(() => pageTitle.value || ''),
+  twitterTitle: computed(() => pageTitle.value || ''),
+  description: computed(() => settings?.description || ''),
+  ogDescription: computed(() => settings?.description || ''),
+  twitterDescription: computed(() => settings?.description || ''),
+  ogImage: computed(() => collection.parentCollection?.image?.asset.url || ''),
+  twitterImage: computed(() => collection.parentCollection?.image?.asset.url || ''),
   twitterCard: "summary_large_image",
 });
-
-const collectionSettings = (({
-  title: collection.parentCollection?.name,
-  description: collection.parentCollection?.description,
-  image: collection.parentCollection?.imageUrl,
-  url: collection.parentCollection?.url,
-}));
-defineOgImageComponent('collection', collectionSettings.value);
 
 definePageMeta({
   layout: false,
 });
+
+// const collectionSettings = (({
+//   title: collection.parentCollection?.name,
+//   description: collection.parentCollection?.description,
+//   image: collection.parentCollection?.imageUrl,
+//   url: collection.parentCollection?.url,
+// }));
+// defineOgImageComponent('collection', collectionSettings.value);
+
 </script>
 <template>
   <div>

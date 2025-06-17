@@ -17,30 +17,30 @@ const settings = data.settings;
 
 useSeoMeta({
   icon: computed(() => settings?.logoUrl || ''),
-  title: computed(() => page?.value?.title || ''),
-  description: computed(() => page?.value?.description || ''),
-  ogTitle: computed(() => page?.value?.title || ''),
-  ogDescription: computed(() => page?.value?.description || ''),
-  // ogImage: computed(() => settings?.image || ''),
-  twitterTitle: computed(() => page?.value?.title || ''),
-  twitterDescription: computed(() => page?.value?.description || ''),
-  // twitterImage: computed(() => settings?.image || ''),
+  title: computed(() => page?.value?.seo?.title || page?.value?.title),
+  description: computed(() => page?.value?.seo?.description || ''),
+  ogTitle: computed(() => page?.value?.seo?.title || page?.value?.title),
+  ogDescription: computed(() => page?.value?.seo?.description || ''),
+  ogImage: computed(() => page.value.seo?.image?.asset.url || ''),
+  twitterTitle: computed(() => page?.value?.seo?.title || page?.value?.title),
+  twitterDescription: computed(() => page?.value?.seo?.description || ''),
+  twitterImage: computed(() => page.value.seo?.image?.asset.url || ''),
   twitterCard: "summary_large_image",
 });
-
-const siteSettings = computed(() => ({
-  title: data.settings?.title || '',
-  description: data.settings?.description || '',
-  image: data.settings?.image || '',
-  siteName: data.settings?.title || '',
-  icon: data.settings?.logoUrl || ''
-}))
-
-defineOgImageComponent('default', siteSettings.value)
 
 definePageMeta({
   layout: false,
 });
+
+// const siteSettings = computed(() => ({
+//   title: data.settings?.title || '',
+//   description: data.settings?.description || '',
+//   image: data.settings?.image || '',
+//   siteName: data.settings?.title || '',
+//   icon: data.settings?.logoUrl || ''
+// }))
+// defineOgImageComponent('default', siteSettings.value)
+
 </script>
 
 <template>

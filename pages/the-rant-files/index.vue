@@ -19,29 +19,29 @@ const { data: articles } = await useSanityQuery(qryArticles).finally(() => {
 
 useSeoMeta({
   title: computed(() => articlesSection.value?.title || ''),
-  description: computed(() => articlesSection.value?.excerpt || ''),
+  description: computed(() => articlesSection.value?.description || ''),
   ogTitle: computed(() => articlesSection.value?.title || ''),
-  ogDescription: computed(() => articlesSection.value?.excerpt || ''),
-  // ogImage: computed(() => articlesSection.value?.image.url || ''),
+  ogDescription: computed(() => articlesSection.value?.description || ''),
+  ogImage: computed(() => articlesSection.value?.image.asset.url || ''),
   twitterTitle: computed(() => articlesSection.value?.title || ''),
-  twitterDescription: computed(() => articlesSection.value?.excerpt || ''),
-  // twitterImage: computed(() => articlesSection.value?.image.url || ''),
+  twitterDescription: computed(() => articlesSection.value?.description || ''),
+  twitterImage: computed(() => articlesSection.value?.image.asset.url || ''),
   twitterCard: "summary_large_image",
 });
-
-const siteSettings = computed(() => ({
-  title: data.settings?.title || '',
-  description: data.settings?.description || '',
-  image: data.settings?.image || '',
-  siteName: data.settings?.title || '',
-  icon: data.settings?.logoUrl || ''
-}))
-
-defineOgImageComponent('default', siteSettings.value)
 
 definePageMeta({
   layout: false,
 });
+
+// const siteSettings = computed(() => ({
+//   title: data.settings?.title || '',
+//   description: data.settings?.description || '',
+//   image: data.settings?.image || '',
+//   siteName: data.settings?.title || '',
+//   icon: data.settings?.logoUrl || ''
+// }))
+// defineOgImageComponent('default', siteSettings.value)
+
 </script>
 <template>
   <NuxtLayout name="internal">

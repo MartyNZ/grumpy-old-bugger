@@ -3,8 +3,6 @@ import {
   qryPrintifyCollectionBySlug,
   qryProductsByTags,
 } from "~/queries/printify";
-const data = useSiteSettingsStore();
-const settings = data.settings;
 const tagsLookupStore = usePrintifyTagsLookupStore();
 const tagsLookup = tagsLookupStore.tagsLookup;
 const collection = useRoute().params.collection;
@@ -37,142 +35,38 @@ const filteredProducts = ref([]);
 filteredProducts.value = allProducts.value;
 // console.log("Filtered Product Count: ", filteredProducts.value.length);
 
-const productThemes = [
-  ...new Set(
-    allProducts.value
-      .flatMap((product) =>
-        product.theme ? product.theme : [],
-      )
-      .map((theme) => theme._id),
-  ),
-].map((id) =>
-  allProducts.value
-    .flatMap((product) =>
-      product.theme ? product.theme : [],
-    )
-    .find((theme) => theme._id === id),
-);
-// console.log("Product Themes: ", JSON.stringify(productThemes, null, 2));
-
-// Create an array of unique colour objects
-const productColours = [
-  ...new Set(
-    allProducts.value
-      .flatMap((product) =>
-        product.colours &&
-          product.colours !== null &&
-          product.colours.length > 0
-          ? product.colours
-          : [],
-      )
-      .map((colour) => colour._id),
-  ),
-].map((id) =>
-  allProducts.value
-    .flatMap((product) =>
-      product.colours && product.colours.length > 0 ? product.colours : [],
-    )
-    .find((colour) => colour._id === id),
-);
-
-// Log the productColours array to the console
-// console.log("Product Colours: ", JSON.stringify(productColours, null, 2));
-
-const productFilters = defineAsyncComponent(
-  () => import("~/components/product/filters.vue"),
-);
-
-const themeFilters = ref([]);
-const colourFilters = ref([]);
-
-function clearFilters() {
-  themeFilters.value = [];
-  colourFilters.value = [];
-}
-// console.log(JSON.stringify(allProducts.value[0], null, 2));
-watch(
-  [themeFilters, colourFilters],
-  () => {
-    const filteredByColour = allProducts.value.filter((product) =>
-      colourFilters.value.length === 0
-        ? true
-        : product.colours &&
-        colourFilters.value.some((colour) =>
-          product.colours.some(
-            (productColour) => productColour.slug === colour,
-          ),
-        )
-    );
-
-    filteredProducts.value = filteredByColour.filter((product) =>
-      themeFilters.value.length === 0
-        ? true
-        : product.theme &&
-        themeFilters.value.some((theme) =>
-          product.theme.slug === theme),
-
-      // console.log("Theme ", JSON.stringify(product.theme, null, 2))
-    );
-    return false;
-  },
-  // console.log("FiltedProduct Count: ", filteredProducts.value.length),
-  { deep: true, immediate: true },
-);
-
-const showFilters = useDialog();
-const openDialog = () => {
-  const dialogRef = showFilters.open(productFilters, {
-    data: {
-      themes: productThemes,
-      colours: productColours,
-    },
-    props: {
-      header: "Filter products",
-      style: {
-        width: "85vw",
-      },
-      breakpoints: {
-        "960px": "50vw",
-        "640px": "75vw",
-      },
-      modal: true,
-    },
-    onClose: (filters) => {
-      themeFilters.value = filters.data.themes;
-      colourFilters.value = filters.data.colours;
-      // console.log("Theme Filters: ", JSON.stringify(themeFilters.value));
-      // console.log("Colours Filters: ", JSON.stringify(colourFilters.value));
-    },
-  });
-  // console.log("From openDialog: ", dialogRef);
-};
-
+// Create the title as a computed property
+const pageTitle = computed(() => `Products from our ${currentCollection.value.title} collection`);
+useHead({
+  title: pageTitle.value,
+});
 useSeoMeta({
-  title: () => currentCollection.value.title,
+  title: () => pageTitle.value,
   description: () => currentCollection.value.description,
-  ogTitle: () => currentCollection.value.title,
+  ogTitle: () => pageTitle.value,
   ogDescription: () => currentCollection.value.description,
-  // ogImage: () => currentCollection.value.imageUrl,
-  twitterTitle: () => currentCollection.value.title,
+  ogImage: () => currentCollection.value.image?.asset.url,
+  twitterTitle: () => pageTitle.value,
   twitterDescription: () => currentCollection.value.description,
-  // twitterImage: () => currentCollection.value.imageUrl,
+  twitterImage: () => currentCollection.value.image?.asset.url,
   twitterCard: "summary_large_image",
 });
 // console.log("Current Collection: ", JSON.stringify(currentCollection.value, null, 2));
-defineOgImageComponent(
-  'collection',
-  {
-    title: currentCollection.value.title,
-    description: currentCollection.value.excerpt,
-    siteName: settings.title,
-    image: currentCollection.value.imageUrl,
-    siteLogo: settings.logoUrl,
-  }
-);
-
 definePageMeta({
   layout: false,
 });
+
+// defineOgImageComponent(
+//   'collection',
+//   {
+//     title: currentCollection.value.title,
+//     description: currentCollection.value.excerpt,
+//     siteName: settings.title,
+//     image: currentCollection.value.imageUrl,
+//     siteLogo: settings.logoUrl,
+//   }
+// );
+
 </script>
 <template>
   <div>

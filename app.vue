@@ -3,8 +3,17 @@ const router = useRouter();
 const data = useSiteSettingsStore();
 const settings = data.settings;
 
-
 useHead({
+  htmlAttrs: {
+    lang: 'en'
+  },
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/png',
+      href: '/assets/imgs/favicon.png'
+    }
+  ],
   meta: [
     { name: "theme-color", content: settings.theme }
   ]

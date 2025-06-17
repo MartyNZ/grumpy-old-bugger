@@ -20,30 +20,30 @@ try {
 
 useSeoMeta({
   title: computed(() => promo.value?.title || ''),
-  description: computed(() => promo.value?.description || ''),
+  description: computed(() => promo.value?.summary || ''),
   ogTitle: computed(() => promo.value?.title || ''),
-  ogDescription: computed(() => promo.value?.description || ''),
-  // ogImage: computed(() => promo.value?.image.url || ''),
+  ogDescription: computed(() => promo.value?.summary || ''),
+  ogImage: computed(() => promo.value?.image.asset.url || ''),
   twitterTitle: computed(() => promo.value?.title || ''),
-  twitterDescription: computed(() => promo.value?.description || ''),
-  // twitterImage: computed(() => promo.value?.image.url || ''),
+  twitterDescription: computed(() => promo.value?.summary || ''),
+  twitterImage: computed(() => promo.value?.image.asset.url || ''),
   twitterCard: "summary_large_image",
 });
-
-const promotionSettings = computed(() => ({
-  title: promo.value?.title,
-  description: promo.value?.description,
-  image: promo.value?.image.url,
-  siteName: promo.value?.title,
-  icon: promo.value?.image.url,
-  twitterCard: "summary_large_image",
-}));
-defineOgImageComponent(
-  'promotion', promotionSettings.value);
 
 definePageMeta({
   layout: false,
 });
+
+// const promotionSettings = computed(() => ({
+//   title: promo.value?.title,
+//   description: promo.value?.description,
+//   image: promo.value?.image.url,
+//   siteName: promo.value?.title,
+//   icon: promo.value?.image.url,
+//   twitterCard: "summary_large_image",
+// }));
+// defineOgImageComponent(
+//   'promotion', promotionSettings.value);
 </script>
 
 <template>

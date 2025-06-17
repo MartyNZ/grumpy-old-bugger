@@ -2,10 +2,36 @@ export const qrySiteSettings = groq`
 *[_type == 'settings'][0]{
   siteOwner,
   title,
+  description,
   'theme':clrPrimary.hex,
   'logoUrl':logo.asset->url,
-  'image':image.asset->url,
-  description,
+  image{
+    caption,
+    altText,
+    hotspot,
+    asset->{
+      _id,
+      url,
+      metadata{
+        lqip
+      },
+    }
+  },
+  seo{
+    title,
+    image{
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata{
+          lqip
+        },
+      }
+    },
+  },
   'email':primaryLocation->email,
   'address':primaryLocation->address,
   'addressExt':primaryLocation->addressExt,
@@ -31,14 +57,27 @@ export const qrySiteSettings = groq`
 
 export const qryPage = groq`
   *[_type == 'page' && slug.current==$slug && isActive][0]{
-    title,
-    isActive,
-    'slug':slug.current,
-    'image':image.asset->url,
-    body,
     _id,
-    sections[]->{
-      ...
+    title,
+    'slug':slug.current,
+    isActive,
+    body,
+    sections[]->,
+    seo{
+      title,
+      description,
+      image{
+        caption,
+        alt,
+        hotspot,
+        asset->{
+          _id,
+          url,
+          metadata{
+            lqip
+          },
+        }
+      }
     }
   }
 `;
@@ -49,7 +88,18 @@ export const qryContactPage = groq`
     title,
     content,
     'slug':slug.current,
-    'image':image.asset->url,
+      image{
+        caption,
+        alt,
+        hotspot,
+        asset->{
+          _id,
+          url,
+          metadata{
+            lqip
+          },
+        }
+      },
     sections[]->{...}
   }
 `;

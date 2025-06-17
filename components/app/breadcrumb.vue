@@ -55,7 +55,7 @@ watch(
 
 // console.log("Path Segments: ", JSON.stringify(pathSegments.value));
 const home = computed(() => ({
-  icon: "fa-duotone fa-home",
+  icon: "pi pi-home",
   route: "/",
 }));
 // console.log("Breadcrumb home:", JSON.stringify(home.value));

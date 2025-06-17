@@ -3,38 +3,28 @@ const props = defineProps({
   theme: {
     type: Object,
     required: true
-  },
-  loading: {
-    type: Boolean,
   }
 })
 
-// console.log("Theme: ", JSON.stringify(props.theme.title, null, 2))
+// console.log("theme: ", JSON.stringify(props.theme, null, 2))
 </script>
 <template>
   <section class="designs-list mt-10" :id="`designs-list-${theme.slug}`">
     <div class="flex w-full m-1 gap-2 mb-4">
-      <div v-if="loading" class="w-full flex gap-2 mb-4">
-        <Skeleton width="4rem" height="4rem" shape="circle" />
-        <div class="flex flex-col items-center w-full">
-          <Skeleton width="100%" height="1.5rem" class="mb-2" />
-          <Skeleton width="100%" height="2rem" />
-        </div>
-      </div>
-      <template v-else>
-        <SanityImage v-if="theme?.image" :assetId="theme.image.assetId"
-          class="align-center rounded-full aspect-square max-w-16 max-h-16 w-full object-cover" />
+      <SanityImage v-if="theme.image" :asset-id="theme?.image?.asset._id"
+        class="align-center rounded-full aspect-square max-w-16 max-h-16 w-full object-cover" />
 
-        <div class="h-full mb-2">
+      <div class="h-full mb-2">
+        <NuxtLink :to="`/products/designs/${theme.slug}`">
           <h2>{{ theme.title }}</h2>
-          <div class="text-sm">{{ theme.description }}</div>
-        </div>
-      </template>
+        </NuxtLink>
+        <div class="text-sm">{{ theme.description }}</div>
+      </div>
     </div>
     <div class="designs-grid" :id="`designs-grid-${theme.slug}`">
       <template v-if="theme.designs.length > 0">
         <div v-for="design in theme.designs" :key="design._id">
-          <product-theme-design-list-item v-if="design.productCount > 0" :design="design" :loading="loading" />
+          <product-theme-design-list-item :design="design" />
         </div>
       </template>
       <template v-else>
