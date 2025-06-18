@@ -1,28 +1,66 @@
 <script setup>
-import { qryAuthorBySlug } from "../../queries/authors";
+import { qryAuthor } from "~/queries/contacts";
+
 const route = useRoute();
 const slug = route.params.slug;
-const isLoading = ref(true);
-const { data: author } = await useSanityQuery(qryAuthorBySlug, { slug }).finally(() => {
-  isLoading.value = false
+
+const { data: author, pending, error } = await useSanityQuery(qryAuthor, {
+  slug: slug
+});
+
+// Handle error case
+if (error.value) {
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Author not found'
+  });
+}
+
+// Only set SEO meta when author data is available
+watchEffect(() => {
+  if (author.value) {
+    useSeoMeta({
+      title: author.value?.name || '',
+      description: author.value?.excerpt || '',
+      ogTitle: author.value?.name || '',
+      ogDescription: author.value?.excerpt || '',
+      ogImage: author.value?.image?.asset?.url || '',
+      twitterTitle: author.value?.name || '',
+      twitterDescription: author.value?.excerpt || '',
+      twitterImage: author.value?.image?.asset?.url || '',
+      twitterCard: "summary_large_image",
+    });
+  }
+});
+
+definePageMeta({
+  layout: false,
 });
 </script>
 <template>
-  <section id="author">
-    <div v-if="isLoading" class="flex flex-column gap-3">
-      <Skeleton width="15rem" height="1.5rem" />
-      <Skeleton width="10rem" height="1rem" />
-      <Skeleton height="12rem" />
-      <div class="flex gap-3">
-        <Skeleton width="4rem" height="4rem" shape="circle" />
-        <div class="flex flex-column gap-2">
-          <Skeleton width="10rem" height="1rem" />
-          <Skeleton width="8rem" height="1rem" />
-        </div>
-      </div>
-    </div>
-    <div v-else>
-      <pre>{{ author }}</pre>
-    </div>
-  </section>
+  <div>
+    <NuxtLayout name="internal">
+      <template #main>
+        <section id="author">
+          <div v-if="pending" class="flex justify-center items-center h-64">
+            <p>Loading author...</p>
+          </div>
+          <div v-else-if="author" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <article-author :author="author" />
+            <div class="text-justify text-sm">
+              <SanityContent :blocks="author.bio" />
+            </div>
+          </div>
+          <div v-else>
+            <p>Author not found</p>
+          </div>
+          <Divider />
+          <article-list :articles="author.latestArticles" :sectionTitle="`${author.firstName}'s Latest Articles`" />
+        </section>
+      </template>
+      <template #sidebar>
+        <product-sidebar />
+      </template>
+    </NuxtLayout>
+  </div>
 </template>

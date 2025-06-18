@@ -117,16 +117,16 @@ export const qryArticles = groq`
       defaultImageUrl,
       'slug':slug.current,
       featureImage{
-      'url':asset->url,
-      'assetId':asset->_id,
-      caption,
-      altText,
-      hotspot,
-      asset->{
-        _id,
-        url,
-        metadata
-      },
+        'url':asset->url,
+        'assetId':asset->_id,
+        caption,
+        altText,
+        hotspot,
+        asset->{
+          _id,
+          url,
+          metadata
+        },
       },
       store{
         title
