@@ -97,7 +97,7 @@ export default defineNuxtConfig({
     track: "PageView",
     pixelId: process.env.FACEBOOK_PIXEL_ID,
     autoPageView: true,
-    disabled: true,
+    disabled: false,
     debug: false,
   },
   mail: {
