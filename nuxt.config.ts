@@ -50,7 +50,7 @@ export default defineNuxtConfig({
     prefix: "v3cn",
   },
   posthog: {
-    disabled: true,
+    disabled: false,
   },
   ogImage: {
     enabled: false,
