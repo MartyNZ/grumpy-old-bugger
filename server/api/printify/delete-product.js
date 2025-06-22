@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
   const sanity = useSanity();
 
-  // Fetch the existing Sanity product
+  // Fetch the existing Sanity product if available
   const sanityProduct = await sanity.client.fetch(qryProductById, {
     id: productId,
   });
