@@ -3,7 +3,11 @@ const props = defineProps({
   product: {
     type: Object,
     required: true,
-  }
+  },
+  loading: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const userInfo = useCookie('user-info');
@@ -13,6 +17,24 @@ const { productPromotions, collectionPromotions, allPromotions } = useProductPro
 
 // Use the price calculations composable
 const { calculatePrices } = usePriceCalculations();
+
+// Image loading state
+const hasLoaded = ref(false);
+const imageLoaded = ref(false);
+
+onMounted(() => {
+  hasLoaded.value = true;
+  // Fallback: hide LQIP after a delay if load event doesn't fire
+  setTimeout(() => {
+    imageLoaded.value = true;
+  }, 2000);
+});
+
+// Handle image load event
+const onImageLoad = () => {
+  console.log('Image loaded!'); // Debug log
+  imageLoaded.value = true;
+};
 
 const pricedFrom = computed(() => {
   if (!props.product?.store?.variants || !userInfo.value?.currency?.rate) {
@@ -29,29 +51,11 @@ const pricedFrom = computed(() => {
   const lowestPrice = Math.min(...prices);
   return lowestPrice.toFixed(2);
 });
-const loading = ref(true)
-onMounted(() => {
-  loading.value = false
-})
 </script>
 <template>
   <!-- Loading State -->
   <template v-if="loading">
-    <Card class="w-full">
-      <template #header>
-        <Skeleton height="200px" />
-      </template>
-      <template #content>
-        <div class="flex flex-col gap-2">
-          <Skeleton width="100%" height="2rem" />
-          <Skeleton width="100%" height="4rem" />
-          <div class="flex justify-between items-center">
-            <Skeleton width="30%" height="1.5rem" />
-            <Skeleton width="20%" height="1.5rem" />
-          </div>
-        </div>
-      </template>
-    </Card>
+    <div class="w-full h-64 bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md"></div>
   </template>
 
   <!-- Product Card -->
@@ -59,16 +63,30 @@ onMounted(() => {
     <div class="dark:bg-surface-900 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg">
       <div class="zoom relative overflow-hidden bg-cover bg-[50%] bg-no-repeat">
         <div class="aspect-square w-full relative">
-          <!-- Images -->
+          <!-- Images with LQIP background and loading strategy -->
           <template v-if="product.featureImage">
-            <SanityImage :asset-id="product.featureImage.asset._id"
-              class="h-full w-full object-cover transition duration-300" :alt="product.store.title" auto="format"
-              max-w="380" />
+            <div class="relative h-full w-full" :class="{ 'bg-cover bg-center': !imageLoaded }" :style="{
+              backgroundImage: !imageLoaded && product.featureImage.asset?.metadata?.lqip ? `url(${product.featureImage.asset.metadata.lqip})` : 'none'
+            }">
+              <SanityImage :asset-id="product.featureImage.assetId"
+                class="h-full w-full object-cover transition-all duration-300 ease-linear"
+                :class="{ 'opacity-0': !hasLoaded }" :alt="product.store.title" auto="format" max-w="380"
+                @load="onImageLoad" @error="onImageLoad" />
+            </div>
           </template>
           <template v-else>
-            <img :src="product.defaultImageUrl" class="h-full w-full object-cover transition duration-300"
-              :alt="product.store.title" loading="lazy" />
+            <div class="relative h-full w-full">
+              <img :src="product.defaultImageUrl"
+                class="h-full w-full object-cover transition-all duration-300 ease-linear"
+                :class="{ 'opacity-0': !hasLoaded }" :alt="product.store.title" loading="lazy" @load="onImageLoad"
+                @error="onImageLoad" />
+            </div>
           </template>
+
+          <!-- Debug info -->
+          <!-- <div class="absolute top-0 left-0 bg-red-500 text-white text-xs p-1 z-50">
+            Loaded: {{ imageLoaded }}
+          </div> -->
 
           <!-- Promotion Badges -->
           <div class="absolute top-2 right-2 z-10">
@@ -129,3 +147,9 @@ onMounted(() => {
     </div>
   </template>
 </template>
+
+<style scoped>
+.zoom:hover img {
+  transform: scale(1.1);
+}
+</style>
