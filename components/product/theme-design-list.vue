@@ -3,28 +3,29 @@ const props = defineProps({
   theme: {
     type: Object,
     required: true
+  },
+  loading: {
+    type: Boolean,
   }
 })
 
-// console.log("theme: ", JSON.stringify(props.theme, null, 2))
+// console.log("Collections: ", JSON.stringify(collections, null, 2))
 </script>
 <template>
   <section class="designs-list mt-10" :id="`designs-list-${theme.slug}`">
     <div class="flex w-full m-1 gap-2 mb-4">
-      <SanityImage v-if="theme.image" :asset-id="theme?.image?.asset._id"
+      <SanityImage :assetId="theme.image.asset._id"
         class="align-center rounded-full aspect-square max-w-16 max-h-16 w-full object-cover" />
 
       <div class="h-full mb-2">
-        <NuxtLink :to="`/products/designs/${theme.slug}`">
-          <h2>{{ theme.title }}</h2>
-        </NuxtLink>
+        <h2>{{ theme.title }}</h2>
         <div class="text-sm">{{ theme.description }}</div>
       </div>
     </div>
     <div class="designs-grid" :id="`designs-grid-${theme.slug}`">
       <template v-if="theme.designs.length > 0">
         <div v-for="design in theme.designs" :key="design._id">
-          <product-theme-design-list-item :design="design" />
+          <product-theme-design-list-item :design="design" :loading="loading" />
         </div>
       </template>
       <template v-else>
