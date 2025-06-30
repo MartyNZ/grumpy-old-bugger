@@ -1,12 +1,13 @@
+<script setup></script>
 <template>
   <div
-    class="@container bg-surface-0 text-surface-900 shadow-surface-400 dark:bg-surface-950 dark:text-surface-50 relative z-20 mb-[440px] w-full shadow-sm sm:mb-[460px] md:mb-[297px] md:min-h-fit">
+    class="relative z-20 mb-[600px] w-full bg-surface-50 text-surface-900 shadow-sm shadow-surface-400 @container dark:bg-surface-900 dark:text-surface-100 dark:shadow-surface-600 md:mb-[425px] md:min-h-fit lg:mb-[297px]">
     <app-internal-nav />
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 gap-3 @3xl:grid-cols-7">
-      <main class="@container px-4 pt-6 @3xl:col-span-4 @3xl:px-2 @5xl:col-span-5">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 gap-3 lg:grid-cols-12">
+      <main class="px-4 pb-8 pt-6 @container lg:col-span-9">
         <slot name="main" />
       </main>
-      <aside class="@container px-4 py-8 @3xl:col-span-3 @3xl:px-2 @5xl:col-span-2">
+      <aside class="px-4 py-8 @container lg:col-span-3">
         <slot name="sidebar" />
       </aside>
     </div>

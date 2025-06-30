@@ -3,22 +3,33 @@ const props = defineProps({
   design: {
     type: Object,
     required: true,
+  },
+  loading: {
+    type: Boolean,
   }
 });
-const loading = ref(true);
+
+const imageLoaded = ref(false);
+
+// Force load after a delay as fallback
 onMounted(() => {
-  loading.value = false;
-})
-// console.log("Design", props.design.title, ": ", JSON.stringify(props.design, null, 2))
+  setTimeout(() => {
+    imageLoaded.value = true;
+  }, 1000); // Adjust timing as needed
+});
+
+const onImageLoad = () => {
+  imageLoaded.value = true;
+};
 </script>
 <template>
-  <template v-if="loading">
-    <Skeleton width="175px" height="175px" />
-  </template>
-  <div v-else class="zoom dark:shadow-surface-600 relative overflow-hidden bg-cover bg-[50%] bg-no-repeat shadow-md">
-    <img :src="design.image.asset.url" auto="format"
-      class="w-full aspect-square object-cover align-middle transition duration-300 ease-linear" :alt="design.title"
-      loading="lazy" />
+  <div class="zoom dark:shadow-surface-600 relative overflow-hidden bg-cover bg-[50%] bg-no-repeat shadow-md">
+    <div class="relative aspect-square w-full bg-cover bg-center"
+      :style="{ backgroundImage: `url(${design.image.asset.metadata?.lqip})` }">
+      <SanityImage :asset-id="design.image.asset._id" auto="format"
+        class="aspect-square w-full object-cover align-middle transition-all duration-300 ease-linear"
+        :class="{ 'opacity-0': !imageLoaded }" :alt="design.title" loading="lazy" @load="onImageLoad" />
+    </div>
     <NuxtLink :to="`/products/designs/${design.slug}`">
       <div class="z-1 absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden">
         <div class="flex h-full items-end justify-start">

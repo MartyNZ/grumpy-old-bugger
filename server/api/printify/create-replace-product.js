@@ -29,10 +29,34 @@ export default defineEventHandler(async (event) => {
     (variant) => variant.is_default
   );
   // console.log("Default Variant Id: ", defaultVariant[0].id);
+
+  // Find default image with fallback logic
   let defaultImage = printifyProduct.images.find(
     (image) =>
       image.variant_ids.includes(defaultVariant[0].id) && image.is_default
   );
+
+  // Fallback 1: Find any image for the default variant
+  if (!defaultImage) {
+    defaultImage = printifyProduct.images.find((image) =>
+      image.variant_ids.includes(defaultVariant[0].id)
+    );
+  }
+
+  // Fallback 2: Find any default image
+  if (!defaultImage) {
+    defaultImage = printifyProduct.images.find((image) => image.is_default);
+  }
+
+  // Fallback 3: Use the first available image
+  if (!defaultImage && printifyProduct.images.length > 0) {
+    defaultImage = printifyProduct.images[0];
+  }
+
+  // If still no image found, throw a more descriptive error
+  if (!defaultImage) {
+    throw new Error(`No images found for product ${productId}`);
+  }
 
   // console.log("Default Image: ", defaultImage);
 
@@ -69,7 +93,10 @@ export default defineEventHandler(async (event) => {
       },
     };
   }
-  // console.log("updatePayload: ", JSON.stringify(updatePayload?.featureImage, null, 2))
+  // console.log(
+  //   "updatePayload: ",
+  //   JSON.stringify(updatePayload?.featureImage, null, 2)
+  // );
 
   await sanity.client.createOrReplace({
     _id: `printifyProduct-${printifyProduct.id}`,

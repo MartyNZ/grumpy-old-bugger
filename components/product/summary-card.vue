@@ -32,7 +32,7 @@ onMounted(() => {
 
 // Handle image load event
 const onImageLoad = () => {
-  console.log('Image loaded!'); // Debug log
+  // console.log('Image loaded!'); // Debug log
   imageLoaded.value = true;
 };
 
@@ -51,6 +51,30 @@ const pricedFrom = computed(() => {
   const lowestPrice = Math.min(...prices);
   return lowestPrice.toFixed(2);
 });
+
+// Create a simple counter to only debug first 3 products
+let debugCount = 0;
+
+const availableColorOptions = computed(() => {
+  const colorOption = props.product?.store?.options?.find(opt => opt.type === 'color');
+
+  if (!colorOption?.values || !props.product?.store?.variants) {
+    return [];
+  }
+
+  // Get all option value IDs that are available in variants
+  const availableOptionIds = new Set();
+  props.product.store.variants.forEach(variant => {
+    if (variant.isAvailable && variant.isEnabled && variant.options) {
+      // Keep the option IDs as strings to match the color option value IDs
+      const optionIds = variant.options.toString().split(',').map(id => id.trim());
+      optionIds.forEach(id => availableOptionIds.add(id));
+    }
+  });
+
+  // Filter color options to only show available ones
+  return colorOption.values.filter(color => availableOptionIds.has(color.id));
+});
 </script>
 <template>
   <!-- Loading State -->
@@ -60,7 +84,7 @@ const pricedFrom = computed(() => {
 
   <!-- Product Card -->
   <template v-else>
-    <div class="dark:bg-surface-900 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg">
+    <div class="bg-surface-0 dark:bg-surface-900 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg">
       <div class="zoom relative overflow-hidden bg-cover bg-[50%] bg-no-repeat">
         <div class="aspect-square w-full relative">
           <!-- Images with LQIP background and loading strategy -->
@@ -111,17 +135,17 @@ const pricedFrom = computed(() => {
         <!-- Product Info -->
         <div class="flex flex-col flex-1 p-4">
           <NuxtLink :to="`/products/${product.slug}`"
-            class="text-primary-700 hover:text-primary-400 dark:text-primary-400 hover:dark:text-primary-100 mb-2 text-base font-medium">
+            class="text-primary-900 hover:text-primary-600 dark:text-primary-200 hover:dark:text-primary-100 mb-2 text-base font-medium">
             {{ product.store.title }}
           </NuxtLink>
 
           <!-- Color Options -->
-          <div v-if="product.colours?.length > 1" class="@container mt-auto">
+          <div v-if="availableColorOptions.length > 1" class="@container mt-auto">
             <div class="text-sm font-semibold mb-2">Available in these colors</div>
             <div class="flex flex-wrap gap-1">
-              <div v-for="colour in product.colours" :key="colour._id" :title="colour.label"
+              <div v-for="color in availableColorOptions" :key="color._key || color.id"
                 class="outline outline-1 outline-primary-950 dark:outline-primary-200 h-4 w-4 rounded-full"
-                :style="`background-color: ${colour.colour}`">
+                :style="`background-color: ${color.colors}`" :title="color.title">
               </div>
             </div>
           </div>
@@ -130,8 +154,8 @@ const pricedFrom = computed(() => {
         <!-- Footer -->
         <section id="card-footer" class="@container">
           <div
-            class="dark:bg-surface-700 bg-surface-50 border-t border-surface-900 p-4 mt-auto flex flex-col gap-2 items-start @[165px]:flex-row @[165px]:justify-between @[165px]:items-center @[165px]:gap-0">
-            <div class="text-primary-700 dark:text-primary-200 text-sm">
+            class="dark:bg-surface-800 bg-surface-200 border-t border-surface-900 p-4 mt-auto flex flex-col gap-2 items-start @[165px]:flex-row @[165px]:justify-between @[165px]:items-center @[165px]:gap-0">
+            <div class="text-primary-900 dark:text-primary-100 text-sm">
               from:
               <span v-if="userInfo" class="font-brand text-base">
                 {{ userInfo.currency.symbol }}{{ pricedFrom }}

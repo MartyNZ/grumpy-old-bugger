@@ -263,6 +263,65 @@ const formattedPrices = computed(() => {
 });
 // console.log("HTML friendly Price Object: ", JSON.stringify(formattedPrices.value, null, 2))
 
+// Calculate which option values are actually available
+const availableOptionValues = computed(() => {
+  const availableIds = new Set();
+
+  props.product.store.variants.forEach(variant => {
+    if (variant.isAvailable && variant.isEnabled) {
+      const optionIds = variant.options.toString().split(',').map(id => id.trim());
+      optionIds.forEach(id => availableIds.add(id));
+    }
+  });
+
+  return availableIds;
+});
+
+// Check if a specific option combination would result in an available variant
+const isOptionCombinationAvailable = (newOptionValueId) => {
+  // Create a temporary selection with the new option
+  const tempSelection = [...selectedOptionsValuesIds.value];
+
+  // Find which option type this value belongs to
+  const relevantOption = activeOptions.find(opt =>
+    opt.values.some(val => val.id === newOptionValueId)
+  );
+
+  if (!relevantOption) return false;
+
+  // Replace the current selection for this option type
+  const optionTypeToValueMap = {};
+
+  // Initialize with current selections
+  activeOptions.forEach(option => {
+    const currentValue = option.values.find(val =>
+      selectedOptionsValuesIds.value.includes(val.id)
+    );
+    if (currentValue) {
+      optionTypeToValueMap[option.type] = currentValue.id;
+    }
+  });
+
+  // Update with the new selection
+  optionTypeToValueMap[relevantOption.type] = newOptionValueId;
+
+  // Check if any variant matches this combination
+  return props.product.store.variants.some(variant => {
+    if (!variant.isAvailable || !variant.isEnabled) return false;
+
+    const variantOptionIds = variant.options.split(", ");
+
+    // Check if this variant has all our selected options
+    return Object.entries(optionTypeToValueMap).every(([optionType, valueId]) => {
+      return variantOptionIds.includes(valueId);
+    });
+  });
+};
+
+// Add computed property to check if current selection is available
+const isCurrentVariantAvailable = computed(() => {
+  return selectedVariant.value?.isAvailable && selectedVariant.value?.isEnabled;
+});
 </script>
 
 <template>
@@ -297,18 +356,34 @@ const formattedPrices = computed(() => {
           </div>
 
           <h3>Select an Option</h3>
+          <div v-if="selectedVariant && (!selectedVariant.isAvailable || !selectedVariant.isEnabled)"
+            class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            <div class="flex items-center">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              <span class="font-medium">This variant is currently unavailable</span>
+            </div>
+            <p class="text-sm mt-1">Please select a different combination of options.</p>
+          </div>
           <template v-for="option in activeOptions" :key="option._key">
             <product-options-size v-if="option.type == 'size'" :option="option"
-              :selectedOptionValue="findSelectedOptionValue(option)"
+              :selectedOptionValue="findSelectedOptionValue(option)" :available-option-values="availableOptionValues"
+              :is-option-combination-available="isOptionCombinationAvailable"
               @update:selectedOptionValueId="updateSelectedOptionAndVariant" />
             <product-options-color v-if="option.type == 'color'" :option="option"
-              :selectedOptionValue="findSelectedOptionValue(option)"
+              :selectedOptionValue="findSelectedOptionValue(option)" :available-option-values="availableOptionValues"
+              :is-option-combination-available="isOptionCombinationAvailable"
               @update:selectedOptionValueId="updateSelectedOptionAndVariant" />
             <product-options-depth v-if="option.type == 'depth'" :option="option"
-              :selectedOptionValue="findSelectedOptionValue(option)"
+              :selectedOptionValue="findSelectedOptionValue(option)" :available-option-values="availableOptionValues"
+              :is-option-combination-available="isOptionCombinationAvailable"
               @update:selectedOptionValueId="updateSelectedOptionAndVariant" />
             <product-options-weight v-if="option.type == 'weight'" :option="option"
-              :selectedOptionValue="findSelectedOptionValue(option)"
+              :selectedOptionValue="findSelectedOptionValue(option)" :available-option-values="availableOptionValues"
+              :is-option-combination-available="isOptionCombinationAvailable"
               @update:selectedOptionValueId="updateSelectedOptionAndVariant" />
           </template>
         </div>
@@ -351,9 +426,12 @@ const formattedPrices = computed(() => {
                     v-model="selectedCurrency" :options="currencySelect" optionLabel="code" />
                 </div>
               </div>
-              <button type="button"
-                class="snipcart-add-item flex gap-2 rounded bg-surface-500 px-10 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-surface-50 shadow-surface-200 transition duration-150 ease-in-out hover:bg-surface-800 focus:bg-surface-800 focus:outline-none focus:ring-0 active:bg-surface-400 text-nowrap"
-                :data-item-url="validationUrl" :data-item-id="product._id" :data-item-image="currentImage.src"
+              <button type="button" :disabled="!isCurrentVariantAvailable" :class="[
+                'snipcart-add-item flex gap-2 rounded px-10 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal shadow-surface-200 transition duration-150 ease-in-out text-nowrap',
+                isCurrentVariantAvailable
+                  ? 'bg-surface-500 text-surface-50 hover:bg-surface-800 focus:bg-surface-800 focus:outline-none focus:ring-0 active:bg-surface-400'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              ]" :data-item-url="validationUrl" :data-item-id="product._id" :data-item-image="currentImage.src"
                 :data-item-price="formattedPrices" :data-item-name="product.store.title"
                 data-item-custom1-name="Variant_SKU"
                 :data-item-categories="selectedPromo ? selectedPromo.slug : 'no-promo'" data-item-custom1-type="hidden"
@@ -368,7 +446,7 @@ const formattedPrices = computed(() => {
                   <path
                     d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
                 </svg>
-                Add to cart
+                {{ isCurrentVariantAvailable ? 'Add to cart' : 'Unavailable' }}
               </button>
             </div>
           </div>

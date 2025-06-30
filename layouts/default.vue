@@ -1,13 +1,17 @@
+<script setup></script>
 <template>
-  <div
-    class="@container bg-surface-0 text-surface-900 shadow-surface-400 dark:bg-surface-950 dark:text-surface-50 relative z-20 mb-[440px] w-full shadow-sm sm:mb-[460px] md:mb-[297px] md:min-h-fit">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 gap-3 lg:grid-cols-7">
-      <main class="@container px-4 pt-6 lg:col-span-5">
+  <div>
+    <div
+      class="relative z-20 mb-[600px] w-full bg-surface-50 text-surface-900 shadow-sm shadow-surface-400 @container dark:bg-surface-900 dark:text-surface-100 dark:shadow-surface-600 md:mb-[425] md:min-h-fit lg:mb-[297px]">
+      <main class="mx-auto max-w-7xl px-4 pb-12 pt-4 @container">
         <slot name="main" />
       </main>
-      <aside class="@container px-4 py-8 lg:col-span-2">
-        <slot name="sidebar" />
-      </aside>
     </div>
   </div>
 </template>
+
+<style>
+.snipcart-modal__container {
+  z-index: 1500;
+}
+</style>

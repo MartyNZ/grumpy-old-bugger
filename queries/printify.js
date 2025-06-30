@@ -4,9 +4,9 @@ export const qryAllPrintifyCollections = groq`
   title,
   description,
   'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
+  'imageUrl':image.asset->url,
+  'imageId':image.asset->_id,
   image{
-    'assetId': asset->_id,
-    'url':asset->url,
     caption,
     altText,
     hotspot,
@@ -30,8 +30,6 @@ export const qryPrintifyCollectionBySlug = groq`
     'slug':slug.current,
     rules,
     image{
-      'assetId': asset->_id,
-      'url':asset->url,
       caption,
       altText,
       hotspot,
@@ -64,8 +62,6 @@ export const qryPrintifyCollectionNavigation = groq`
         'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
         'slug':slug.current,
         image{
-          'assetId': asset->_id,
-          'url':asset->url,
           caption,
           altText,
           hotspot,
@@ -83,8 +79,6 @@ export const qryPrintifyCollectionNavigation = groq`
         'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
         'slug':slug.current,
         image{
-          'assetId': asset->_id,
-          'url':asset->url,
           caption,
           altText,
           hotspot,
@@ -108,7 +102,7 @@ export const qryAllProducts = groq`
     defaultImageUrl,
     featureImage{
       'assetId': asset->_id,
-      'url':asset->url,
+      'url': asset->url,
       caption,
       altText,
       hotspot,
@@ -131,7 +125,7 @@ export const qryAllProducts = groq`
         asset->{
           _id,
           url,
-          metadata
+          metadata,
         },
       },
     },
@@ -150,6 +144,7 @@ export const qryAllProducts = groq`
       tags,
       description,
       variants,
+      options,
       'pricedFrom':variants[]{
         price
       }|order(price asc)[0]
@@ -160,7 +155,7 @@ export const qryAllProducts = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -172,7 +167,7 @@ export const qryAllProducts = groq`
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -203,10 +198,11 @@ export const qryLatestProducts = groq`
     _id,
     _createdAt,
     defaultImageUrl,
+    featureImage,
     'slug':slug.current,
     featureImage{
       'assetId': asset->_id,
-      'url':asset->url,
+      'url': asset->url,
       caption,
       altText,
       hotspot,
@@ -230,6 +226,7 @@ export const qryLatestProducts = groq`
       tags,
       description,
       variants,
+      options,
       'pricedFrom':variants[]{
         price
       }|order(price asc)[0]
@@ -240,7 +237,7 @@ export const qryLatestProducts = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -250,10 +247,9 @@ export const qryLatestProducts = groq`
           metadata
         },
       },
-      useSocialImage,
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -285,19 +281,19 @@ export const qryAllProductsByCollection = groq`
     _createdAt,
     defaultImageUrl,
     featureImage{
-        'assetId': asset->_id,
-        'url':asset->url,
-        caption,
-        altText,
-        hotspot,
-        asset->{
-          _id,
-          url,
-          metadata
-        },
+      'assetId': asset->_id,
+      'url': asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
-    'featureImageUrl':featureImage.asset->url,
     'slug':slug.current,
+    'featureImageUrl':featureImage.asset->url,
       design,
     colours[]->{
       _id,
@@ -312,6 +308,7 @@ export const qryAllProductsByCollection = groq`
       tags,
       description,
       variants,
+      options,
       'pricedFrom':variants[]{
         price
       }|order(price asc)[0]
@@ -322,7 +319,7 @@ export const qryAllProductsByCollection = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -332,10 +329,9 @@ export const qryAllProductsByCollection = groq`
           metadata
         },
       },
-      useSocialImage,
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -367,20 +363,21 @@ export const qryProductsByCollections = groq`
     _id,
     _createdAt,
     defaultImageUrl,
+    featureImage,
     'slug':slug.current,
     featureImage{
-        'assetId': asset->_id,
-        'url':asset->url,
-        caption,
-        altText,
-        hotspot,
-        asset->{
-          _id,
-          url,
-          metadata
-        },
+      'assetId': asset->_id,
+      'url': asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
-      design,
+    design,
     colours[]->{
       _id,
       'label':title,
@@ -394,6 +391,7 @@ export const qryProductsByCollections = groq`
       tags,
       description,
       variants,
+      options,
       'pricedFrom':variants[]{
         price
       }|order(price asc)[0]
@@ -404,7 +402,7 @@ export const qryProductsByCollections = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -414,10 +412,9 @@ export const qryProductsByCollections = groq`
           metadata
         },
       },
-      useSocialImage,
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -449,16 +446,16 @@ export const qryProductBySlug = groq`
     _createdAt,
     defaultImageUrl,
     featureImage{
-        'assetId': asset->_id,
-        'url':asset->url,
-        caption,
-        altText,
-        hotspot,
-        asset->{
-          _id,
-          url,
-          metadata
-        },
+      'assetId': asset->_id,
+      'url': asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     'slug':slug.current,
     details->{
@@ -496,7 +493,7 @@ export const qryProductBySlug = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -508,7 +505,7 @@ export const qryProductBySlug = groq`
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -560,7 +557,7 @@ export const qryProductsByTags = groq`
     },
     featureImage{
       'assetId': asset->_id,
-      'url':asset->url,
+      'url': asset->url,
       caption,
       altText,
       hotspot,
@@ -570,7 +567,7 @@ export const qryProductsByTags = groq`
         metadata
       },
     },
-    design,
+      design,
     colours[]->{
       _id,
       'label':title,
@@ -584,6 +581,7 @@ export const qryProductsByTags = groq`
       tags,
       description,
       variants,
+      options,
       'pricedFrom':variants[]{
         price
       }|order(price asc)[0]
@@ -594,7 +592,7 @@ export const qryProductsByTags = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -606,7 +604,7 @@ export const qryProductsByTags = groq`
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -656,16 +654,16 @@ export const qryProductsByTag = groq`
       },
     },
     featureImage{
-        'assetId': asset->_id,
-        'url':asset->url,
-        caption,
-        altText,
-        hotspot,
-        asset->{
-          _id,
-          url,
-          metadata
-        },
+      'assetId': asset->_id,
+      'url': asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
       design,
     colours[]->{
@@ -681,6 +679,7 @@ export const qryProductsByTag = groq`
       tags,
       description,
       variants,
+      options,
       'pricedFrom':variants[]{
         price
       }|order(price asc)[0]
@@ -691,7 +690,7 @@ export const qryProductsByTag = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -703,7 +702,7 @@ export const qryProductsByTag = groq`
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -735,16 +734,16 @@ export const qryProductById = groq`
     _createdAt,
     defaultImageUrl,
     featureImage{
-        'assetId': asset->_id,
-        'url':asset->url,
-        caption,
-        altText,
-        hotspot,
-        asset->{
-          _id,
-          url,
-          metadata
-        },
+      'assetId': asset->_id,
+      'url': asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
+      },
     },
     'slug':slug.current,
     details,
@@ -770,7 +769,7 @@ export const qryProductById = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -782,7 +781,7 @@ export const qryProductById = groq`
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -857,7 +856,7 @@ export const qryAllProductsByTheme = groq`
     defaultImageUrl,
     featureImage{
       'assetId': asset->_id,
-      'url':asset->url,
+      'url': asset->url,
       caption,
       altText,
       hotspot,
@@ -879,6 +878,7 @@ export const qryAllProductsByTheme = groq`
       title,
       productId,
       tags,
+      options,
     }
   }
 } | order(_createdAt desc)
@@ -892,7 +892,7 @@ export const qryProductsByTheme = groq`
   'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
   image{
     'assetId': asset->_id,
-    'url':asset->url,
+    'url': asset->url,
     caption,
     altText,
     hotspot,
@@ -913,7 +913,7 @@ export const qryProductsByTheme = groq`
     defaultImageUrl,
     featureImage{
       'assetId': asset->_id,
-      'url':asset->url,
+      'url': asset->url,
       caption,
       altText,
       hotspot,
@@ -937,6 +937,7 @@ export const qryProductsByTheme = groq`
       tags,
       description,
       variants,
+      options,
       'pricedFrom':variants[]{
       price
       }|order(price asc)[0]
@@ -948,7 +949,7 @@ export const qryProductsByTheme = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -960,7 +961,7 @@ export const qryProductsByTheme = groq`
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -997,7 +998,7 @@ export const qryAllProductDesigns = groq`
     },
     image{
       'assetId': asset->_id,
-      'url':asset->url,
+      'url': asset->url,
       caption,
       altText,
       hotspot,
@@ -1061,6 +1062,7 @@ export const qryProductsByDesign = groq`
       tags,
       description,
       variants,
+      options,
       'pricedFrom':variants[]{
       price
       }|order(price asc)[0]
@@ -1082,7 +1084,7 @@ export const qryProductsByDesign = groq`
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -1119,7 +1121,7 @@ export const qryFeaturedProducts = groq`
     'slug':slug.current,
     featureImage{
       'assetId': asset->_id,
-      'url':asset->url,
+      'url': asset->url,
       caption,
       altText,
       hotspot,
@@ -1142,6 +1144,7 @@ export const qryFeaturedProducts = groq`
       tags,
       description,
       variants,
+      options,
       'pricedFrom':variants[]{
         price
       }|order(price asc)[0]
@@ -1152,7 +1155,7 @@ export const qryFeaturedProducts = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -1160,11 +1163,11 @@ export const qryFeaturedProducts = groq`
           _id,
           url,
           metadata
-        },
+        }
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -1210,18 +1213,18 @@ export const qryAllProductsByColour = groq`
       _id,
       defaultImage,
       defaultImageUrl,
-      featureImage{
-        'assetId': asset->_id,
-        'url':asset->url,
-        caption,
-        altText,
-        hotspot,
-        asset->{
-          _id,
-          url,
-          metadata
-        },
+    featureImage{
+      'assetId': asset->_id,
+      'url': asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
       },
+    },
       'slug':slug.current,
       store{
         title,
@@ -1229,6 +1232,7 @@ export const qryAllProductsByColour = groq`
         tags,
         description,
         variants,
+        options,
         'pricedFrom':variants[]{
           price
         }|order(price asc)[0]
@@ -1240,7 +1244,7 @@ export const qryAllProductsByColour = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -1248,11 +1252,11 @@ export const qryAllProductsByColour = groq`
           _id,
           url,
           metadata
-        },
+        }
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -1289,18 +1293,18 @@ export const qryProductsByColour = groq`
       _id,
       defaultImage,
       defaultImageUrl,
-      featureImage{
-        'assetId': asset->_id,
-        'url':asset->url,
-        caption,
-        altText,
-        hotspot,
-        asset->{
-          _id,
-          url,
-          metadata
-        },
+    featureImage{
+      'assetId': asset->_id,
+      'url': asset->url,
+      caption,
+      altText,
+      hotspot,
+      asset->{
+        _id,
+        url,
+        metadata
       },
+    },
       'slug':slug.current,
       store{
         title,
@@ -1308,6 +1312,7 @@ export const qryProductsByColour = groq`
         tags,
         description,
         variants,
+       options,
         'pricedFrom':variants[]{
           price
         }|order(price asc)[0]
@@ -1319,7 +1324,7 @@ export const qryProductsByColour = groq`
     ][]{
       image{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,
@@ -1327,11 +1332,11 @@ export const qryProductsByColour = groq`
           _id,
           url,
           metadata
-        },
+        }
       },
       socialImage{
         'assetId': asset->_id,
-        'url':asset->url,
+        'url': asset->url,
         caption,
         altText,
         hotspot,

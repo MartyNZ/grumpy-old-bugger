@@ -9,12 +9,12 @@ const props = defineProps({
   }
 })
 
-// console.log("Collections: ", JSON.stringify(collections, null, 2))
+// console.log("Theme: ", JSON.stringify(props.theme, null, 2))
 </script>
 <template>
   <section class="designs-list mt-10" :id="`designs-list-${theme.slug}`">
     <div class="flex w-full m-1 gap-2 mb-4">
-      <SanityImage :assetId="theme.image.asset._id"
+      <SanityImage :asset-id="theme?.image?.asset._id"
         class="align-center rounded-full aspect-square max-w-16 max-h-16 w-full object-cover" />
 
       <div class="h-full mb-2">

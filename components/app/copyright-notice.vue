@@ -1,20 +1,24 @@
 <script setup>
-const year = useDateFormat(useNow(), "YYYY");
 const props = defineProps({
-  siteOwner: {
-    type: String,
+  year: { type: undefined },
+  settings: {
+    type: Object,
+    required: true,
   },
 });
 </script>
 <template>
-  <div class="bg-surface-950 text-surface-200 w-full pb-2">
-    <div class=" mx-auto max-w-[1280px] px-6 py-1 text-xs font-semibold md:flex md:items-center md:justify-between">
+  <div class="w-full bg-surface-950 pb-2 sm:block">
+    <div
+      class="mx-auto max-w-[1280px] px-6 py-1 text-xs font-semibold text-surface-300 md:flex md:items-center md:justify-between">
       <div class="py-1 text-center md:text-left">
-        <span>© {{ year }} Copyright: </span>{{ siteOwner }}
+        <span>© {{ year }} Copyright: </span>{{ settings.siteOwner }}
       </div>
       <div class="py-1 text-center md:text-right">
         <span>site powered by: </span>
-        <nuxtLink class="hover:text-surface-50" to="https://podifyplus.app" target="_blank">PODify+</nuxtLink>
+        <!-- <NuxtLink class="hover:text-surface-50" to="https://podifyplus.app" target="_blank"> -->
+        PODify+
+        <!-- </NuxtLink> -->
       </div>
     </div>
   </div>

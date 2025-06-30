@@ -331,7 +331,7 @@ export default defineNuxtConfig({
       "/api/**": {
         cors: true,
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "access-control-allow-origin": "*",
         },
       },
     },
