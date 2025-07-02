@@ -56,7 +56,7 @@ export default defineNuxtConfig({
     enabled: false,
   },
   sitemap: {
-    enabled: false,
+    enabled: true,
   },
   robots: {
     // enabled: false,
