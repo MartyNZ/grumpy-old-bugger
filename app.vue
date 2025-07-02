@@ -15,7 +15,8 @@ useHead({
     }
   ],
   meta: [
-    { name: "theme-color", content: settings.theme }
+    { name: "theme-color", content: settings.theme },
+    { name: "google-site-verification", content: "22FvChap4OBRVHR-xY6Lz-l-lok6SypYNt5Si3TYjK4" }
   ]
 })
 
