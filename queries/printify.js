@@ -465,7 +465,11 @@ export const qryProductBySlug = groq`
       },
       productSizes,
     },
-      design,
+    design->{
+      _id,
+      title,
+      'slug':slug.current,
+    },
     colours[]->{
       _id,
       'label':title,

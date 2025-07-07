@@ -57,6 +57,9 @@ export default defineNuxtConfig({
   },
   sitemap: {
     enabled: true,
+    sources: [
+      '/api/__sitemap__/urls'
+    ]
   },
   robots: {
     // enabled: false,
@@ -322,6 +325,11 @@ export default defineNuxtConfig({
     },
     printifyStoreId: process.env.PRINTIFY_STORE_ID,
     printifyBearerToken: process.env.PRINTIFY_BEARER_TOKEN,
+    googleOAuth: {
+      clientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+      redirectUri: process.env.GOOGLE_OAUTH_REDIRECT_URI,
+    },
   },
   imports: {
     dirs: ["stores"],
