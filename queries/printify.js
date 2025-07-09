@@ -832,7 +832,7 @@ export const qryProductThemes = groq`
     'designs':*[_type=='productDesign' && references(^._id)]{
       _id,
       title,
-      'productCount': count(*[_type=='printify.product' && references(^._id)]),
+      'productCount': count(*[_type=='printify.product' && references(^._id) && store.isVisible && !store.isDeleted]),
       'slug':slug.current,
       image{
         caption,
@@ -854,7 +854,7 @@ export const qryAllProductsByTheme = groq`
   'imageUrl':image.asset->url,
   description,
   'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
-  'products':*[_type == 'printify.product' && references(^._id)]{
+  'products':*[_type == 'printify.product' && references(^._id) && store.isVisible && !store.isDeleted]{
     _id,
     defaultImage,
     defaultImageUrl,
@@ -912,7 +912,7 @@ export const qryProductsByTheme = groq`
     'slug': slug.current,
   },
   'slug':slug.current,
-  'products':*[_type == 'printify.product' && references(^._id)]{
+  'products':*[_type == 'printify.product' && references(^._id) && store.isVisible && !store.isDeleted]{
     _id,
     defaultImageUrl,
     featureImage{
@@ -1037,7 +1037,7 @@ export const qryProductsByDesign = groq`
       }
     },
   'slug':slug.current,
-  'products':*[_type == 'printify.product' && references(^._id)]{
+  'products':*[_type == 'printify.product' && references(^._id) && store.isVisible && !store.isDeleted]{
     _id,
     defaultImageUrl,
     featureImage{
@@ -1368,7 +1368,7 @@ export const qryProductsByColour = groq`
 `;
 
 export const qryProductTags = groq`
-*[_type=='printify.product'][]{
+*[_type=='printify.product' && store.isVisible && !store.isDeleted][]{
   "tags":store.tags
 }
 `;
