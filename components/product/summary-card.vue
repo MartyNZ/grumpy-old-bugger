@@ -84,7 +84,7 @@ const availableColorOptions = computed(() => {
 
   <!-- Product Card -->
   <template v-else>
-    <div class="bg-surface-0 dark:bg-surface-900 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg mx-2">
+    <div class="bg-surface-0 dark:bg-surface-950 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg mx-2">
       <div class="zoom relative overflow-hidden bg-cover bg-[50%] bg-no-repeat">
         <div class="aspect-square w-full relative">
           <!-- Images with LQIP background and loading strategy -->

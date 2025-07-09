@@ -19,7 +19,7 @@ const { data: relatedProducts } = await useSanityQuery(qryProductsByDesign, {
 
 // Filter out the current product from related products
 const filteredRelatedProducts = computed(() => {
-  return relatedProducts.value.products.filter(relatedProduct => 
+  return relatedProducts.value.products.filter(relatedProduct =>
     relatedProduct.slug !== product.value.slug
   )
 })
@@ -112,8 +112,8 @@ watchEffect(() => {
         <section id="product">
           <product-details :product="product" :defaultVariant="defaultVariant" :loading="isLoading" />
         </section>
-        <section v-if="filteredRelatedProducts.length > 0" id="related-products" class="mt-3">
-          <product-slider :products="filteredRelatedProducts" :title="relatedItemsTitle" :loading="isLoading" />
+        <section v-if="filteredRelatedProducts.length > 0" id="related-products" class="mt-5 mb-4">
+          <product-slider :products="filteredRelatedProducts" :sectionTitle="relatedItemsTitle" :loading="isLoading" />
         </section>
       </template>
       <template #sidebar>
