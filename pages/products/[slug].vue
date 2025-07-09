@@ -1,5 +1,5 @@
 <script setup>
-import { qryProductBySlug } from "~/queries/printify";
+import { qryProductBySlug, qryProductsByDesign } from "~/queries/printify";
 const data = useSiteSettingsStore();
 const settings = data.settings;
 const { slug } = useRoute().params;
@@ -12,6 +12,21 @@ const { data: product } = await useSanityQuery(qryProductBySlug, {
     isLoading.value = false;
   }, 2500)
 })
+
+const { data: relatedProducts } = await useSanityQuery(qryProductsByDesign, {
+  slug: product.value.design.slug
+})
+
+// Filter out the current product from related products
+const filteredRelatedProducts = computed(() => {
+  return relatedProducts.value.products.filter(relatedProduct => 
+    relatedProduct.slug !== product.value.slug
+  )
+})
+
+const relatedItemsTitle = computed(() => `Other products using our ${product.value.design.title} design`)
+
+// console.log(JSON.stringify(relatedProducts.value.products, null, 2))
 
 // Add null checks for product data
 if (!product.value) {
@@ -96,6 +111,9 @@ watchEffect(() => {
       <template #main>
         <section id="product">
           <product-details :product="product" :defaultVariant="defaultVariant" :loading="isLoading" />
+        </section>
+        <section v-if="filteredRelatedProducts.length > 0" id="related-products" class="mt-3">
+          <product-slider :products="filteredRelatedProducts" :title="relatedItemsTitle" :loading="isLoading" />
         </section>
       </template>
       <template #sidebar>

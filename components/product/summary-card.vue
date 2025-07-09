@@ -84,7 +84,7 @@ const availableColorOptions = computed(() => {
 
   <!-- Product Card -->
   <template v-else>
-    <div class="bg-surface-0 dark:bg-surface-900 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg">
+    <div class="bg-surface-0 dark:bg-surface-900 flex h-full w-full flex-col overflow-hidden rounded-md shadow-lg mx-2">
       <div class="zoom relative overflow-hidden bg-cover bg-[50%] bg-no-repeat">
         <div class="aspect-square w-full relative">
           <!-- Images with LQIP background and loading strategy -->
@@ -157,9 +157,11 @@ const availableColorOptions = computed(() => {
             class="dark:bg-surface-800 bg-surface-200 border-t border-surface-900 p-4 mt-auto flex flex-col gap-2 items-start @[165px]:flex-row @[165px]:justify-between @[165px]:items-center @[165px]:gap-0">
             <div class="text-primary-900 dark:text-primary-100 text-sm">
               from:
-              <span v-if="userInfo" class="font-brand text-base">
-                {{ userInfo.currency.symbol }}{{ pricedFrom }}
-              </span>
+              <ClientOnly>
+                <span v-if="userInfo" class="font-brand text-base">
+                  {{ userInfo.currency.symbol }}{{ pricedFrom }}
+                </span>
+              </ClientOnly>
             </div>
             <NuxtLink :to="`/products/${product.slug}`"
               class="border-surface-500 hover:text-surface-950 hover:bg-surface-300 rounded border py-1.5 px-2 self-end @[165px]:self-auto">
