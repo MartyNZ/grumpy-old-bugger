@@ -215,10 +215,10 @@ export default {
         ]
     },
     weekHeader: {
-        class: ['leading-5', 'text-surface-600 dark:text-white/70', 'opacity-60 cursor-default']
+        class: ['leading-5', 'text-surface-600 dark:text-surface-600', 'opacity-60 cursor-default']
     },
     weekNumber: {
-        class: ['text-surface-600 dark:text-white/70', 'opacity-60 cursor-default']
+        class: ['text-surface-600 dark:text-surface-600', 'opacity-60 cursor-default']
     },
     weekday: {
         class: [
@@ -264,8 +264,8 @@ export default {
 
             // Colors
             {
-                'bg-surface-100 dark:bg-surface-800 text-surface-600 dark:text-white/70': context.date.today && !context.selected && !context.disabled,
-                'bg-transparent text-surface-600 dark:text-white/70': !context.selected && !context.disabled && !context.date.today,
+                'bg-surface-100 dark:bg-surface-800 text-surface-600 dark:text-surface-600': context.date.today && !context.selected && !context.disabled,
+                'bg-transparent text-surface-600 dark:text-surface-600': !context.selected && !context.disabled && !context.date.today,
                 'bg-highlight': context.selected && !context.disabled
             },
 
@@ -300,7 +300,7 @@ export default {
 
             // Colors
             {
-                'text-surface-600 dark:text-white/70 bg-transparent': !context.selected && !context.disabled,
+                'text-surface-600 dark:text-surface-600 bg-transparent': !context.selected && !context.disabled,
                 'bg-highlight': context.selected && !context.disabled
             },
 
@@ -334,7 +334,7 @@ export default {
 
             // Colors
             {
-                'text-surface-600 dark:text-white/70 bg-transparent': !context.selected && !context.disabled,
+                'text-surface-600 dark:text-surface-600 bg-transparent': !context.selected && !context.disabled,
                 'bg-highlight': context.selected && !context.disabled
             },
 

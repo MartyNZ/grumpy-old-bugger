@@ -28,6 +28,32 @@ h3 {
 body {
   font-family: theme("fontFamily.system");
 }
+
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-400) var(--surface-50);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-50);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--surface-400);
+  border-radius: 3px;
+}
+
+.dark {
+  scrollbar-color: var(--surface-400) var(--surface-950);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--surface-950);
+}
 p {
   padding-bottom:0.5rem;
 }

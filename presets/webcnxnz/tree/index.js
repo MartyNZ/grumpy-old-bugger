@@ -41,7 +41,7 @@ export default {
             'py-1 px-2 gap-2',
 
             // Colors
-            context.selected ? 'bg-highlight text-highlight-contrast ' : 'bg-transparent text-surface-600 dark:text-white/70',
+            context.selected ? 'bg-highlight text-highlight-contrast ' : 'bg-transparent text-surface-600 dark:text-surface-600',
 
             // States
             { 'hover:bg-surface-50 dark:hover:bg-[rgba(255,255,255,0.03)]': (props.selectionMode == 'single' || props.selectionMode == 'multiple') && !context.selected },
@@ -66,7 +66,7 @@ export default {
             // Colors
             'bg-transparent',
             {
-                'text-surface-600 dark:text-white/70': !context.selected,
+                'text-surface-600 dark:text-surface-600': !context.selected,
                 'text-highlight-contrast': context.selected,
                 invisible: context.leaf
             },
@@ -89,7 +89,7 @@ export default {
 
             // Color
             {
-                'text-surface-600 dark:text-white/70': !context.selected,
+                'text-surface-600 dark:text-surface-600': !context.selected,
                 'text-highlight-contrast': context.selected
             }
         ]
@@ -97,7 +97,7 @@ export default {
     nodeLabel: ({ context }) => ({
         class: [
             {
-                'text-surface-600 dark:text-white/70': !context.selected,
+                'text-surface-600 dark:text-surface-600': !context.selected,
                 'text-highlight-contrast': context.selected
             }
         ]

@@ -32,7 +32,7 @@ export default {
       "rounded-md",
 
       // Color
-      "text-surface-600 dark:text-white/70",
+      "text-surface-600 dark:text-surface-600",
 
       // States
       "focus-visible:outline-none focus-visible:outline-offset-0",
@@ -46,7 +46,7 @@ export default {
     ],
   },
   itemIcon: {
-    class: "text-surface-600 dark:text-white/70",
+    class: "text-surface-600 dark:text-surface-600",
   },
   separator: {
     class: [
@@ -57,7 +57,7 @@ export default {
       "mx-2",
 
       // Color
-      "text-surface-600 dark:text-white/70",
+      "text-surface-600 dark:text-surface-600",
     ],
   },
 };

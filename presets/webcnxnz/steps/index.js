@@ -101,7 +101,7 @@ export default {
             'mt-2',
 
             // Colors
-            { 'text-surface-700 dark:text-white/70': !context.active, 'text-primary': context.active },
+            { 'text-surface-700 dark:text-surface-600': !context.active, 'text-primary': context.active },
 
             // Text and Overflow
             'whitespace-nowrap',

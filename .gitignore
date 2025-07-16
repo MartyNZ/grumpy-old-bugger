@@ -31,3 +31,4 @@ stores/userStore.js.ignore
 components/product/details-copy.vue
 .env
 .env
+.env

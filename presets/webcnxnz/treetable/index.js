@@ -263,7 +263,7 @@ export default {
                 'border-0 rounded-full',
 
                 // Color
-                'text-surface-700 dark:text-white/70',
+                'text-surface-700 dark:text-surface-600',
                 'border-transparent',
 
                 // States

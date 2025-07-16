@@ -196,7 +196,7 @@ export default {
             ]
         }),
         sortIcon: ({ context }) => ({
-            class: ['ml-2', context.sorted ? 'text-inherit' : 'text-surface-700 dark:text-white/70']
+            class: ['ml-2', context.sorted ? 'text-inherit' : 'text-surface-700 dark:text-surface-600']
         }),
         columnFilter: {
             class: 'inline-flex items-center ml-auto font-normal'
@@ -297,7 +297,7 @@ export default {
                 'border-0 rounded-full',
 
                 // Color
-                'text-surface-500 dark:text-white/70',
+                'text-surface-500 dark:text-surface-600',
                 'bg-transparent',
                 'focus-visible:outline-none focus-visible:outline-offset-0',
                 'focus-visible:ring-1 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400',
@@ -359,10 +359,10 @@ export default {
         class: 'bg-surface-0 dark:bg-surface-900 text-surface-600 dark:text-white/80'
     },
     rowGroupHeader: {
-        class: ['sticky z-20', 'bg-surface-0 text-surface-600 dark:text-white/70', 'dark:bg-surface-900']
+        class: ['sticky z-20', 'bg-surface-0 text-surface-600 dark:text-surface-600', 'dark:bg-surface-900']
     },
     rowGroupFooter: {
-        class: ['sticky z-20', 'bg-surface-0 text-surface-600 dark:text-white/70', 'dark:bg-surface-900']
+        class: ['sticky z-20', 'bg-surface-0 text-surface-600 dark:text-surface-600', 'dark:bg-surface-900']
     },
     rowToggleButton: {
         class: [
@@ -382,7 +382,7 @@ export default {
             'border-0 rounded-full',
 
             // Color
-            'text-surface-500 dark:text-white/70',
+            'text-surface-500 dark:text-surface-600',
             'bg-transparent',
             'focus-visible:outline-none focus-visible:outline-offset-0',
             'focus-visible:ring-1 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400',
