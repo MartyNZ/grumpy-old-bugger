@@ -283,10 +283,6 @@ export default defineNuxtConfig({
       meta: [
         { name: "generator", content: "Nuxt 3" },
         { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-        {
-          "http-equiv": "Content-Security-Policy",
-          content: "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'inline-speculation-rules' *.facebook.com *.fbcdn.net *.facebook.net *.posthog.com us-assets.i.posthog.com cdn.snipcart.com *.google-analytics.com *.google.com; object-src 'none';"
-        },
       ],
       script: [],
       link: [
