@@ -25,9 +25,23 @@ export default defineNuxtConfig({
     "vue3-carousel-nuxt",
     "@vee-validate/nuxt",
     "@nuxt/icon",
+    "nuxt-security",
   ],
-  socialShare: {
-    baseUrl: process.env.NUXT_SITE_PUBLISHED_URL,
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        "img-src": ["'self'", "'unsafe-inline'", "data:", "blob:", "https:"],
+        "script-src": [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "https:",
+          "http:",
+          "https://b5phpis0cqns.share.zrok.io",
+          "'strict-dynamic'",
+        ],
+      },
+    },
   },
   vite: {
     server: {
@@ -57,9 +71,7 @@ export default defineNuxtConfig({
   },
   sitemap: {
     enabled: true,
-    sources: [
-      '/api/__sitemap__/urls'
-    ]
+    sources: ["/api/__sitemap__/urls"],
   },
   robots: {
     // enabled: false,

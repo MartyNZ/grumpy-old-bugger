@@ -30,6 +30,7 @@
     "nuxt": "^3.17.4",
     "nuxt-mail": "^6.0.1",
     "nuxt-posthog": "^1.6.3",
+    "nuxt-security": "^2.3.0",
     "vue3-carousel-nuxt": "^1.1.6"
   },
   "dependencies": {
