@@ -10,6 +10,7 @@
             <product-cart-summary />
             <!-- <app-settings /> -->
             <app-colour-mode />
+            <app-share />
           </div>
         </div>
       </div>
