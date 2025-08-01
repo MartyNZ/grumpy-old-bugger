@@ -12,7 +12,6 @@ export default defineNuxtConfig({
     "@nuxtjs/sanity",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
-    "@stefanobartoletti/nuxt-social-share",
     "@vite-pwa/nuxt",
     "nuxt-mail",
     "@nuxtjs/tailwindcss",
@@ -30,15 +29,22 @@ export default defineNuxtConfig({
   security: {
     headers: {
       contentSecurityPolicy: {
-        "img-src": ["'self'", "'unsafe-inline'", "data:", "blob:", "https:"],
-        "script-src": [
+        "img-src": [
           "'self'",
+          "data:",
+          "https://cdn.sanity.io/ https://images-api.printify.com/",
+        ],
+        "script-src": [
+          "'nonce-{{nonce}}'",
+          // The nonce allows the root script
+          "'strict-dynamic'",
+          // All scripts inserted by the root script will also be allowed
           "'unsafe-inline'",
           "'unsafe-eval'",
-          "https:",
-          "http:",
-          "https://b5phpis0cqns.share.zrok.io",
-          "'strict-dynamic'",
+          "*.facebook.com",
+          "*.fbcdn.net",
+          "*.facebook.net",
+          "cdn.snipcart.com",
         ],
       },
     },

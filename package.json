@@ -21,7 +21,6 @@
     "@portabletext/vue": "^1.0.12",
     "@primevue/nuxt-module": "4.2.5",
     "@sanity/client": "^7.3.0",
-    "@stefanobartoletti/nuxt-social-share": "^1.2.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@vee-validate/nuxt": "^4.15.0",
     "@vite-pwa/nuxt": "^1.0.1",

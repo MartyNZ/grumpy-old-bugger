@@ -20,6 +20,6 @@ const shareContent = async () => {
 
 <template>
   <button @click="shareContent" v-if="canShare">
-    <Icon name="solar:share-line-duotone" size="24"/>
+    <Icon name="solar:share-line-duotone" size="40"/>
   </button>
 </template>
