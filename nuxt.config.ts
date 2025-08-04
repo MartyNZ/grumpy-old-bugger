@@ -32,7 +32,7 @@ export default defineNuxtConfig({
         "img-src": [
           "'self'",
           "data:",
-          "https://cdn.sanity.io/ https://images-api.printify.com/",
+          "https://cdn.sanity.io/ https://images-api.printify.com/ https://www.facebook.com/",
         ],
         "script-src": [
           "'nonce-{{nonce}}'",
