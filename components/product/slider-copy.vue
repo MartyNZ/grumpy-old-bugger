@@ -14,6 +14,23 @@ const props = defineProps({
     type: Boolean,
   },
 });
+const responsiveOptions = ref([
+  {
+    breakpoint: '1199px',
+    numVisible: 3,
+    numScroll: 3
+  },
+  {
+    breakpoint: '790px',
+    numVisible: 3,
+    numScroll: 3
+  },
+  {
+    breakpoint: '525px',
+    numVisible: 2,
+    numScroll: 2
+  }
+]);
 </script>
 <template>
   <section id="products-list">
@@ -23,15 +40,16 @@ const props = defineProps({
     <div v-if="description" class="text-balanced mb-4">
       {{ description }}
     </div>
-    <div id="products-grid">
-      <template v-for="product in products" :key="product.store._id">
-        <product-summary-card :loading="loading" :product="product" />
+    <Carousel :value="products" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions">
+      <template #item="product">
+        <!-- <pre>{{ product }}</pre> -->
+        <product-summary-card :loading="loading" :product="product.data" />
       </template>
-    </div>
+    </Carousel>
   </section>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 #products-list {
   container-type: inline-size;
   margin-bottom: 2.5em;
@@ -45,16 +63,16 @@ const props = defineProps({
 }
 
 /* 2 items per row for screens 350px and above */
-@container (width >=360px) {
+@media (width >=300px) {
   #products-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* For larger screens, use auto-fit for more flexible layout */
-@container (width > 768px) {
+@media (width > 768px) {
   #products-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
   }
 }
-</style>
+</style> -->

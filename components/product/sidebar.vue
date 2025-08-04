@@ -7,7 +7,7 @@
         <product-collection-navigation />
       </div>
       <div class="pb-8 place-content-center">
-        <product-featured />
+        <product-slider-featured />
       </div>
       <div class="pb-8 justify-self-center">
         <product-designs-link />

@@ -113,11 +113,26 @@ watchEffect(() => {
           <product-details :product="product" :defaultVariant="defaultVariant" :loading="isLoading" />
         </section>
         <section v-if="filteredRelatedProducts.length > 0" id="related-products" class="mt-5 mb-4">
-          <product-slider :products="filteredRelatedProducts" :sectionTitle="relatedItemsTitle" :loading="isLoading" />
+          <product-slider :products="filteredRelatedProducts" :sectionTitle="relatedItemsTitle" :loading="isLoading"
+            :navigation="true" :pagination="true" :autoplay="0" />
         </section>
       </template>
       <template #sidebar>
-        <product-sidebar />
+        <div class="@container sticky top-[95px] w-full">
+          <div class="w-full grid grid-cols-1 @xl:grid-cols-2">
+            <div class="hidden sm:pb-8 md:block justify-self-center">
+              <product-collection-navigation />
+              <product-designs-link />
+            </div>
+            <!-- <div v-if="filteredRelatedProducts.length > 0" id="related-products" class="mt-5 mb-4">
+              <product-slider :products="filteredRelatedProducts" :sectionTitle="relatedItemsTitle"
+                :loading="isLoading" />
+            </div> -->
+            <div class="pb-8 place-content-center">
+              <promotion-gallery />
+            </div>
+          </div>
+        </div>
       </template>
     </NuxtLayout>
   </div>

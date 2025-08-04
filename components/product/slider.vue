@@ -13,66 +13,106 @@ const props = defineProps({
   loading: {
     type: Boolean,
   },
-});
-const responsiveOptions = ref([
-  {
-    breakpoint: '1199px',
-    numVisible: 3,
-    numScroll: 3
+  autoplay: {
+    type: Number,
+    default: 0,
   },
-  {
-    breakpoint: '790px',
-    numVisible: 3,
-    numScroll: 3
+  navigation: {
+    type: Boolean,
+    default: false,
   },
-  {
-    breakpoint: '525px',
-    numVisible: 2,
-    numScroll: 2
+  pagination: {
+    type: Boolean,
+    default: false,
+  },
+  slideEffect: {
+    type: String,
+    default: 'slide',
+  },
+  wrapAround: {
+    type: Boolean,
+    default: false
   }
-]);
+});
+const config = computed(() => {
+  return {
+    wrapAround: props.wrapAround,
+    transition: 1000,
+    autoplay: props.autoplay,
+    slideEffect: props.slideEffect,
+    breakpointMode: 'carousel',
+    pauseAutoplayOnHover: true,
+    gap: 5,
+    itemsToShow: 1,
+    itemsToScroll: 1,
+    breakpoints: {
+      500: {
+        itemsToShow: 2,
+        itemsToScroll: 2,
+        snapAlign: 'start',
+      },
+      768: {
+        itemsToShow: 3,
+        itemsToScroll: 3,
+        snapAlign: 'center',
+      },
+      900: {
+        itemsToShow: 4,
+        itemsToScroll: 4,
+        snapAlign: 'center',
+      }
+    },
+  };
+});
 </script>
 <template>
-  <section id="products-list">
-    <h2 class="text-lg" :class="{ 'mb-4': description }" v-if="sectionTitle">
+  <section id="products-slider" class="mt-10 mb-5 @container">
+    <h2 class="text-lg" :class="{ 'mb-5': !description }" v-if="sectionTitle">
       {{ sectionTitle }}
     </h2>
-    <div v-if="description" class="text-balanced mb-4">
+    <div v-if="description" class="text-balanced mb-5">
       {{ description }}
     </div>
-    <Carousel :value="products" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions">
-      <template #item="product">
-        <!-- <pre>{{ product }}</pre> -->
-        <product-summary-card :loading="loading" :product="product.data" />
-      </template>
-    </Carousel>
+    <template v-if="products.length > 1">
+      <div class="mx-auto mb-4">
+        <v3cnCarousel v-bind="config">
+          <v3cnSlide v-for="product in products" :key="product._id">
+            <product-summary-card :product="product" :loading="loading" />
+          </v3cnSlide>
+          <template #addons="{ slidesCount }">
+            <v3cnNavigation v-if="navigation" />
+            <v3cnPagination v-if="pagination" />
+          </template>
+        </v3cnCarousel>
+      </div>
+    </template>
+    <template v-else>
+      <div class="mx-auto w-full @sm:w-2/3 @md:w-1/2">
+        <product-summary-card :product="products[0]" :loading="loading" />
+      </div>
+    </template>
   </section>
 </template>
-
-<!-- <style scoped>
-#products-list {
-  container-type: inline-size;
-  margin-bottom: 2.5em;
+<style scoped>
+.carousel {
+  --vc-nav-background: var(--surface-0);
+  --vc-pgn-background-color: var(--surface-200);
+  --vc-pgn-active-color: var(--surface-400);
+  --vc-nav-color: var(--surface-200);
+  --vc-nav-color-hover: #var(--surface-400);
+  --vc-nav-border-radius: 50%;
+  --vc-pgn-border-radius: 10px;
+  --vc-pgn-height: 8px;
+  --vc-pgn-width: 25px;
+  --vc-png-bottom: -20px;
 }
 
-#products-grid {
-  display: grid;
-  gap: 1em;
-  grid-template-columns: 1fr;
-  justify-items: center;
+.dark .carousel {
+  --vc-nav-background: var(--surface-700);
+  --vc-pgn-background-color: var(--surface-400);
+  --vc-pgn-active-color: var(--surface-700);
+  --vc-nav-color: var(--surface-400);
+  --vc-nav-color-hover: #var(--surface-700);
 }
 
-/* 2 items per row for screens 350px and above */
-@media (width >=300px) {
-  #products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* For larger screens, use auto-fit for more flexible layout */
-@media (width > 768px) {
-  #products-grid {
-    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-  }
-}
-</style> -->
+</style>

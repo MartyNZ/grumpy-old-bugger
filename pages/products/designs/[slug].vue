@@ -49,8 +49,8 @@ definePageMeta({
     <NuxtLayout name="internal">
       <template #main>
         <section id="products-by-design" class="mb-8">
-          <div class="mb-8 semi-bold italic text-lg">{{ design.theme.description }}</div>
-          <product-list :products="design.products" :sectionTitle="design.title" :loading="isLoading" />
+          <product-list :products="design.products" :sectionTitle="design.title" :loading="isLoading"
+            :description="design.theme.description" />
         </section>
       </template>
       <template #sidebar>
