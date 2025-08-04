@@ -273,7 +273,7 @@ export const qryLatestProducts = groq`
         'slug':slug.current
       }
     }
-  } | order(_createdAt desc) [0...4]
+  } | order(_createdAt desc) [0...6]
   `;
 export const qryAllProductsByCollection = groq`
   *[_type == "printify.product" && store.$relation $condition "$selectedTag" && store.isVisible && !store.isDeleted]{

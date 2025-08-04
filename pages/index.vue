@@ -62,10 +62,11 @@ definePageMeta({
       <promotion-carousel :promotions="promotions" :loading="isLoadingPromotions" />
       <main class="@container mx-auto mb-16 max-w-[1280px] px-4">
         <product-collection-buttons :collectionNav="collectionNav" />
-        <product-list :products="featuredProducts" sectionTitle="Featured Products"
-          :loading="isLoadingFeaturedProducts" />
+        <product-slider :products="featuredProducts" sectionTitle="Featured Products"
+          :loading="isLoadingFeaturedProducts" :navigation="true" :pagination="true" :autoplay="0" />
         <article-list :articles="latestArticles" :loading="isLoadingLatestArticles" />
-        <product-list :products="latestProducts" sectionTitle="Latest Products" :loading="isLoadingLatestProducts" />
+        <product-slider :products="latestProducts" sectionTitle="Latest Products" :loading="isLoadingLatestProducts"
+          :navigation="true" :pagination="true" :autoplay="0" />
       </main>
     </NuxtLayout>
   </div>
