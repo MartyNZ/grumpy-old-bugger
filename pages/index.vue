@@ -64,7 +64,9 @@ definePageMeta({
         <product-collection-buttons :collectionNav="collectionNav" />
         <product-slider :products="featuredProducts" sectionTitle="Featured Products"
           :loading="isLoadingFeaturedProducts" :navigation="true" :pagination="true" :autoplay="0" />
-        <article-list :articles="latestArticles" :loading="isLoadingLatestArticles" />
+        <Divider />
+        <article-list :articles="latestArticles" :loading="isLoadingLatestArticles" sectionTitle="Latest Articles" />
+        <Divider />
         <product-slider :products="latestProducts" sectionTitle="Latest Products" :loading="isLoadingLatestProducts"
           :navigation="true" :pagination="true" :autoplay="0" />
       </main>

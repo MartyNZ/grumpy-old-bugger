@@ -66,7 +66,7 @@ const config = computed(() => {
 });
 </script>
 <template>
-  <section id="products-slider" class="mt-10 mb-5 @container">
+  <section id="products-slider" class="mt-10 mb-8 @container">
     <h2 class="text-lg" :class="{ 'mb-5': !description }" v-if="sectionTitle">
       {{ sectionTitle }}
     </h2>

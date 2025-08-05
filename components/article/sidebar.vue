@@ -1,13 +1,10 @@
 <template>
   <div class="sticky top-[95px] mx-3 grid grid-cols-1 @2xl:grid-cols-2 @md:gap-3">
     <div class="hidden sm:pb-8 md:block">
-      <app-social-share />
-    </div>
-    <div class="hidden sm:pb-8 md:block">
       <article-collection-navigation />
     </div>
     <div class="pb-8 justify-self-center">
-      <product-designs-link />
+      <product-slider-featured />
     </div>
     <div class="pb-8 place-content-center">
       <promotion-gallery />

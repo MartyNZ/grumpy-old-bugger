@@ -20,16 +20,9 @@ const props = defineProps({
 
 <template>
   <section id="article-list">
-    <template v-if="loading">
-      <Skeleton width="40%" height="2rem" class="mb-2" />
-    </template>
-    <h2 v-else class="text-lg">{{ sectionTitle }}
+    <h2 v-if="sectionTitle" :class="!description ? 'mb-4' : ''" class="text-lg">{{ sectionTitle }}
     </h2>
-
-    <template v-if="loading">
-      <Skeleton width="100%" height="6rem" class="mb-2" />
-    </template>
-    <div v-else-if="description" class="text-balanced mb-4">{{ description }}
+    <div v-if="description" class="text-balanced mb-4">{{ description }}
     </div>
 
     <div id="articles-grid">
