@@ -8,8 +8,13 @@ const collectionNav =
 const data = useSiteSettingsStore();
 const settings = data.settings;
 
+const isLoading = ref(true)
 // Modify the data fetching to handle loading state
-const { data: allProducts } = await useSanityQuery(qryAllProducts)
+const { data: allProducts } = await useSanityQuery(qryAllProducts).finally(() => {
+  setTimeout(() => {
+    isLoading.value = false
+  }, 500)
+});
 // console.log("Products: ", JSON.stringify(allProducts.value, null, 2));
 
 const filteredProducts = ref([]);
@@ -96,7 +101,7 @@ definePageMeta({
       <template #main>
         <product-collection-buttons :collectionNav="collectionNav" />
         <section id="product-list">
-          <product-list v-if="filteredProducts.length > 0" :products="filteredProducts" />
+          <product-list v-if="filteredProducts.length > 0" :loading="isLoading" :products="filteredProducts" />
         </section>
       </template>
       <template #sidebar>
