@@ -128,5 +128,4 @@ export const qryOtherNav = groq`
       }
     }
   }
-}
 `;

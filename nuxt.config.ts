@@ -92,7 +92,7 @@ export default defineNuxtConfig({
     // enabled: false,
     identity: {
       type: process.env.NUXT_SITE_TYPE,
-      name: process.env.NUXT_PUBLIC_SITE_NAME,
+      name: process.env.NUXT_SITE_NAME,
       logo: "/assets/imgs/logo_maskable.png", // will resolve to canonical URL + /logo.png
       sameAs: [
         process.env.NUXT_SITE_PUBLISHED_URL,

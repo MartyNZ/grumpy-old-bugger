@@ -32,3 +32,5 @@ components/product/details-copy.vue
 .env
 .env
 .env
+.env
+-copy.env
