@@ -16,13 +16,13 @@ export const useSiteNavigationStore = defineStore("navigation", {
   actions: {
     async fetchStoreNavigation() {
       const { data: mainNav } = await useSanityQuery(qryMainNavigation);
-      this.mainNavigation = mainNav.value;
+      this.mainNavigation = mainNav?.value || {};
       const { data: footerNav } = await useSanityQuery(qryFooterNavigation);
-      this.footerNavigation = footerNav.value;
+      this.footerNavigation = footerNav?.value || {};
       const { data: mobileNav } = await useSanityQuery(qryMobileNavigation);
-      this.mobileNavigation = mobileNav.value;
+      this.mobileNavigation = mobileNav?.value || {};
       const { data: otherNav } = await useSanityQuery(qryOtherNav);
-      this.otherNavigation = otherNav.value;
+      this.otherNavigation = otherNav?.value || [];
       return this;
       // console.log(JSON.stringify(mainNav.value));
     },

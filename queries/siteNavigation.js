@@ -97,7 +97,7 @@ export const qryMobileNavigation = groq`
 `;
 
 export const qryOtherNav = groq`
- *[_type=="navigation" && _id != 'mainNavigation' && _id != 'footerNavigation' && _id != 'mobileNavigation'][0]{
+ *[_type=="navigation" && _id != 'mainNavigation' && _id != 'footerNavigation' && _id != 'mobileNavigation'][]{
     _id,
     name,
     navigationLinks[]{
