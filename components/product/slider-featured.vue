@@ -82,6 +82,10 @@ const config = computed(() => {
                 <div class="font-xs mb-3 grow-0 text-balance text-center">
                   {{ product.store.title }}
                 </div>
+                <div
+                  class="font-xs mb-3 grow-0 text-balance text-center italic font-semibold text-primary-700 dark:text-primary-300">
+                  From: ${{ (product.store.pricedFrom.price / 100).toFixed(2) }}
+                </div>
               </div>
             </NuxtLink>
           </div>
