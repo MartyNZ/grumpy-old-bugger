@@ -829,7 +829,7 @@ export const qryProductThemes = groq`
     'slug':slug.current,
     description,
     'excerpt': array::join(string::split(description, "")[0...125], "") + "...",
-    'designs':*[_type=='productDesign' && references(^._id)]{
+    'designs':*[_type=='productDesign' && references(^._id) && count(*[_type=='printify.product' && references(^._id) && store.isVisible && !store.isDeleted]) > 0]{
       _id,
       title,
       'productCount': count(*[_type=='printify.product' && references(^._id) && store.isVisible && !store.isDeleted]),
@@ -1020,6 +1020,7 @@ export const qryProductsByDesign = groq`
 *[_type=='productDesign' && slug.current == $slug][0]{
   _id,
   title,
+  description,
   theme->{
     title,
     description,

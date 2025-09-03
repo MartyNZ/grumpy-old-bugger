@@ -20,12 +20,12 @@ useHead({
 });
 useSeoMeta({
   title: computed(() => design.value?.title || ''),
-  description: computed(() => design.value?.theme?.description || ''),
+  description: computed(() => design.value?.description || ''),
   ogTitle: computed(() => design.value?.title || ''),
-  ogDescription: computed(() => design.value?.theme?.description || ''),
+  ogDescription: computed(() => design.value?.description || ''),
   ogImage: computed(() => design.value?.image?.asset.url || ''),
   twitterTitle: computed(() => design.value?.title || ''),
-  twitterDescription: computed(() => design.value?.theme?.description || ''),
+  twitterDescription: computed(() => design.value?.description || ''),
   twitterImage: computed(() => design.value?.image?.asset.url || ''),
   twitterCard: "summary_large_image",
 });
@@ -50,7 +50,7 @@ definePageMeta({
       <template #main>
         <section id="products-by-design" class="mb-8">
           <product-list :products="design.products" :sectionTitle="design.title" :loading="isLoading"
-            :description="design.theme.description" />
+            :description="design.description" />
         </section>
       </template>
       <template #sidebar>
