@@ -86,7 +86,7 @@ export default defineNuxtConfig({
   },
   seo: {
     // seo utils
-    //   enabled: false,
+    enabled: true,
   },
   schemaOrg: {
     // enabled: false,

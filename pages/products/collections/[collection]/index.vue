@@ -47,10 +47,10 @@ useSeoMeta({
   description: () => collectionData.value?.description,
   ogTitle: () => pageTitle.value,
   ogDescription: () => collectionData.value?.description,
-  ogImage: () => collectionData.value?.image.asset.url,
+  ogImage: () => collectionData.value?.image?.asset?.url,
   twitterTitle: () => pageTitle.value,
   twitterDescription: () => collectionData.value?.description,
-  twitterImage: () => collectionData.value?.image.asset.url,
+  twitterImage: () => collectionData.value?.image?.asset?.url,
   twitterCard: "summary_large_image",
 });
 

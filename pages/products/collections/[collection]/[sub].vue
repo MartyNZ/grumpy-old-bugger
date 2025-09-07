@@ -28,7 +28,7 @@ const { data: currentCollection } = await useSanityQuery(
 // console.log("Current Collection: ", JSON.stringify(currentCollection.value, null, 2));
 const { data: allProducts } = await useSanityQuery(qryProductsByTags, {
   collection: tagsLookup[collection],
-  sub: tagsLookup[sub],
+  sub: tagsLookup[sub] || sub,
 });
 
 const filteredProducts = ref([]);
@@ -39,6 +39,13 @@ filteredProducts.value = allProducts.value;
 const pageTitle = computed(() => `Products from our ${currentCollection.value.title} collection`);
 useHead({
   title: pageTitle.value,
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/png',
+      href: '/assets/imgs/favicon.png'
+    }
+  ]
 });
 useSeoMeta({
   title: () => pageTitle.value,
@@ -73,7 +80,7 @@ definePageMeta({
     <NuxtLayout name="internal">
       <template #main>
         <section id="product-collection-navpanel" class="snaps-inline p-2">
-          <template v-if="collectionNav.childCollections.length > 0">
+          <template v-if="collectionNav?.childCollections?.length > 0">
             <NuxtLink v-for="child in collectionNav.childCollections" :key="child._id"
               :to="`/products/collections/${collectionNav.parentCollection.slug}/${child.slug}`"
               class="hover:bg-surface-300 dark:hover:bg-surface-700 focus:bg-surface-300 dark:border-surface-500 border-surface-700 active:ring-surface-700 dark:active:ring-surface-200 whitespace-nowrap text-nowrap rounded-full border-[1px] px-3 py-1 text-center active:ring-2 active:ring-offset-2">
@@ -88,7 +95,7 @@ definePageMeta({
                 Our {{ tagsLookup[collection] }}
                 {{ tagsLookup[sub] }} Collection
               </h1>
-              <p>{{ collectionNav.parentCollection.description }}</p>
+              <p>{{ collectionNav?.parentCollection?.description }}</p>
             </div>
             <div id="filter-control" class="flex flex-wrap gap-4 justify-between w-full">
               <div class="max-w-48 w-full text-nowrap content-center text-sm italic">
