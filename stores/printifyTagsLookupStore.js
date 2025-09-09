@@ -12,7 +12,7 @@ export const usePrintifyTagsLookupStore = defineStore("printify-tags-lookup", {
       // Fetch the product tags from the qryProductTags query
       const { data: productTags } = await useSanityQuery(qryProductTags);
       const tagsLookup = createTagsLookup(productTags.value);
-      console.log("TagsLookup", tagsLookup);
+      // console.log("TagsLookup", tagsLookup);
       this.tagsLookup = tagsLookup;
       return tagsLookup;
     },
