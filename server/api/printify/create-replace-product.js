@@ -85,6 +85,19 @@ export default defineEventHandler(async (event) => {
       ...(sanityProduct?.design && { design: sanityProduct.design }),
       ...(sanityProduct?.details && { details: sanityProduct.details }),
       ...(sanityProduct?.featured && { featured: sanityProduct.featured }),
+      ...(sanityProduct?.featureImage && {
+        featureImage: {
+          _type: "image",
+          asset: {
+            _ref: sanityProduct.featureImage.asset._ref || sanityProduct.featureImage.asset._id,
+            _type: "reference"
+          },
+          ...(sanityProduct.featureImage.hotspot && { hotspot: sanityProduct.featureImage.hotspot }),
+          ...(sanityProduct.featureImage.crop && { crop: sanityProduct.featureImage.crop }),
+          ...(sanityProduct.featureImage.altText && { altText: sanityProduct.featureImage.altText }),
+          ...(sanityProduct.featureImage.caption && { caption: sanityProduct.featureImage.caption })
+        },
+      }),
     };
   } else {
     updatePayload = {
@@ -110,6 +123,7 @@ export default defineEventHandler(async (event) => {
     design: updatePayload?.design,
     colours: updatePayload?.colours,
     featured: updatePayload?.featured,
+    featureImage: updatePayload?.featureImage,
     store: {
       productId: printifyProduct.id.toString(),
       shopId: printifyProduct.shop_id.toString(),
