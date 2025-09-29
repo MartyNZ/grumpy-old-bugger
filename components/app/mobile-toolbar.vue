@@ -1,10 +1,10 @@
 <script setup>
 const data = useSiteNavigationStore();
 const mobileNavigation = data.mobileNavigation;
-const galleryCollectionNavigation = useGalleryCollectionNavigationStore();
-const galleryNavigation = galleryCollectionNavigation.galleryCollectionNavigation;
-const blogCollectionNavigation = useBlogCollectionNavigationStore();
-const blogNavigation = blogCollectionNavigation.blogCollectionNavigation;
+// const galleryCollectionNavigation = useGalleryCollectionNavigationStore();
+// const galleryNavigation = galleryCollectionNavigation.galleryCollectionNavigation;
+// const blogCollectionNavigation = useBlogCollectionNavigationStore();
+// const blogNavigation = blogCollectionNavigation.blogCollectionNavigation;
 const printifyCollectionNavigation = usePrintifyCollectionNavigationStore();
 const productNavigation = printifyCollectionNavigation.printifyCollectionNavigation;
 // console.log("Mobile Navigation", JSON.stringify(mobileNavigation, null, 2));
