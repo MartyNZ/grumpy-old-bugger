@@ -46,6 +46,7 @@ export default defineNuxtConfig({
           "*.facebook.net",
           "cdn.snipcart.com",
         ],
+        "frame-ancestors": ["'self'", "*.sanity.studio"],
       },
     },
   },
