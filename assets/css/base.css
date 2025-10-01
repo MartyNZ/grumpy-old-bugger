@@ -66,6 +66,34 @@ p {
   p {
     margin-bottom: 1.25em;
   }
+
+  ul {
+    list-style-type: disc;
+    margin: 1rem 0;
+    padding-left: 2rem;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  ol {
+    list-style-type: decimal;
+    margin: 1rem 0;
+    padding-left: 2rem;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  blockquote {
+    border-left: 4px solid var(--primary-400);
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--surface-100);
+    font-style: italic;
+  }
 }
 
 /* Default pallette */
