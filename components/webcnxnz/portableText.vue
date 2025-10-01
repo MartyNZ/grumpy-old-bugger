@@ -65,6 +65,25 @@ const components = {
       }
     }
   }
+  ol {
+    list-style-type: decimal;
+    margin: 1rem;
+    padding-left: 1.5rem;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+  blockquote {
+    border-left: 4px solid rgb(var(--primary-400));
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: rgb(var(--surface-100));
+    font-style: italic;
+  }
+  .dark blockquote {
+    background: rgb(var(--surface-800));
+  }
   p {
     margin-bottom: 1rem;
     text-align: justify;
