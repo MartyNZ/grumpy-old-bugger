@@ -91,6 +91,7 @@ p {
     border-left: 4px solid var(--primary-400);
     margin: 1.5rem 0;
     padding: 1rem 1.5rem;
+    color:var(--surface-800);
     background: var(--surface-100);
     font-style: italic;
   }
