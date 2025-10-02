@@ -218,14 +218,13 @@ export const qryArticleBySlug = groq`
       'imageUrl':asset->url,
     },
     relatedProducts[]->{
-      _id,
-      'title': store.title,
-      _createdAt,
-      defaultImageUrl,
-      'slug':slug.current,
-      featureImage{
-      'url':asset->url,
-      'assetId':asset->_id,
+    _id,
+    _createdAt,
+    defaultImageUrl,
+    'slug':slug.current,
+    featureImage{
+      'assetId': asset->_id,
+      'url': asset->url,
       caption,
       altText,
       hotspot,
@@ -234,12 +233,62 @@ export const qryArticleBySlug = groq`
         url,
         metadata
       },
+    },
+    store{
+      title,
+      productId,
+      tags,
+      description,
+      variants,
+      options,
+      'pricedFrom':variants[]{
+        price
+      }|order(price asc)[0]
+    },
+    'promotedBy': *[_type=='promotion'
+      && scope == 'products' && references(^._id)
+      || scope == 'collections' && isActive
+    ][]{
+      image{
+        'assetId': asset->_id,
+        'url': asset->url,
+        caption,
+        altText,
+        hotspot,
+        asset->{
+          _id,
+          url,
+          metadata
+        }
       },
-      store{
-        title
-      }
+      socialImage{
+        'assetId': asset->_id,
+        'url': asset->url,
+        caption,
+        altText,
+        hotspot,
+        asset->{
+          _id,
+          url,
+          metadata
+        },
+      },
+      cta,
+      discount,
+      promoStart,
+      promoEnd,
+      byline,
+      summary,
+      'slug': slug.current,
+      title,
+      scope,
+      collections[]->{
+        title,
+        'slug':slug.current
+      },
     }
   }
+}
 `;
 
 export const qryAllArticlesByCategory = groq`
