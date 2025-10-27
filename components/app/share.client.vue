@@ -8,7 +8,7 @@ const shareContent = async () => {
   if (navigator.share) {
     try {
       await navigator.share({
-        title: 'Digital Art Kiwi',
+        title: 'Grumpy Old Bugger',
         url: window.location.href
       })
     } catch (error) {
