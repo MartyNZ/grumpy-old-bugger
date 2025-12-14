@@ -281,6 +281,19 @@ export default defineNuxtConfig({
     },
     workbox: {
       navigateFallback: "/",
+      runtimeCaching: [
+        {
+          urlPattern: ({ request }) => request.mode === "navigate",
+          handler: "NetworkFirst",
+          options: {
+            cacheName: "pages",
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+            },
+          },
+        },
+      ],
     },
     // devOptions: {
     //   enabled: false,
