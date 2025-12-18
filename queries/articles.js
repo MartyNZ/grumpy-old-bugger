@@ -39,7 +39,7 @@ export const qryArticlesSection = groq`
 `;
 
 export const qryAllArticles = groq`
-  *[_type == "article" && draft != true && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
+  *[_type == "article" && !(_id in path("drafts.**")) && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
     _id,
     title,
     'slug': slug.current,
@@ -81,7 +81,7 @@ export const qryAllArticles = groq`
 `;
 
 export const qryArticles = groq`
-  *[_type == "article" && draft != true && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
+  *[_type == "article" && !(_id in path("drafts.**")) && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
     _id,
     title,
     'slug': slug.current,
@@ -136,7 +136,7 @@ export const qryArticles = groq`
 `;
 
 export const qryArticleLatest = groq`
-  *[_type == "article" && draft != true && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
+  *[_type == "article" && !(_id in path("drafts.**")) && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
     _id,
     title,
     'slug': slug.current,
@@ -162,7 +162,7 @@ export const qryArticleLatest = groq`
 `;
 
 export const qryArticlesLatest = groq`
-  *[_type == "article" && draft != true && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
+  *[_type == "article" && !(_id in path("drafts.**")) && dateTime(now()) > dateTime(publishedDate + "T00:00:00Z")]{
     _id,
     title,
     'slug': slug.current,
@@ -188,7 +188,7 @@ export const qryArticlesLatest = groq`
 `;
 
 export const qryArticleBySlug = groq`
-  *[_type == "article" && draft != true && slug.current == $slug ][0]{
+  *[_type == "article" && !(_id in path("drafts.**")) && slug.current == $slug ][0]{
     _id,
     title,
     'slug': slug.current,

@@ -24,7 +24,7 @@ export const qryGallery = groq`
 `;
 
 export const qryAllImages = groq`
-*[_type == "gallery.image" && draft != true][]{
+*[_type == "gallery.image" && !(_id in path("drafts.**"))][]{
   _id,
   title,
   'slug': slug.current,
@@ -96,7 +96,7 @@ export const qryImagesLatest = groq`
 `;
 
 export const qryImageBySlug = groq`
-*[_type == "gallery.image" && draft != true && slug.current == $slug ][0]{
+*[_type == "gallery.image" && !(_id in path("drafts.**")) && slug.current == $slug ][0]{
   _id,
   title,
   'slug': slug.current,
